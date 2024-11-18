@@ -1,4 +1,4 @@
-import prisma from "../src/config/prismaClient";
+import prisma from "../src/config/prisma.js";
 import { USER, APPLICATION, CHALLENGE, FEEDBACK, WORK } from "./mock.js";
 
 async function main() {

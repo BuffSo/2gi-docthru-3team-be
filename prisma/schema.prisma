@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  role         Role          @default(User)
+  nickname     String        @unique
+  email        String        @unique
+  password     String
+  createdAt    DateTime      @default(now())
+  grade        Grade?        @default(Amateur)
+  name         String?
+  applications Application[]
+  works        Work[]
+  feedbacks    Feedback[]
+  likes        Like[]
+  participates Participate[]
+}
+
+model Application {
+  id                  Int       @id @default(autoincrement())
+  userId              Int
+  challengeId         Int
+  status              Status    @default(Waiting)
+  appliedAt           DateTime  @default(now())
+  invalidationComment String?
+  invalidatedAt       DateTime?
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge           Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+}
+
+model Challenge {
+  id              Int           @id @default(autoincrement())
+  title           String
+  field           Field
+  docType         Type
+  docUrl          String
+  deadLine        DateTime
+  description     String
+  progress        Boolean       @default(false)
+  participants    Int
+  maxParticipants Int
+  applications    Application[]
+  works           Work[]
+  participates    Participate[]
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  workId    Int
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work      Work     @relation(fields: [workId], references: [id], onDelete: Cascade)
+}
+
+model Work {
+  id             Int        @id @default(autoincrement())
+  userId         Int
+  challengeId    Int
+  description    String
+  lastModifiedAt DateTime   @default(now())
+  isSubmitted    Boolean
+  submittedAt    DateTime?
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge      Challenge  @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  feedbacks      Feedback[]
+  likes          Like[]
+}
+
+model Like {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  workId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
+}
+
+model Participate {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  challengeId Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  Admin
+  User
+}
+
+enum Grade {
+  Amateur
+  Expert
+}
+
+enum Status {
+  Waiting
+  Accepted
+  Rejected
+}
+
+enum Field {
+  Next
+  Modern
+  API
+  Web
+  Career
+}
+
+enum Type {
+  Document
+  Blog
+}

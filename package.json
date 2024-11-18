@@ -6,9 +6,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1",
     "@prisma/client": "^5.4.2",
-    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "is-email": "^1.0.2",
     "is-uuid": "^1.0.2",
     "prisma": "^5.4.2",
@@ -21,5 +22,8 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

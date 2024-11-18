@@ -48,6 +48,7 @@ model Challenge {
   docType         Type
   docUrl          String
   deadLine        DateTime
+  description     String
   progress        Boolean       @default(false)
   participants    Int
   maxParticipants Int

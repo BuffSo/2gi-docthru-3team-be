@@ -5,12 +5,13 @@ export const getChallenges = asyncHandler(async (req, res) => {
   const { page = 1, limit = 5, keyword = "", field, type, progress } = req.query;
 
   const fieldArray = field ? field.split(',') : [];  
+  const typeArray = type ? type.split(',') : [];
+  const progressArray = progress ? progress.split(',') : [];
   
   const filters = {
     field: fieldArray.length > 0 ? fieldArray : undefined,
-    docType: type,
-    progress:
-      progress === "ongoing" ? true : progress === "completed" ? false : undefined,
+    docType: typeArray.length > 0 ? typeArray : undefined,
+    progress: progressArray.length > 0 ? progressArray : undefined,
     keyword
   };
 

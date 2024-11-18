@@ -15,6 +15,6 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 app.use('/api/users', userRouter);
-app.user('/api/challenges', challengeRouter);
+app.use('/api/challenges', challengeRouter);
 
 app.listen(process.env.PORT || 3100, () => console.log("Server Started"));

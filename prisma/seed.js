@@ -2,51 +2,44 @@ import prisma from "../src/config/prisma.js";
 import { USER, APPLICATION, CHALLENGE, FEEDBACK, WORK } from "./mock.js";
 
 async function main() {
-  await prisma.feedback.deleteMany();
-  await prisma.work.deleteMany();
-  await prisma.application.deleteMany();
-  await prisma.challenge.deleteMany();
-  await prisma.user.deleteMany();
-
-  for (const user of USER) {
-    try {
-      await prisma.user.create({ data: user });
-    } catch (error) {
-      console.error(error.message);
+  await prisma.$transaction(async (tx) => {
+    // 테이블 순서대로 초기화
+    const tableOrder = ["Feedback", "Work", "Application", "Challenge", "User"];
+    for (const table of tableOrder) {
+      await tx.$executeRawUnsafe(`TRUNCATE TABLE "${table}" CASCADE;`);
     }
-  }
 
-  for (const challenge of CHALLENGE) {
-    try {
-      await prisma.challenge.create({ data: challenge });
-    } catch (error) {
-      console.error(error.message);
+    // 데이터 삽입
+    for (const user of USER) {
+      await tx.user.create({ data: user });
     }
-  }
 
-  for (const application of APPLICATION) {
-    try {
-      await prisma.application.create({ data: application });
-    } catch (error) {
-      console.error(error.message);
+    for (const challenge of CHALLENGE) {
+      await tx.challenge.create({ data: challenge });
     }
-  }
 
-  for (const work of WORK) {
-    try {
-      await prisma.work.create({ data: work });
-    } catch (error) {
-      console.error(error.message);
+    for (const application of APPLICATION) {
+      await tx.application.create({ data: application });
     }
-  }
 
-  for (const feedback of FEEDBACK) {
-    try {
-      await prisma.feedback.create({ data: feedback });
-    } catch (error) {
-      console.error(error.message);
+    for (const work of WORK) {
+      await tx.work.create({ data: work });
     }
-  }
+
+    for (const feedback of FEEDBACK) {
+      await tx.feedback.create({ data: feedback });
+    }
+
+    // 시퀀스 초기화
+    for (const table of tableOrder) {
+      await tx.$executeRawUnsafe(`
+        SELECT setval(
+          pg_get_serial_sequence('"${table}"', 'id'),
+          COALESCE((SELECT MAX(id) FROM "${table}"), 1)
+        );
+      `);
+    }
+  });
 }
 
 main().then(async () => {

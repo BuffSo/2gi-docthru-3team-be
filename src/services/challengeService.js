@@ -8,8 +8,8 @@ async function get({ page, limit, filters }) {
   const where = {
     AND: [
       field && field.length > 0 ? { field: { in: field } } : {}, 
-      type ? { type: { in: type } } : {},
-      progress !== undefined ? { progress: { in: progress } } : {},
+      type ? { docType: type } : {},
+      progress !== undefined ? { progress } : {},
       keyword ? {
         OR: [
           { title: { contains: keyword, mode: "insensitive" } },

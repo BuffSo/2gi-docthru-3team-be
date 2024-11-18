@@ -2,8 +2,6 @@ import express from 'express';
 // import userRouter from './routes/userRouter.js';
 import challengeRouter from './routes/challengeRouter.js';
 import cors from 'cors';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 const app = express();
 

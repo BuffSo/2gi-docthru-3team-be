@@ -25,3 +25,15 @@ export const getChallenges = asyncHandler(async (req, res) => {
     throw new Error(e);
   }
 });
+
+export const getChallengeById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const challenge = await challengeService.getById(id);
+    res.json(challenge);
+  } catch (e) {
+    console.error(e);
+    throw new Error(e);
+  }
+});

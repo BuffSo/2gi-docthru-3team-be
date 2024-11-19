@@ -16,7 +16,6 @@ const corsOptions = {
     'http://localhost:3000', 
     'http://localhost:3001'
     ],
-    credentials: true,
 };
 app.use(cors(corsOptions));
 

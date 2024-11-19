@@ -15,7 +15,8 @@ async function get({ page, limit, filters }) {
           { title: { contains: keyword, mode: "insensitive" } },
           { description: { contains: keyword, mode: "insensitive" } }
         ]
-      } : {}
+      } : {},
+      { applications: { some: { status: "Accepted" } } },
     ]
   };
 
@@ -26,4 +27,26 @@ async function get({ page, limit, filters }) {
   return { data: challenges, totalCount };
 };
 
-export default { get };
+async function getById(id) {
+  const challenge = await challengeRepository.getById(id);
+
+  if (!challenge) {
+    throw new Error("Challenge not found");
+  }
+
+  const worksLikeCount = challenge.works.map((work) => ({
+    id: work.id,
+    nickname: work.user.nickname,
+    grade: work.user.grade,
+    likeCount: work._count.likes
+  }));
+
+  return {
+    ...challenge,
+    works: worksLikeCount,
+    workTotalCount: challenge._count.works,
+    _count: undefined
+  };
+}
+
+export default { get, getById };

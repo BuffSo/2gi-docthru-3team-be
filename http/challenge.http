@@ -1,1 +1,5 @@
 GET 'http://localhost:3100/api/challenges?page=1&limit=5&field=Next,API&type=Document'
+
+###
+
+GET 'http://localhost:3100/api/challenges/1'

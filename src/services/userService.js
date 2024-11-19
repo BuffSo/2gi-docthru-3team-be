@@ -102,8 +102,8 @@ function createToken(user, type) {
 }
 
 async function refreshToken(userId, refreshToken) {
-  //console.log('refreshToken func() userId:', userId);
-  //console.log('refreshToken func() refreshToken:', refreshToken);
+  console.log('refreshToken func() userId:', userId);
+  console.log('refreshToken func() refreshToken:', refreshToken);
 
   const user = await userRepository.findById(userId);
 

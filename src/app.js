@@ -8,8 +8,10 @@ import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
 
-app.use(passport.initialize());
 app.use(express.json());
+
+app.use(passport.initialize());
+//app.use(passport.session());
 
 const corsOptions = {
     origin: [

@@ -1,10 +1,19 @@
 ###
-POST http://localhost:3100/api/auth/signUp
+POST http://localhost:3100/api/auth/signup
 Content-Type: application/json
 
 {
   "email": "user01@example.com",
   "nickname": "user01",
+  "password": "12345678"
+}
+###
+POST http://localhost:3100/api/auth/signup
+Content-Type: application/json
+
+{
+  "email": "user03@example.com",
+  "nickname": "user03",
   "password": "12345678"
 }
 
@@ -15,5 +24,14 @@ Content-Type: application/json
 {
   "email": "user01@example.com",
   "password": "12345678"
+}
+
+###
+POST http://localhost:3100/api/auth/refresh-token
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTczMjAwNDgyMCwiZXhwIjoxNzMyMDA4NDIwfQ.pFd345tRAxJTmMA9UHXHTEF4BaUN_OO1zP1FpukwyqQ
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTczMjAwNDgyMCwiZXhwIjoxNzMzMjE0NDIwfQ.aXTeP6pYi4_DJM5Oy6OgvFjTzKmeB-1UbQdT9Zsa8lY"
 }
 

@@ -2,16 +2,10 @@ import prisma from "../config/prisma.js";
 
 async function get({ where, skip, take }) {
   return await prisma.challenge.findMany({
-    where: {
-      ...where,
-      applications: {
-        some: {
-          status: "Accepted",
-        }
-      }
-    },
+    where,
     skip,
-    take
+    take,
+    orderBy: { deadLine: "asc" },
   });
 };
 
@@ -30,6 +24,7 @@ async function getById(id) {
         include: {
           user: {
             select: {
+              id: true,
               nickname: true,
               grade: true,
             }

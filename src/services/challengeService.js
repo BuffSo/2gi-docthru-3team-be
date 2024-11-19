@@ -15,7 +15,8 @@ async function get({ page, limit, filters }) {
           { title: { contains: keyword, mode: "insensitive" } },
           { description: { contains: keyword, mode: "insensitive" } }
         ]
-      } : {}
+      } : {},
+      { applications: { some: { status: "Accepted" } } },
     ]
   };
 

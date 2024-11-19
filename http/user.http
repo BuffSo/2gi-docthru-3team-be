@@ -1,10 +1,19 @@
 ###
-POST http://localhost:3100/api/auth/signUp
+POST http://localhost:3100/api/auth/signup
 Content-Type: application/json
 
 {
   "email": "user01@example.com",
   "nickname": "user01",
+  "password": "12345678"
+}
+###
+POST http://localhost:3100/api/auth/signup
+Content-Type: application/json
+
+{
+  "email": "user03@example.com",
+  "nickname": "user03",
   "password": "12345678"
 }
 

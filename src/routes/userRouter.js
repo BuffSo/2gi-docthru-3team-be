@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 // 회원가입
-router.post('/signUp', signUp);
+router.post('/signup', signUp);
 
 // 로그인
 router.post('/login', signIn);

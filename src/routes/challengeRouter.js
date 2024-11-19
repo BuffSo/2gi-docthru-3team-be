@@ -1,9 +1,8 @@
 import express from 'express';
-import { getChallenges, getChallengeById, patchChallenge, deleteChallenge } from '../controllers/challengeController';
+import { getChallenges } from '../controllers/challengeController.js';
 
 const router = express.Router();
 
 router.get('/', getChallenges);
-router.get('/:id', getChallengeById);
-router.patch('/:id', patchChallenge);
-router.delete('/:id', deleteChallenge);
+
+export default router;

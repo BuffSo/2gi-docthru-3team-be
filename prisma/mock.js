@@ -6,7 +6,7 @@ export const USER = [
     email: "User1@example.com",
     password: "password1",
     createdAt: "2024-11-18T10:00:00Z",
-    grade: "Amatuer"
+    grade: "Amateur"
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ export const USER = [
     email: "User3@example.com",
     password: "password3",
     createdAt: "2024-11-18T10:20:00Z",
-    grade: "Amatuer"
+    grade: "Amateur"
   },
   {
     id: 4,
@@ -42,7 +42,7 @@ export const USER = [
     email: "User5@example.com",
     password: "password5",
     createdAt: "2024-11-18T10:40:00Z",
-    grade: "Amatuer"
+    grade: "Amateur"
   }
 ];
 
@@ -54,6 +54,7 @@ export const CHALLENGE = [
     docType: "Document",
     docUrl: "http://example.com/doc1",
     deadLine: "2024-12-01T23:59:59Z",
+    description: "Next.js workshop for beginners.",
     progress: false,
     participants: 3,
     maxParticipants: 5
@@ -65,6 +66,7 @@ export const CHALLENGE = [
     docType: "Blog",
     docUrl: "http://example.com/doc2",
     deadLine: "2024-12-10T23:59:59Z",
+    description: "Modern JavaScript challenge for everyone.",
     progress: false,
     participants: 2,
     maxParticipants: 10
@@ -76,6 +78,7 @@ export const CHALLENGE = [
     docType: "Document",
     docUrl: "http://example.com/doc3",
     deadLine: "2024-12-15T23:59:59Z",
+    description: "API mastery challenge for developers.",
     progress: false,
     participants: 4,
     maxParticipants: 5
@@ -87,6 +90,7 @@ export const CHALLENGE = [
     docType: "Document",
     docUrl: "http://example.com/doc4",
     deadLine: "2024-12-20T23:59:59Z",
+    description: "Web development basics challenge for beginners.",
     progress: true,
     participants: 5,
     maxParticipants: 5
@@ -98,6 +102,7 @@ export const CHALLENGE = [
     docType: "Blog",
     docUrl: "http://example.com/doc5",
     deadLine: "2024-12-25T23:59:59Z",
+    description: "Career growth tips challenge for everyone.",
     progress: false,
     participants: 1,
     maxParticipants: 8
@@ -106,7 +111,7 @@ export const CHALLENGE = [
 export const APPLICATION = [
   {
     id: 1,
-    UserId: 1,
+    userId: 1,
     challengeId: 1,
     status: "Waiting",
     appliedAt: "2024-11-18T11:00:00Z",
@@ -115,7 +120,7 @@ export const APPLICATION = [
   },
   {
     id: 2,
-    UserId: 2,
+    userId: 2,
     challengeId: 2,
     status: "Accepted",
     appliedAt: "2024-11-18T11:10:00Z",
@@ -124,7 +129,7 @@ export const APPLICATION = [
   },
   {
     id: 3,
-    UserId: 3,
+    userId: 3,
     challengeId: 3,
     status: "Rejected",
     appliedAt: "2024-11-18T11:20:00Z",
@@ -133,7 +138,7 @@ export const APPLICATION = [
   },
   {
     id: 4,
-    UserId: 4,
+    userId: 4,
     challengeId: 4,
     status: "Waiting",
     appliedAt: "2024-11-18T11:30:00Z",
@@ -142,7 +147,7 @@ export const APPLICATION = [
   },
   {
     id: 5,
-    UserId: 5,
+    userId: 5,
     challengeId: 5,
     status: "Accepted",
     appliedAt: "2024-11-18T11:40:00Z",
@@ -154,73 +159,78 @@ export const APPLICATION = [
 export const WORK = [
   {
     id: 1,
-    applicationId: 1,
+    challengeId: 1,
     userId: 1,
-    content: "Work1",
-    createdAt: "2024-11-18T13:00:00Z"
+    description: "Work1",
+    isSubmitted: true,
+    submittedAt: "2024-11-18T13:00:00Z"
   },
   {
     id: 2,
-    applicationId: 2,
+    challengeId: 2,
     userId: 2,
-    content: "Work2",
-    createdAt: "2024-11-18T13:10:00Z"
+    description: "Work2",
+    isSubmitted: false,
+    submittedAt: null
   },
   {
     id: 3,
-    applicationId: 3,
+    challengeId: 3,
     userId: 3,
-    content: "Work3",
-    createdAt: "2024-11-18T13:20:00Z"
+    description: "Work3",
+    isSubmitted: false,
+    submittedAt: null
   },
   {
     id: 4,
-    applicationId: 4,
+    challengeId: 4,
     userId: 4,
-    content: "Work4",
-    createdAt: "2024-11-18T13:30:00Z"
+    description: "Work4",
+    isSubmitted: true,
+    submittedAt: "2024-11-18T13:00:00Z"
   },
   {
     id: 5,
-    applicationId: 5,
+    challengeId: 5,
     userId: 5,
-    content: "Work5",
-    createdAt: "2024-11-18T13:40:00Z"
+    description: "Work5",
+    isSubmitted: false,
+    submittedAt: null
   }
 ];
 
 export const FEEDBACK = [
   {
     id: 1,
-    UserId: 1,
+    userId: 1,
     workId: 1,
     content: "Great job!",
     createdAt: "2024-11-18T12:00:00Z"
   },
   {
     id: 2,
-    UserId: 2,
+    userId: 2,
     workId: 2,
     content: "Needs improvement.",
     createdAt: "2024-11-18T12:10:00Z"
   },
   {
     id: 3,
-    UserId: 3,
+    userId: 3,
     workId: 3,
     content: "Well done!",
     createdAt: "2024-11-18T12:20:00Z"
   },
   {
     id: 4,
-    UserId: 4,
+    userId: 4,
     workId: 4,
     content: "Keep it up!",
     createdAt: "2024-11-18T12:30:00Z"
   },
   {
     id: 5,
-    UserId: 5,
+    userId: 5,
     workId: 5,
     content: "Looks good.",
     createdAt: "2024-11-18T12:40:00Z"

@@ -1,1 +1,1 @@
-import prisma from "../config/prismaClient";
+import prisma from "../config/prisma.js";

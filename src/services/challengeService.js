@@ -1,4 +1,6 @@
 import challengeRepository from "../repositories/challengeRepository.js";
+import applicationRepository from "../repositories/applicationRepository.js";
+import { type } from "superstruct";
 
 async function get({ page, limit, filters }) {
   const skip = (page - 1) * limit;
@@ -41,12 +43,44 @@ async function getById(id) {
     likeCount: work._count.likes
   }));
 
+  const application = challenge.applications ? {
+    // appliedAt: challenge.applications.appliedAt,
+    status: challenge.applications.status,
+    user: {
+      id: challenge.applications.user.id,
+      nickname: challenge.applications.user.nickname,
+      grade: challenge.applications.user.grade
+    }
+  } : null;
+
   return {
     ...challenge,
+    applications: application,
     works: worksLikeCount,
     workTotalCount: challenge._count.works,
     _count: undefined
   };
 }
 
-export default { get, getById };
+async function create(data) {
+  const { title, docUrl, field, type, deadLine, maxParticipants, description, userId } = data;
+  
+  const [year, month, day] = deadLine.split("/").map(Number);
+  const formattedDate = new Date(year, month - 1, day);
+
+  const challengeData = {
+    title, docUrl, field, docType: type, deadLine: formattedDate, maxParticipants, description, userId
+  };
+
+  return await challengeRepository.create(challengeData);
+};
+
+async function update(id, data) {
+  return await challengeRepository.update(id, data);
+}
+
+async function remove(id) {
+  return await challengeRepository.remove(id);
+}
+
+export default { get, getById, create };

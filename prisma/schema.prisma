@@ -34,14 +34,16 @@ model User {
 
 model Application {
   id                  Int       @id @default(autoincrement())
-  userId              Int
-  challengeId         Int
+  userId              Int       
+  challengeId         Int       @unique
   status              Status    @default(Waiting)
   appliedAt           DateTime  @default(now())
   invalidationComment String?
   invalidatedAt       DateTime?
   user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   challenge           Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
 }
 
 model Challenge {
@@ -53,9 +55,9 @@ model Challenge {
   deadLine        DateTime
   description     String
   progress        Boolean       @default(false)
-  participants    Int
+  participants    Int           @default(0)
   maxParticipants Int
-  applications    Application[]
+  applications    Application?
   works           Work[]
   participates    Participate[]
 }

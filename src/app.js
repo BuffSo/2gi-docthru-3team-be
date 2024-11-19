@@ -6,8 +6,8 @@ import cors from 'cors';
 const app = express();
 
 const corsOptions = {
-    // origin: ['http://localhost:3100'],
-    origin: "*",
+    origin: ['http://localhost:3100', 'http://localhost:3000'],
+    credentials: true,
 };
 
 app.use(express.json());

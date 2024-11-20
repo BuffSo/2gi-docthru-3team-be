@@ -28,9 +28,49 @@ export const getChallenges = asyncHandler(async (req, res) => {
 
 export const getChallengeById = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
   try {
     const challenge = await challengeService.getById(id);
+    res.json(challenge);
+  } catch (e) {
+    console.error(e);
+    throw new Error(e);
+  }
+});
+
+export const createChallenge = asyncHandler(async (req, res) => {
+  try {
+    /* const userId = req.user.userId;
+    const challengeData = {
+      ...req.body,
+      userId
+    } */
+   
+    // 테스트용
+    const { userId, ...challengeData } = req.body;
+
+    const challenge = await challengeService.create({ ...challengeData, userId });
+    res.status(201).json(challenge);
+  } catch (e) {
+    console.error(e);
+    throw new Error(e);
+  }
+});
+
+export const patchChallenge = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const challenge = await challengeService.update(id, req.body);
+    res.json(challenge);
+  } catch (e) {
+    console.error(e);
+    throw new Error(e);
+  }
+});
+
+export const deleteChallenge = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const challenge = await challengeService.remove(id);
     res.json(challenge);
   } catch (e) {
     console.error(e);

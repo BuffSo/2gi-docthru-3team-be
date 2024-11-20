@@ -42,8 +42,6 @@ model Application {
   invalidatedAt       DateTime?
   user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   challenge           Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, challengeId])
 }
 
 model Challenge {
@@ -116,6 +114,7 @@ enum Status {
   Waiting
   Accepted
   Rejected
+  Invalidated
 }
 
 enum Field {

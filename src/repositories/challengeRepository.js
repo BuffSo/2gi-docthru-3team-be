@@ -92,4 +92,33 @@ async function update(id, data) {
   });
 }
 
-export default { get, count, getById, findById, create, update };
+async function invalidate(id, invalidationComment, invalidatedAt) {  
+  const application = await prisma.application.findUnique({
+    where: { challengeId: parseInt(id, 10) },
+  });
+
+  if (application && application.status === "Accepted") {
+    return await prisma.challenge.update({
+      where: { id: parseInt(id, 10) },
+       data: {
+        applications: {
+          update: {
+            where: { challengeId: parseInt(id, 10) },
+            data: {
+              status: "Invalidated",
+              invalidationComment,
+              invalidatedAt
+            }
+          }
+        }
+       },
+       include: {
+        applications: true,
+       }
+    });
+  } else {
+    throw new Error('Cannot invalidate. Application status is not "Accepted".');
+  }
+}
+
+export default { get, count, getById, findById, create, update, invalidate };

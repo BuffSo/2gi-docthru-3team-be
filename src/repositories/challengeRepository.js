@@ -101,6 +101,7 @@ async function invalidate(id, invalidationComment, invalidatedAt) {
     return await prisma.challenge.update({
       where: { id: parseInt(id, 10) },
        data: {
+        progress: false,
         applications: {
           update: {
             where: { challengeId: parseInt(id, 10) },

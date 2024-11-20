@@ -41,3 +41,26 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     refreshToken: newRefreshToken, // 새로 발급된 Refresh Token 반환
   });
 });
+
+
+//////////////////////////////////////////////////////////
+//✨ 관리자 권한이 필요한 작업에 대한 예제 코드입니다. //
+//////////////////////////////////////////////////////////
+export const someAdminFunction = async (req, res) => {
+  try {
+    // 예제 데이터: 관리자가 처리할 작업
+    const actionResult = {
+      adminId: req.user.userId, // JWT에서 추출된 사용자 ID
+      adminRole: req.user.role, // JWT에서 추출된 사용자 역할
+      message: 'Admin action performed successfully',
+    };
+
+    // 성공적인 응답 반환
+    res.status(200).json(actionResult);
+  } catch (error) {
+    // 오류 처리
+    console.error('Admin action error:', error.message);
+    res.status(500).json({ message: 'An error occurred while performing admin action' });
+  }
+};
+//////////////////////////////////////////////////////////

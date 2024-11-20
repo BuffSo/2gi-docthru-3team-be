@@ -1,32 +1,52 @@
+#####################################
+###  회원가입                     ###  
+#####################################
 ###
-POST http://localhost:3100/api/auth/signup
 Content-Type: application/json
+POST http://localhost:3100/api/auth/signup
 
 {
   "email": "user01@example.com",
   "nickname": "user01",
   "password": "12345678"
 }
-###
-POST http://localhost:3100/api/auth/signup
+
+#####################################
+###  일반유저                     ###  
+#####################################
+###  
+POST http://localhost:3100/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "user03@example.com",
-  "nickname": "user03",
+  "email": "User1@example.com",
   "password": "12345678"
 }
 
+#####################################
+###  Admin  권한                  ###  
+#####################################
 ###
 POST http://localhost:3100/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "user01@example.com",
+  "email": "admin@example.com",
   "password": "12345678"
 }
 
 ###
+GET http://localhost:3100/api/auth/admin-action
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjA4MjkyOCwiZXhwIjoxNzMyMDg2NTI4fQ.4j8QYON6iAi7UmHkrgf6_frPR-brz1BqqesZuySjMi0
+
+
+###
+GET http://localhost:3100/api/auth/admin-action
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMDgyOTY3LCJleHAiOjE3MzIwODY1Njd9.xX3KUp4mohuHNfIq7q_b25ke5_bKPuDUkxsdth8MUZY
+
+
+
+### refresh-token ### 
 POST http://localhost:3100/api/auth/refresh-token
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTczMjAwNDgyMCwiZXhwIjoxNzMyMDA4NDIwfQ.pFd345tRAxJTmMA9UHXHTEF4BaUN_OO1zP1FpukwyqQ

@@ -1,4 +1,5 @@
 import challengeRepository from "../repositories/challengeRepository.js";
+import formatDate from "../utils/formatDate.js";
 
 async function get({ page, limit, filters }) {
   const skip = (page - 1) * limit;
@@ -64,8 +65,7 @@ async function getById(id) {
 async function create(data) {
   const { title, docUrl, field, type, deadLine, maxParticipants, description, userId } = data;
   
-  const [year, month, day] = deadLine.split("/").map(Number);
-  const formattedDate = new Date(year, month - 1, day);
+  const formattedDate = formatDate(deadLine);
 
   const challengeData = {
     title, docUrl, field, docType: type, deadLine: formattedDate, maxParticipants, description, userId
@@ -85,13 +85,25 @@ async function update(id, data, user) {
   const isAdmin = user.role === 'Admin';
 
   if (!isOwner && !isAdmin) {
-    throw new Error("You are not authorized to update this challenge");
+    res.status(403).json({ message: "You are not authorized to update this challenge" });
   }
+
+  if (data.deadLine) {
+    data.deadLine = formatDate(data.deadLine);
+  }
+
   return await challengeRepository.update(id, data);
 }
 
-async function remove(id) {
-  return await challengeRepository.remove(id);
+async function invalidate(id, user, invalidationComment) {
+  if (user.role !== 'Admin') {
+    res.status(403).json({ message: "You are not authorized to delete this challenge" });
+    return;
+  }
+
+  const invalidatedAt = new Date();
+
+  return await challengeRepository.invalidate(id, invalidationComment, invalidatedAt);
 }
 
-export default { get, getById, create, update };
+export default { get, getById, create, update, invalidate };

@@ -1,6 +1,4 @@
 import challengeRepository from "../repositories/challengeRepository.js";
-import applicationRepository from "../repositories/applicationRepository.js";
-import { type } from "superstruct";
 
 async function get({ page, limit, filters }) {
   const skip = (page - 1) * limit;
@@ -18,7 +16,7 @@ async function get({ page, limit, filters }) {
           { description: { contains: keyword, mode: "insensitive" } }
         ]
       } : {},
-      { applications: { some: { status: "Accepted" } } },
+      { applications: { status: "Accepted" } },
     ]
   };
 
@@ -40,6 +38,7 @@ async function getById(id) {
     id: work.id,
     nickname: work.user.nickname,
     grade: work.user.grade,
+    submittedAt: work.submittedAt,
     likeCount: work._count.likes
   }));
 
@@ -75,7 +74,19 @@ async function create(data) {
   return await challengeRepository.create(challengeData);
 };
 
-async function update(id, data) {
+async function update(id, data, user) {
+  const challenge = await challengeRepository.findById(id);
+
+  if (!challenge) {
+    throw new Error("Challenge not found");
+  }
+
+  const isOwner = challenge.applications.userId === user.id;
+  const isAdmin = user.role === 'Admin';
+
+  if (!isOwner && !isAdmin) {
+    throw new Error("You are not authorized to update this challenge");
+  }
   return await challengeRepository.update(id, data);
 }
 
@@ -83,4 +94,4 @@ async function remove(id) {
   return await challengeRepository.remove(id);
 }
 
-export default { get, getById, create };
+export default { get, getById, create, update };

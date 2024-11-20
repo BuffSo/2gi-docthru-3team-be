@@ -94,7 +94,13 @@ async function updateUser(id, data) {
 }
 
 function createToken(user, type) {
-  const payload = { userId: user.id };
+  //console.log('User object in createToken:', user);
+
+
+  const payload = { 
+    userId: user.id,
+    role: user.role,   // User Role 추가
+  };
   const options = {
     expiresIn: type === 'refresh' ? TOKEN_EXPIRATION.REFRESH : TOKEN_EXPIRATION.ACCESS,
   };

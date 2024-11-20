@@ -11,6 +11,10 @@ passport.use('refresh-token', refreshTokenStrategy);
 
 passport.use(localStrategy);
 
+
+/*************************************************************************************
+ * ✨ 세션기반에서만 사용되는 코드
+ * ***********************************************************************************
 // 직렬화: JS 객체 -> 파일 저장이나 네트웍 전송용으로 변환 바이트 배열로 줄을 서야한다.
 // 세션 기반: 서버에 (파일로) 저장할 데이터가 뭐다? user.id
 passport.serializeUser((user, done) => {
@@ -28,5 +32,5 @@ passport.deserializeUser(async (id, done) => {
     done(error);
   }
 });
-
+ */
 export default passport;

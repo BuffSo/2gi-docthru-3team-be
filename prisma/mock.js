@@ -4,7 +4,7 @@ export const USER = [
     role: "User",
     nickname: "nick1",
     email: "User1@example.com",
-    password: "password1",
+    password: "$2b$10$Y7TYrNUSmGuByoFYa0pHC.qpNVU3/am/OpPMJrE1jgOIT9o9oxw4K",
     createdAt: "2024-11-18T10:00:00Z",
     grade: "Amateur"
   },
@@ -13,7 +13,7 @@ export const USER = [
     role: "Admin",
     nickname: "nick2",
     email: "User2@example.com",
-    password: "password2",
+    password: "$2b$10$Y7TYrNUSmGuByoFYa0pHC.qpNVU3/am/OpPMJrE1jgOIT9o9oxw4K",
     createdAt: "2024-11-18T10:10:00Z",
     grade: "Expert"
   },
@@ -22,7 +22,7 @@ export const USER = [
     role: "User",
     nickname: "nick3",
     email: "User3@example.com",
-    password: "password3",
+    password: "$2b$10$Y7TYrNUSmGuByoFYa0pHC.qpNVU3/am/OpPMJrE1jgOIT9o9oxw4K",
     createdAt: "2024-11-18T10:20:00Z",
     grade: "Amateur"
   },
@@ -31,7 +31,7 @@ export const USER = [
     role: "User",
     nickname: "nick4",
     email: "User4@example.com",
-    password: "password4",
+    password: "$2b$10$Y7TYrNUSmGuByoFYa0pHC.qpNVU3/am/OpPMJrE1jgOIT9o9oxw4K",
     createdAt: "2024-11-18T10:30:00Z",
     grade: "Expert"
   },
@@ -40,9 +40,18 @@ export const USER = [
     role: "User",
     nickname: "nick5",
     email: "User5@example.com",
-    password: "password5",
+    password: "$2b$10$Y7TYrNUSmGuByoFYa0pHC.qpNVU3/am/OpPMJrE1jgOIT9o9oxw4K",
     createdAt: "2024-11-18T10:40:00Z",
     grade: "Amateur"
+  },
+  {
+    id: 6,
+    role: "Admin",
+    nickname: "admin",
+    email: "admin@example.com",
+    password: "$2b$10$Y7TYrNUSmGuByoFYa0pHC.qpNVU3/am/OpPMJrE1jgOIT9o9oxw4K",
+    createdAt: "2024-11-18T10:50:00Z",
+    grade: "Expert"
   }
 ];
 

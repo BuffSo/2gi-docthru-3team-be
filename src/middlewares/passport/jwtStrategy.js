@@ -1,5 +1,6 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import userService from '../../services/userService.js'
+import { debugLog } from '../../utils/logger.js';
 
 const accessTokenOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -27,7 +28,7 @@ const refreshTokenOptions = {
 };
 
 async function jwtVerify(payload, done) {
-  //console.log('Decoded JWT Payload:', payload); // 디버깅용
+  //debugLog('Decoded JWT Payload:', payload); // 디버깅용
   try {
     const user = await userService.getUserById(payload.userId);
     if (!user) {

@@ -51,6 +51,15 @@ async function getById(id) {
   });
 }
 
+async function findById(id) {
+  return await prisma.challenge.findUnique({
+    where: { id: parseInt(id, 10) },
+    include: {
+      applications: true,
+    }
+  });
+}
+
 async function create(data) {
   return await prisma.$transaction(async (prisma) => {
     const challenge = await prisma.challenge.create({ 
@@ -76,4 +85,11 @@ async function create(data) {
   })
 }
 
-export default { get, count, getById, create };
+async function update(id, data) {
+  return await prisma.challenge.update({
+    where: { id: parseInt(id, 10) },
+    data
+  });
+}
+
+export default { get, count, getById, findById, create, update };

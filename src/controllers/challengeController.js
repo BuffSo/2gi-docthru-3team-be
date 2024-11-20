@@ -58,12 +58,19 @@ export const createChallenge = asyncHandler(async (req, res) => {
 
 export const patchChallenge = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const user = req.user;
+  const testUser = {
+    id: 1,
+    nickname: 'nick1',
+    role: 'User',
+  };
   try {
-    const challenge = await challengeService.update(id, req.body);
+    const challenge = await challengeService.update(id, req.body, testUser);
     res.json(challenge);
   } catch (e) {
     console.error(e);
-    throw new Error(e);
+    res.status(403).json({ message: "You are not authorized to update this challenge" });  // 권한 없음
+    // throw new Error(e);
   }
 });
 

@@ -131,7 +131,7 @@ export const CHALLENGE = [
     deadLine: "2024-12-25T23:59:59Z",
     description: "Career growth tips challenge for everyone.",
     progress: true,
-    participants: 1,
+    participants: 6,
     maxParticipants: 8
   },
   {
@@ -143,7 +143,7 @@ export const CHALLENGE = [
     deadLine: "2024-12-05T23:59:59Z",
     description: "Deep dive into React hooks and advanced patterns.",
     progress: true,
-    participants: 2,
+    participants: 6,
     maxParticipants: 6
   },
   {
@@ -155,8 +155,8 @@ export const CHALLENGE = [
     deadLine: "2024-12-12T23:59:59Z",
     description: "Build a full stack application from scratch.",
     progress: true,
-    participants: 3,
-    maxParticipants: 5
+    participants: 6,
+    maxParticipants: 10
   },
   {
     id: 8,
@@ -167,8 +167,8 @@ export const CHALLENGE = [
     deadLine: "2024-12-18T23:59:59Z",
     description: "Master CSS Flexbox layout system with practical examples.",
     progress: true,
-    participants: 4,
-    maxParticipants: 5
+    participants: 6,
+    maxParticipants: 10
   },
   {
     id: 9,
@@ -179,7 +179,7 @@ export const CHALLENGE = [
     deadLine: "2024-12-22T23:59:59Z",
     description: "Learn the fundamentals of Node.js for backend development.",
     progress: true,
-    participants: 5,
+    participants: 2,
     maxParticipants: 5
   },
   {

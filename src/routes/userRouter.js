@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from '../config/passport.js';
-import { signUp, signIn, refreshAccessToken, someAdminFunction } from '../controllers/userController.js';
+import { signUp, signIn, refreshAccessToken, someAdminFunction, logout } from '../controllers/userController.js';
 import { adminOnly } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -11,6 +11,12 @@ router.post('/signup', signUp);
 
 // 로그인
 router.post('/login', signIn);
+
+// 로그아웃
+router.post('/logout', 
+  passport.authenticate('access-token', { session: false }),
+  logout
+);
 
 // Refresh Token을 통한 Access Token 갱신
 router.post('/refresh-token',

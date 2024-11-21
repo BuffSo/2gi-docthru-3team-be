@@ -83,6 +83,10 @@ export const deleteChallenge = asyncHandler(async (req, res) => {
   };
 
   const { invalidationComment } = req.body;
+
+  if (testUser.role !== 'Admin') {
+    res.status(403).json({ message: "You are not authorized to delete this challenge" });
+  }
   
   try {
     const challenge = await challengeService.invalidate(id, testUser, invalidationComment);

@@ -86,7 +86,7 @@ async function update(id, data, user) {
   const isAdmin = user.role === 'Admin';
 
   if (!isOwner && !isAdmin) {
-    res.status(403).json({ message: "You are not authorized to update this challenge" });
+   throw new Error("You are not authorized to update this challenge" );
   }
 
   if (data.deadLine) {
@@ -96,12 +96,7 @@ async function update(id, data, user) {
   return await challengeRepository.update(id, data);
 }
 
-async function invalidate(id, user, invalidationComment) {
-  if (user.role !== 'Admin') {
-    res.status(403).json({ message: "You are not authorized to delete this challenge" });
-    return;
-  }
-
+async function invalidate(id, invalidationComment) {
   const invalidatedAt = new Date();
 
   return await challengeRepository.invalidate(id, invalidationComment, invalidatedAt);

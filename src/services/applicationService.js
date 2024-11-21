@@ -30,11 +30,19 @@ async function get({ page, limit, filters }) {
   return { data: applications, totalCount };
 };
 
+async function getById(id) {
+  return await applicationRepository.findById(parseInt(id));
+}
+
 async function remove(id, user) {
-  const application = await applicationRepository.getById(parseInt(id));  // 해당 신청서를 가져오기
+  const application = await applicationRepository.findById(parseInt(id));  // 해당 신청서를 가져오기
 
   if (!application) {
     throw new Error('신청서를 찾을 수 없습니다.');
+  }
+
+  if (application.status !== "Waiting") {
+    throw new Error('승인 대기 상태일 때만 신청을 취소할 수 있습니다.');
   }
 
   const isOwner = user.id === application.userId;
@@ -46,4 +54,4 @@ async function remove(id, user) {
   return await challengeRepository.remove(application.challengeId);
 }
 
-export default { get, remove };
+export default { get, getById, remove };

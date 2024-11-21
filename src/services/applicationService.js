@@ -32,6 +32,24 @@ async function get({ page, limit, filters }) {
 
 async function getById(id) {
   return await applicationRepository.findById(parseInt(id));
+};
+
+async function update(id, data) {
+  const application = await applicationRepository.findById(id);
+
+  if (!application) {
+    throw new Error("신청서를 찾을 수 없습니다.");
+  }
+
+  if (application.status !== "Waiting") {
+    throw new Error("승인 또는 거절 처리를 할 수 없습니다.");
+  }
+
+  if (data.status === "Rejected" && !data.invalidationComment) {
+    throw new Error("거절 사유가 필요합니다.");
+  }
+
+  return await applicationRepository.update(id, data);
 }
 
 async function remove(id, user) {
@@ -54,4 +72,4 @@ async function remove(id, user) {
   return await challengeRepository.remove(application.challengeId);
 }
 
-export default { get, getById, remove };
+export default { get, getById, update, remove };

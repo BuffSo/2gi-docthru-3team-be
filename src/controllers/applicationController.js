@@ -10,10 +10,26 @@ export const getApplications = asyncHandler(async (req, res) => {
     const application = await applicationService.get({
       page: parseInt(page),
       limit: parseInt(limit),
-      filters
+      filters,
     });
 
     res.json(application);
+  } catch (e) {
+    console.error(e);
+    throw new Error(e);
+  }
+});
+
+export const deleteApplication = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
+  const testUser = {
+    id: 1,
+  };
+
+  try {
+    await applicationService.remove(id, testUser);
+    res.status(204).send();
   } catch (e) {
     console.error(e);
     throw new Error(e);

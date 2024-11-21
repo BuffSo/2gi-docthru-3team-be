@@ -120,6 +120,10 @@ async function invalidate(id, invalidationComment, invalidatedAt) {
   } else {
     throw new Error('Cannot invalidate. Application status is not "Accepted".');
   }
-}
+};
 
-export default { get, count, getById, findById, create, update, invalidate };
+async function remove(id) {
+  return await prisma.challenge.delete({ where: { id: id }});
+};
+
+export default { get, count, getById, findById, create, update, invalidate, remove };

@@ -113,7 +113,7 @@ function createToken(user, type) {
 
 async function refreshToken(userId, refreshToken) {
   debugLog(`refreshToken func() userId:, ${userId}`);
-  debugLog(`refreshToken func() refreshToken: ${refreshToken}`);
+  debugLog(`refreshToken func() received refreshToken: ${refreshToken}`);
 
   const user = await userRepository.findById(userId);
 
@@ -135,6 +135,11 @@ async function refreshToken(userId, refreshToken) {
   const newRefreshToken = createToken(user, 'refresh'); 
 
   return { accessToken, newRefreshToken };  
+}
+
+async function clearRefreshToken(userId) {
+  debugLog('clearRefreshToken Func() userId : ', userId);
+  await userRepository.update(userId, { refreshToken: null });
 }
 
 async function oauthCreateOrUpdate(provider, providerId, email, nickname) {
@@ -187,6 +192,7 @@ export default {
   updateUser,
   createToken,
   refreshToken,
+  clearRefreshToken,
   oauthCreateOrUpdate,
   updateUserGrade,
 }

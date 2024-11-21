@@ -14,7 +14,7 @@ Content-Type: application/json
 #####################################
 ###  일반유저                     ###  
 #####################################
-###  
+###  로그인
 POST http://localhost:3100/api/auth/login
 Content-Type: application/json
 
@@ -23,10 +23,24 @@ Content-Type: application/json
   "password": "12345678"
 }
 
+### 로그아웃 
+POST http://localhost:3100/api/auth/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMTYzNzkzLCJleHAiOjE3MzIxNjczOTN9.Vb9qBTi9_MGDYJLJYyWE2M1uSE_m6D8_CRH3St5_myI
+
+### refresh-token
+POST http://localhost:3100/api/auth/refresh-token
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMTYzNzY3LCJleHAiOjE3MzIxNjczNjd9.DuzBM9XMVW9oTRrsoXGKfdG7z1uDAhMiU4k08hKbugg
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMTYzNzY3LCJleHAiOjE3MzMzNzMzNjd9.AioUDPuFfFpF3E_jysxsqvfy9CM9wkLy8bJcNG2rTvY"
+}
+
 #####################################
 ###  Admin  권한                  ###  
 #####################################
-###
+###  로그인
 POST http://localhost:3100/api/auth/login
 Content-Type: application/json
 
@@ -35,7 +49,7 @@ Content-Type: application/json
   "password": "12345678"
 }
 
-###
+###  admi 액션
 GET http://localhost:3100/api/auth/admin-action
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjA4MjkyOCwiZXhwIjoxNzMyMDg2NTI4fQ.4j8QYON6iAi7UmHkrgf6_frPR-brz1BqqesZuySjMi0
 
@@ -46,12 +60,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvb
 
 
 
-### refresh-token ### 
-POST http://localhost:3100/api/auth/refresh-token
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTczMjAwNDgyMCwiZXhwIjoxNzMyMDA4NDIwfQ.pFd345tRAxJTmMA9UHXHTEF4BaUN_OO1zP1FpukwyqQ
-
-{
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTczMjAwNDgyMCwiZXhwIjoxNzMzMjE0NDIwfQ.aXTeP6pYi4_DJM5Oy6OgvFjTzKmeB-1UbQdT9Zsa8lY"
-}
 

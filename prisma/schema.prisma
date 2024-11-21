@@ -74,7 +74,7 @@ model Work {
   id             Int        @id @default(autoincrement())
   userId         Int
   challengeId    Int
-  description    String
+  content        String     @db.Text
   lastModifiedAt DateTime   @default(now())
   isSubmitted    Boolean
   submittedAt    DateTime?

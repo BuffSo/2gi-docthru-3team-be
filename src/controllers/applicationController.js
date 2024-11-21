@@ -39,6 +39,26 @@ export const getApplicationById = asyncHandler(async (req, res) => {
     console.error(e);
     throw new Error(e);
   }
+});
+
+export const patchApplication = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
+  const testAdmin = {
+    id: 2,
+    role: "Admin",
+  };
+
+  if (testAdmin.role !== "Admin") {
+    res.status(403).json({ message: "권한이 없습니다." });
+  }
+
+  try {
+    const application = await applicationService.update(id);
+  } catch (e) {
+    console.error(e);
+    throw new Error(e);
+  }
 })
 
 export const deleteApplication = asyncHandler(async (req, res) => {

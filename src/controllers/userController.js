@@ -1,5 +1,6 @@
 import asyncHandler from '../middlewares/asyncHandler.js';
 import userService from '../services/userService.js';
+import { debugLog } from '../utils/logger.js';
 
 // 회원가입
 export const signUp = asyncHandler(async (req, res) => {
@@ -17,6 +18,18 @@ export const signIn = asyncHandler(async (req, res) => {
     refreshToken,
     user,
   });
+});
+
+// 로그아웃
+export const logout = asyncHandler(async (req, res) => {
+  const userId = req.user?.id;
+
+  if (!userId) {
+    return res.status(400).json({ message: '로그아웃 요청이 올바르지 않습니다.' });
+  }
+
+  await userService.clearRefreshToken(userId);
+  res.status(200).json({ message: '정상적으로 로그아웃 되었습니다.' });
 });
 
 // Refresh Token을 통한 Access Token 갱신

@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import userRouter from './routes/userRouter.js';
 import challengeRouter from './routes/challengeRouter.js';
+import applicationRouter from './routes/applicationRouter.js';
 import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(cors(corsOptions));
 
 app.use('/api/auth', userRouter);
 app.use('/api/challenges', challengeRouter);
+app.use('/api/applications', applicationRouter);
 
 // 404 Not Found 처리
 app.use((req, res) => {

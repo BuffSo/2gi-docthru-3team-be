@@ -1,10 +1,10 @@
 import prisma from "../src/config/prisma.js";
-import { USER, APPLICATION, CHALLENGE, FEEDBACK, WORK } from "./mock.js";
+import { USER, APPLICATION, CHALLENGE, FEEDBACK, WORK, PARTICIPATE } from "./mock.js";
 
 async function main() {
   await prisma.$transaction(async (tx) => {
     // 테이블 순서대로 초기화
-    const tableOrder = ["Feedback", "Work", "Application", "Challenge", "User"];
+    const tableOrder = ["Participate", "Feedback", "Work", "Application", "Challenge", "User"];
     for (const table of tableOrder) {
       await tx.$executeRawUnsafe(`TRUNCATE TABLE "${table}" CASCADE;`);
     }
@@ -30,6 +30,10 @@ async function main() {
       await tx.feedback.create({ data: feedback });
     }
 
+    for (const participate of PARTICIPATE) {
+      await tx.participate.create({ data: participate });
+    }
+    
     // 시퀀스 초기화
     for (const table of tableOrder) {
       await tx.$executeRawUnsafe(`

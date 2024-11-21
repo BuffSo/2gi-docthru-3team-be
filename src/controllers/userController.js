@@ -22,7 +22,7 @@ export const signIn = asyncHandler(async (req, res) => {
 // Refresh Token을 통한 Access Token 갱신
 export const refreshAccessToken = asyncHandler(async (req, res) => {
   const { refreshToken } = req.body;
-  //console.log('refreshToken', refreshToken );
+  debugLog('refreshToken', refreshToken );
 
   if (!refreshToken) {
     return res.status(400).json({ message: 'Refresh token is required' });

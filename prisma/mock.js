@@ -66,11 +66,20 @@ export const USER = [
     id: 8,
     role: "User",
     nickname: "nick8",
-    email: "Use83@example.com",
+    email: "Use8@example.com",
     password: "$2b$10$Y7TYrNUSmGuByoFYa0pHC.qpNVU3/am/OpPMJrE1jgOIT9o9oxw4K",
     createdAt: "2024-11-18T10:20:00Z",
     grade: "Expert"
   },
+  {
+    id: 9,
+    role: "User",
+    nickname: "nick9",
+    email: "User9@example.com",
+    password: "$2b$10$Y7TYrNUSmGuByoFYa0pHC.qpNVU3/am/OpPMJrE1jgOIT9o9oxw4K",
+    createdAt: "2024-11-18T10:20:00Z",
+    grade: "Amateur"
+  }
 ];
 
 export const CHALLENGE = [
@@ -119,7 +128,7 @@ export const CHALLENGE = [
     deadLine: "2024-12-20T23:59:59Z",
     description: "Web development basics challenge for beginners.",
     progress: false,
-    participants: 5,
+    participants: 0,
     maxParticipants: 5
   },
   {
@@ -168,7 +177,7 @@ export const CHALLENGE = [
     description: "Master CSS Flexbox layout system with practical examples.",
     progress: true,
     participants: 6,
-    maxParticipants: 10
+    maxParticipants: 15
   },
   {
     id: 9,
@@ -534,7 +543,7 @@ export const WORK = [
     description: "Work2",
     isSubmitted: true,
     submittedAt: null
-  },
+  }
 ];
 
 export const FEEDBACK = [
@@ -614,164 +623,214 @@ export const PARTICIPATE = [
   {
     id: 1,
     challengeId: 5,
-    userId: 1,
+    userId: 1
   },
   {
     id: 2,
     challengeId: 5,
-    userId: 3,
+    userId: 3
   },
   {
     id: 3,
     challengeId: 5,
-    userId: 4,
+    userId: 4
   },
   {
     id: 4,
     challengeId: 5,
-    userId: 5,
+    userId: 5
   },
   {
     id: 5,
     challengeId: 5,
-    userId: 7,
+    userId: 7
   },
   {
     id: 6,
     challengeId: 5,
-    userId: 8,
+    userId: 8
   },
   {
     id: 7,
     challengeId: 6,
-    userId: 1,
+    userId: 1
   },
   {
     id: 8,
     challengeId: 6,
-    userId: 3,
+    userId: 3
   },
   {
     id: 9,
     challengeId: 6,
-    userId: 4,
+    userId: 4
   },
   {
     id: 10,
     challengeId: 6,
-    userId: 5,
+    userId: 5
   },
   {
     id: 11,
     challengeId: 6,
-    userId: 7,
+    userId: 7
   },
   {
     id: 12,
     challengeId: 6,
-    userId: 8,
+    userId: 8
   },
   {
     id: 13,
     challengeId: 7,
-    userId: 1,
+    userId: 1
   },
   {
     id: 14,
     challengeId: 7,
-    userId: 3,
+    userId: 3
   },
   {
     id: 15,
     challengeId: 7,
-    userId: 4,
+    userId: 4
   },
   {
     id: 16,
     challengeId: 7,
-    userId: 5,
+    userId: 5
   },
   {
     id: 17,
     challengeId: 7,
-    userId: 7,
+    userId: 7
   },
   {
     id: 18,
     challengeId: 7,
-    userId: 8,
+    userId: 8
   },
   {
     id: 19,
     challengeId: 8,
-    userId: 1,
+    userId: 1
   },
   {
     id: 20,
     challengeId: 8,
-    userId: 3,
+    userId: 3
   },
   {
     id: 21,
     challengeId: 8,
-    userId: 4,
+    userId: 4
   },
   {
     id: 22,
     challengeId: 8,
-    userId: 5,
+    userId: 5
   },
   {
     id: 23,
     challengeId: 8,
-    userId: 7,
+    userId: 7
   },
   {
     id: 24,
     challengeId: 8,
-    userId: 8,
+    userId: 8
   },
   {
     id: 25,
     challengeId: 9,
-    userId: 1,
+    userId: 1
   },
   {
     id: 26,
     challengeId: 9,
-    userId: 3,
+    userId: 3
   },
   {
     id: 27,
     challengeId: 11,
-    userId: 1,
+    userId: 1
   },
   {
     id: 28,
     challengeId: 11,
-    userId: 2,
+    userId: 2
   },
+  {
+    id: 29,
+    challengeId: 1,
+    userId: 9
+  },
+  {
+    id: 30,
+    challengeId: 2,
+    userId: 9
+  },
+  {
+    id: 31,
+    challengeId: 3,
+    userId: 9
+  },
+  {
+    id: 32,
+    challengeId: 4,
+    userId: 9
+  },
+  {
+    id: 33,
+    challengeId: 5,
+    userId: 9
+  },
+  {
+    id: 34,
+    challengeId: 6,
+    userId: 9
+  },
+  {
+    id: 35,
+    challengeId: 7,
+    userId: 9
+  },
+  {
+    id: 36,
+    challengeId: 8,
+    userId: 9
+  },
+  {
+    id: 37,
+    challengeId: 9,
+    userId: 9
+  },
+  {
+    id: 38,
+    challengeId: 10,
+    userId: 9
+  }
 ];
 
 export const LIKE = [
   {
     id: 1,
     workId: 1,
-    userId: 3,
+    userId: 3
   },
   {
     id: 2,
     workId: 1,
-    userId: 4,
+    userId: 4
   },
   {
     id: 3,
     workId: 1,
-    userId: 7,
+    userId: 7
   },
   {
     id: 4,
     workId: 2,
-    userId: 7,
-  },
-]
+    userId: 7
+  }
+];

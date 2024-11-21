@@ -324,7 +324,7 @@ export const WORK = [
     id: 1,
     challengeId: 5,
     userId: 1,
-    description: "Work1",
+    content: "Work1",
     isSubmitted: true,
     submittedAt: "2024-11-18T13:00:00Z"
   },
@@ -332,7 +332,7 @@ export const WORK = [
     id: 2,
     challengeId: 5,
     userId: 3,
-    description: "Work2",
+    content: "Work2",
     isSubmitted: true,
     submittedAt: null
   },
@@ -340,7 +340,7 @@ export const WORK = [
     id: 3,
     challengeId: 5,
     userId: 4,
-    description: "Work3",
+    content: "Work3",
     isSubmitted: true,
     submittedAt: null
   },
@@ -348,7 +348,7 @@ export const WORK = [
     id: 4,
     challengeId: 5,
     userId: 5,
-    description: "Work4",
+    content: "Work4",
     isSubmitted: true,
     submittedAt: "2024-11-18T13:00:00Z"
   },
@@ -356,7 +356,7 @@ export const WORK = [
     id: 5,
     challengeId: 5,
     userId: 7,
-    description: "Work5",
+    content: "Work5",
     isSubmitted: true,
     submittedAt: null
   },
@@ -364,7 +364,7 @@ export const WORK = [
     id: 6,
     challengeId: 5,
     userId: 8,
-    description: "Work6",
+    content: "Work6",
     isSubmitted: true,
     submittedAt: null
   },
@@ -372,7 +372,7 @@ export const WORK = [
     id: 7,
     challengeId: 6,
     userId: 1,
-    description: "Work1",
+    content: "Work1",
     isSubmitted: true,
     submittedAt: null
   },
@@ -380,7 +380,7 @@ export const WORK = [
     id: 8,
     challengeId: 6,
     userId: 3,
-    description: "Work2",
+    content: "Work2",
     isSubmitted: true,
     submittedAt: null
   },
@@ -388,7 +388,7 @@ export const WORK = [
     id: 9,
     challengeId: 6,
     userId: 4,
-    description: "Work3",
+    content: "Work3",
     isSubmitted: true,
     submittedAt: null
   },
@@ -396,7 +396,7 @@ export const WORK = [
     id: 10,
     challengeId: 6,
     userId: 5,
-    description: "Work4",
+    content: "Work4",
     isSubmitted: true,
     submittedAt: null
   },
@@ -404,7 +404,7 @@ export const WORK = [
     id: 11,
     challengeId: 6,
     userId: 7,
-    description: "Work5",
+    content: "Work5",
     isSubmitted: true,
     submittedAt: null
   },
@@ -412,7 +412,7 @@ export const WORK = [
     id: 12,
     challengeId: 6,
     userId: 8,
-    description: "Work6",
+    content: "Work6",
     isSubmitted: true,
     submittedAt: null
   },
@@ -420,7 +420,7 @@ export const WORK = [
     id: 13,
     challengeId: 7,
     userId: 1,
-    description: "Work1",
+    content: "Work1",
     isSubmitted: true,
     submittedAt: null
   },
@@ -428,7 +428,7 @@ export const WORK = [
     id: 14,
     challengeId: 7,
     userId: 3,
-    description: "Work2",
+    content: "Work2",
     isSubmitted: true,
     submittedAt: null
   },
@@ -436,7 +436,7 @@ export const WORK = [
     id: 15,
     challengeId: 7,
     userId: 4,
-    description: "Work3",
+    content: "Work3",
     isSubmitted: true,
     submittedAt: null
   },
@@ -444,7 +444,7 @@ export const WORK = [
     id: 16,
     challengeId: 7,
     userId: 5,
-    description: "Work4",
+    content: "Work4",
     isSubmitted: true,
     submittedAt: null
   },
@@ -452,7 +452,7 @@ export const WORK = [
     id: 17,
     challengeId: 7,
     userId: 7,
-    description: "Work5",
+    content: "Work5",
     isSubmitted: true,
     submittedAt: null
   },
@@ -460,7 +460,7 @@ export const WORK = [
     id: 18,
     challengeId: 7,
     userId: 8,
-    description: "Work6",
+    content: "Work6",
     isSubmitted: true,
     submittedAt: null
   },
@@ -468,7 +468,7 @@ export const WORK = [
     id: 19,
     challengeId: 8,
     userId: 1,
-    description: "Work1",
+    content: "Work1",
     isSubmitted: true,
     submittedAt: null
   },
@@ -476,7 +476,7 @@ export const WORK = [
     id: 20,
     challengeId: 8,
     userId: 3,
-    description: "Work2",
+    content: "Work2",
     isSubmitted: true,
     submittedAt: null
   },
@@ -484,7 +484,7 @@ export const WORK = [
     id: 21,
     challengeId: 8,
     userId: 4,
-    description: "Work3",
+    content: "Work3",
     isSubmitted: true,
     submittedAt: null
   },
@@ -492,7 +492,7 @@ export const WORK = [
     id: 22,
     challengeId: 8,
     userId: 5,
-    description: "Work4",
+    content: "Work4",
     isSubmitted: true,
     submittedAt: null
   },
@@ -500,7 +500,7 @@ export const WORK = [
     id: 23,
     challengeId: 8,
     userId: 7,
-    description: "Work5",
+    content: "Work5",
     isSubmitted: true,
     submittedAt: null
   },
@@ -508,7 +508,7 @@ export const WORK = [
     id: 24,
     challengeId: 8,
     userId: 8,
-    description: "Work6",
+    content: "Work6",
     isSubmitted: true,
     submittedAt: null
   },
@@ -516,7 +516,7 @@ export const WORK = [
     id: 25,
     challengeId: 9,
     userId: 1,
-    description: "Work1",
+    content: "Work1",
     isSubmitted: true,
     submittedAt: null
   },
@@ -524,7 +524,7 @@ export const WORK = [
     id: 26,
     challengeId: 9,
     userId: 3,
-    description: "Work2",
+    content: "Work2",
     isSubmitted: false,
     submittedAt: null
   },
@@ -532,7 +532,7 @@ export const WORK = [
     id: 27,
     challengeId: 11,
     userId: 1,
-    description: "Work1",
+    content: "Work1",
     isSubmitted: false,
     submittedAt: null
   },
@@ -540,7 +540,7 @@ export const WORK = [
     id: 28,
     challengeId: 11,
     userId: 2,
-    description: "Work2",
+    content: "Work2",
     isSubmitted: true,
     submittedAt: null
   }

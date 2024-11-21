@@ -12,12 +12,12 @@ async function get({ where, skip, take, orderBy }) {
   });
 };
 
-async function getById(id) {
+async function findById(id) {
   return await prisma.application.findUnique({ 
     where: { id: id },
     include: { challenge: true } 
   });
-}
+};
 
 async function count({ where }) {
   return await prisma.application.count({ where });
@@ -27,4 +27,4 @@ async function create(data) {
   return await prisma.application.create({ data });
 };
 
-export default { get, getById, count, create };
+export default { get, findById, count, create };

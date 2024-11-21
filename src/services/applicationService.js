@@ -1,4 +1,5 @@
 import applicationRepository from "../repositories/applicationRepository.js";
+import challengeRepository from "../repositories/challengeRepository.js";
 
 async function get({ page, limit, filters }) {
   const skip = (page - 1) * limit;
@@ -17,7 +18,10 @@ async function get({ page, limit, filters }) {
     ],
   };
 
-  const orderBy = order ? { [order]: sort === 'asc' ? 'asc' : 'desc'} : { appliedAt: 'asc' };
+  const orderBy = order ? (order === 'deadLine' 
+    ? { challenge: { deadLine: sort === 'asc' ? 'asc' : 'desc' } } 
+    : { [order]: sort === 'asc' ? 'asc' : 'desc' }) 
+    : { appliedAt: 'asc' };
 
   const applications = await applicationRepository.get({ where, skip, take, orderBy });
   
@@ -27,7 +31,7 @@ async function get({ page, limit, filters }) {
 };
 
 async function remove(id, user) {
-  const application = await applicationRepository.getById(id);  // 해당 신청서를 가져오기
+  const application = await applicationRepository.getById(parseInt(id));  // 해당 신청서를 가져오기
 
   if (!application) {
     throw new Error('신청서를 찾을 수 없습니다.');
@@ -39,7 +43,7 @@ async function remove(id, user) {
     throw new Error("권한이 없습니다." );
   }
 
-  return await applicationRepository.remove(id);
+  return await challengeRepository.remove(application.challengeId);
 }
 
 export default { get, remove };

@@ -45,6 +45,7 @@ async function getById(id) {
 
   const application = challenge.applications ? {
     // appliedAt: challenge.applications.appliedAt,
+    id: challenge.applications.id,
     status: challenge.applications.status,
     user: {
       id: challenge.applications.user.id,

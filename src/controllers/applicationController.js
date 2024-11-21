@@ -24,13 +24,12 @@ export const deleteApplication = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const user = req.user;
   const testUser = {
-    id,
-    role,
+    id: 1,
   };
 
   try {
-    const application = await applicationService.remove(id, testUser);
-    res.json(application);
+    await applicationService.remove(id, testUser);
+    res.status(204).send();
   } catch (e) {
     console.error(e);
     throw new Error(e);

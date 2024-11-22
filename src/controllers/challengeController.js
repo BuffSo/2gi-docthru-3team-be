@@ -28,9 +28,10 @@ export const getChallenges = asyncHandler(async (req, res) => {
 
 export const getChallengeById = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const user = req.user;
 
   try {
-    const challenge = await challengeService.getById(id);
+    const challenge = await challengeService.getById(id, user);
     res.json(challenge);
   } catch (e) {
     console.error(e);

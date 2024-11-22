@@ -32,7 +32,9 @@ async function getById(id) {
   const challenge = await challengeRepository.getById(id);
 
   if (!challenge) {
-    throw new Error("Challenge not found");
+    const error = new Error("존재하지 않는 챌린지입니다.");
+    error.status = 404;
+    throw error;
   }
 
   const worksList = challenge.works.map((work) => ({
@@ -81,14 +83,18 @@ async function update(id, data, user) {
   const challenge = await challengeRepository.findById(id);
 
   if (!challenge) {
-    throw new Error("Challenge not found");
+    const error = new Error("존재하지 않는 챌린지입니다.");
+    error.status = 404;
+    throw error;
   }
 
   const isOwner = challenge.applications.userId === user.id;
   const isAdmin = user.role === 'Admin';
 
   if (!isOwner && !isAdmin) {
-   throw new Error("권한이 없습니다." );
+    const error = new Error("권한이 없습니다.");
+    error.status = 403;
+    throw error;
   }
 
   if (data.deadLine) {

@@ -45,7 +45,8 @@ export const patchApplication = asyncHandler(async (req, res) => {
     res.json(application);
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: e.message });
+    const status = e.status || 500;
+    res.status(status).json({ message: e.message });
   }
 })
 

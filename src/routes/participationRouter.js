@@ -4,7 +4,7 @@ import { postParticipation, getOriginal } from "../controllers/participationCont
 
 const router = express.Router();
 
-router.post("/:id/participate",
+router.post("/:id/participations",
   passport.authenticate("access-token", { session: false }),
   postParticipation
 );

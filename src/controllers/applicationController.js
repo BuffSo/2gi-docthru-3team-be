@@ -22,15 +22,6 @@ export const getApplications = asyncHandler(async (req, res) => {
 
 export const getApplicationById = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const user = req.user;
-  const testAdmin = {
-    id: 2,
-    role: "Admin"
-  };
-
-  if (testAdmin.role !== "Admin") {
-    return res.status(403).json({ message: "권한이 없습니다." });
-  };
 
   try {
     const application = await applicationService.getById(id);
@@ -44,15 +35,6 @@ export const getApplicationById = asyncHandler(async (req, res) => {
 export const patchApplication = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { status, invalidationComment } = req.body;
-  const user = req.user;
-  const testAdmin = {
-    id: 2,
-    role: "Admin",
-  };
-
-  if (testAdmin.role !== "Admin") {
-    return res.status(403).json({ message: "권한이 없습니다." });
-  }
 
   if (!["Accepted", "Rejected"].includes(status)) {
     return res.status(400).json({ message: "유효하지 않은 상태입니다." });
@@ -63,19 +45,17 @@ export const patchApplication = asyncHandler(async (req, res) => {
     res.json(application);
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: e.message });
+    const status = e.status || 500;
+    res.status(status).json({ message: e.message });
   }
 })
 
 export const deleteApplication = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const user = req.user;
-  const testUser = {
-    id: 1,
-  };
 
   try {
-    await applicationService.remove(id, testUser);
+    await applicationService.remove(id,user);
     res.status(204).send();
   } catch (e) {
     console.error(e);

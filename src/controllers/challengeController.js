@@ -28,27 +28,26 @@ export const getChallenges = asyncHandler(async (req, res) => {
 
 export const getChallengeById = asyncHandler(async (req, res) => {
   const { id } = req.params;
+
   try {
     const challenge = await challengeService.getById(id);
     res.json(challenge);
   } catch (e) {
     console.error(e);
-    throw new Error(e);
+    const status = e.status || 500;
+    res.status(status).json({ message: e.message });
   }
 });
 
 export const createChallenge = asyncHandler(async (req, res) => {
   try {
-    /* const userId = req.user.userId;
+    const userId = req.user.id;
     const challengeData = {
       ...req.body,
       userId
-    } */
-   
-    // 테스트용
-    const { userId, ...challengeData } = req.body;
+    }
 
-    const challenge = await challengeService.create({ ...challengeData, userId });
+    const challenge = await challengeService.create(challengeData);
     res.status(201).json(challenge);
   } catch (e) {
     console.error(e);
@@ -59,37 +58,25 @@ export const createChallenge = asyncHandler(async (req, res) => {
 export const patchChallenge = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const user = req.user;
-  const testUser = {
-    id: 1,
-    nickname: 'nick1',
-    role: 'User',
-  };
+
   try {
-    const challenge = await challengeService.update(id, req.body, testUser);
+    const challenge = await challengeService.update(id, req.body, user);
     res.json(challenge);
   } catch (e) {
     console.error(e);
-    throw new Error(e);
+    const status = e.status || 500;
+    res.status(status).json({ message: e.message });
   }
 });
 
 export const deleteChallenge = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const user = req.user;
-  const testUser = {
-    id: 2,
-    nickname: 'nick2',
-    role: 'Admin',
-  };
 
   const { invalidationComment } = req.body;
 
-  if (testUser.role !== 'Admin') {
-    res.status(403).json({ message: "You are not authorized to delete this challenge" });
-  }
-  
   try {
-    const challenge = await challengeService.invalidate(id, testUser, invalidationComment);
+    const challenge = await challengeService.invalidate(id, user, invalidationComment);
     res.json(challenge);
   } catch (e) {
     console.error(e);

@@ -27,7 +27,7 @@ async function get({ page, limit, filters }) {
   
   const totalCount = await applicationRepository.count({ where });
 
-  return { data: applications, totalCount };
+  return { list: applications, totalCount };
 };
 
 async function getById(id) {
@@ -38,35 +38,47 @@ async function update(id, data) {
   const application = await applicationRepository.findById(id);
 
   if (!application) {
-    throw new Error("신청서를 찾을 수 없습니다.");
+    const error = new Error("신청서를 찾을 수 없습니다.");
+    error.status = 404;
+    throw error;
   }
 
   if (application.status !== "Waiting") {
-    throw new Error("승인 또는 거절 처리를 할 수 없습니다.");
+    const error = new Error("승인 또는 거절 처리를 할 수 없습니다.");
+    error.status = 400;
+    throw error;
   }
 
   if (data.status === "Rejected" && !data.invalidationComment) {
-    throw new Error("거절 사유가 필요합니다.");
+    const error =  new Error("거절 사유가 필요합니다.");
+    error.status = 400;
+    throw error;
   }
 
   return await applicationRepository.update(id, data);
 }
 
 async function remove(id, user) {
-  const application = await applicationRepository.findById(parseInt(id));  // 해당 신청서를 가져오기
+  const application = await applicationRepository.findById(parseInt(id));  
 
   if (!application) {
-    throw new Error('신청서를 찾을 수 없습니다.');
+    const error = new Error('신청서를 찾을 수 없습니다.');
+    error.status = 404;
+    throw error;
   }
 
   if (application.status !== "Waiting") {
-    throw new Error('승인 대기 상태일 때만 신청을 취소할 수 있습니다.');
+    const error = new Error('승인 대기 상태일 때만 신청을 취소할 수 있습니다.');
+    error.status = 400;
+    throw error;
   }
 
   const isOwner = user.id === application.userId;
 
   if (!isOwner) {
-    throw new Error("권한이 없습니다." );
+    const error = new Error("권한이 없습니다.");
+    error.status = 403;
+    throw error;
   }
 
   return await challengeRepository.remove(application.challengeId);

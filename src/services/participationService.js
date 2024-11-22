@@ -27,7 +27,7 @@ async function create(challengeId, user) {
 };
 
 async function getUrl(id) {
-  return await participationRepository.getUrl(id);
+  return await participationRepository.getUrl(parseInt(id));
 };
 
 export default { create, getUrl };

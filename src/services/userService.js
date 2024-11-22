@@ -119,15 +119,18 @@ async function refreshToken(userId, refreshToken) {
 
   // 사용자 또는 토큰 유효성 검사
   if (!user) {
-    console.error('Error: User not found');
-  } else if (user.refreshToken !== refreshToken) {
-    console.error('Error: Refresh token mismatch');
-    console.error('Stored refreshToken:', user.refreshToken);
+    console.error(`Error: User not found. userId: ${userId}`);
+    const error = new Error('해당 사용자를 찾을 수 없습니다.');
+    error.code = 404; // Not Found
+    throw error;
   }
 
-  if (!user || user.refreshToken !== refreshToken) {
-    const error = new Error('Unauthorized');
-    error.code = 401;
+  if (user.refreshToken !== refreshToken) {
+    console.error(`Error: Refresh token mismatch. userId: ${userId}`);
+    console.error(`Expected refreshToken: ${user.refreshToken}`);
+    console.error(`Received refreshToken: ${refreshToken}`);
+    const error = new Error('인증 정보가 유효하지 않습니다. 다시 로그인해주세요.');
+    error.code = 401; // Unauthorized
     throw error;
   }
   // 새로운 accessToken 및 refreshToken 생성

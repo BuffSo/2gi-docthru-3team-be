@@ -51,12 +51,12 @@ Content-Type: application/json
 
 ###  admi 액션
 GET http://localhost:3100/api/auth/admin-action
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjA4MjkyOCwiZXhwIjoxNzMyMDg2NTI4fQ.4j8QYON6iAi7UmHkrgf6_frPR-brz1BqqesZuySjMi0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjE3ODU0OCwiZXhwIjoxNzMyMTgyMTQ4fQ.kHyq5MPWlxA22GVMkrXMCUREna7LOrfLwWFwcHXqaB0
 
 
 ###
 GET http://localhost:3100/api/auth/admin-action
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMDgyOTY3LCJleHAiOjE3MzIwODY1Njd9.xX3KUp4mohuHNfIq7q_b25ke5_bKPuDUkxsdth8MUZY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMTc4NjA3LCJleHAiOjE3MzIxODIyMDd9.VwpfWqWDKX3Zk1SeUqUvRVV_ZxghlBXoHMkFT6xgPD0
 
 
 

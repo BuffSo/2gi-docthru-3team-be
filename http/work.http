@@ -1,0 +1,10 @@
+### 작업물 조회
+GET http://localhost:3100/api/works/1
+
+### 작업물 조회(paging)
+GET http://localhost:3100/api/works/1?page=1&limit=5
+
+
+
+###
+GET http://localhost:3100/api/challenges/1

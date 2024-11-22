@@ -9,13 +9,22 @@ const router = express.Router();
 router.get("/", getChallenges);
 
 // 챌린지 상세 조회 -> 여기서부터는 회원만 가능
-router.get("/:id", getChallengeById);
+router.get("/:id", 
+  passport.authenticate('access-token', { session: false }),
+  getChallengeById
+);
 
 // 챌린지 신청
-router.post("/", createChallenge);
+router.post("/", 
+  passport.authenticate('access-token', { session: false }),
+  createChallenge
+);
 
 // 챌린지 수정
-router.patch("/:id", patchChallenge);
+router.patch("/:id", 
+  passport.authenticate('access-token', { session: false }),
+  patchChallenge
+);
 
 // 챌린지 삭제(Admin)
 router.patch(

@@ -27,6 +27,8 @@ router.patch('/:id',
 );
 
 // 신규 챌린지 신청 취소(User)
-router.delete('/:id', deleteApplication);
+router.delete('/:id', 
+  passport.authenticate('access-token', { session: false }),
+  deleteApplication);
 
 export default router;

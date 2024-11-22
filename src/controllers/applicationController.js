@@ -29,7 +29,7 @@ export const getApplicationById = asyncHandler(async (req, res) => {
   };
 
   if (testAdmin.role !== "Admin") {
-    res.status(403).json({ message: "권한이 없습니다." });
+    return res.status(403).json({ message: "권한이 없습니다." });
   };
 
   try {
@@ -43,6 +43,7 @@ export const getApplicationById = asyncHandler(async (req, res) => {
 
 export const patchApplication = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { status, invalidationComment } = req.body;
   const user = req.user;
   const testAdmin = {
     id: 2,
@@ -50,14 +51,19 @@ export const patchApplication = asyncHandler(async (req, res) => {
   };
 
   if (testAdmin.role !== "Admin") {
-    res.status(403).json({ message: "권한이 없습니다." });
+    return res.status(403).json({ message: "권한이 없습니다." });
+  }
+
+  if (!["Accepted", "Rejected"].includes(status)) {
+    return res.status(400).json({ message: "유효하지 않은 상태입니다." });
   }
 
   try {
-    const application = await applicationService.update(id);
+    const application = await applicationService.update(parseInt(id), { status, invalidationComment });
+    res.json(application);
   } catch (e) {
     console.error(e);
-    throw new Error(e);
+    res.status(500).json({ message: e.message });
   }
 })
 

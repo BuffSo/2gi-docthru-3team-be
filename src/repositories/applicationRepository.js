@@ -27,4 +27,15 @@ async function create(data) {
   return await prisma.application.create({ data });
 };
 
-export default { get, findById, count, create };
+async function update(id, data) {
+  return await prisma.application.update({ 
+    where: { id: id },
+    data: {
+      status: data.status,
+      invalidationComment: data.invalidationComment || null,
+      invalidatedAt: data.invalidationComment ? new Date() : null,
+    },
+  });
+}
+
+export default { get, findById, count, create, update };

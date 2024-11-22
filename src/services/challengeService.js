@@ -25,7 +25,7 @@ async function get({ page, limit, filters }) {
 
   const totalCount = await challengeRepository.count({ where });
 
-  return { data: challenges, totalCount };
+  return { list: challenges, totalCount };
 };
 
 async function getById(id) {
@@ -35,7 +35,7 @@ async function getById(id) {
     throw new Error("Challenge not found");
   }
 
-  const worksLikeCount = challenge.works.map((work) => ({
+  const worksList = challenge.works.map((work) => ({
     id: work.id,
     nickname: work.user.nickname,
     grade: work.user.grade,
@@ -57,8 +57,10 @@ async function getById(id) {
   return {
     ...challenge,
     applications: application,
-    works: worksLikeCount,
-    workTotalCount: challenge._count.works,
+    works: {
+      list: worksList,
+      totalCount: challenge._count.works,
+    },
     _count: undefined
   };
 }
@@ -86,7 +88,7 @@ async function update(id, data, user) {
   const isAdmin = user.role === 'Admin';
 
   if (!isOwner && !isAdmin) {
-   throw new Error("You are not authorized to update this challenge" );
+   throw new Error("권한이 없습니다." );
   }
 
   if (data.deadLine) {

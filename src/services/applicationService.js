@@ -27,7 +27,7 @@ async function get({ page, limit, filters }) {
   
   const totalCount = await applicationRepository.count({ where });
 
-  return { data: applications, totalCount };
+  return { list: applications, totalCount };
 };
 
 async function getById(id) {
@@ -66,7 +66,7 @@ async function remove(id, user) {
   const isOwner = user.id === application.userId;
 
   if (!isOwner) {
-    throw new Error("권한이 없습니다." );
+    throw new Error("권한이 없습니다.");
   }
 
   return await challengeRepository.remove(application.challengeId);

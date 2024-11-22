@@ -28,6 +28,7 @@ export const getChallenges = asyncHandler(async (req, res) => {
 
 export const getChallengeById = asyncHandler(async (req, res) => {
   const { id } = req.params;
+
   try {
     const challenge = await challengeService.getById(id);
     res.json(challenge);
@@ -39,16 +40,13 @@ export const getChallengeById = asyncHandler(async (req, res) => {
 
 export const createChallenge = asyncHandler(async (req, res) => {
   try {
-    /* const userId = req.user.userId;
+    const userId = req.user.id;
     const challengeData = {
       ...req.body,
       userId
-    } */
-   
-    // 테스트용
-    const { userId, ...challengeData } = req.body;
+    }
 
-    const challenge = await challengeService.create({ ...challengeData, userId });
+    const challenge = await challengeService.create(challengeData);
     res.status(201).json(challenge);
   } catch (e) {
     console.error(e);
@@ -59,6 +57,7 @@ export const createChallenge = asyncHandler(async (req, res) => {
 export const patchChallenge = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const user = req.user;
+  // admin이거나 본인 챌린지 일 경우만 수정 가능
   const testUser = {
     id: 1,
     nickname: 'nick1',

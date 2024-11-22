@@ -1,0 +1,22 @@
+GET 'http://localhost:3100/api/applications
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjE4MDY3MiwiZXhwIjoxNzMyMTg0MjcyfQ.0ILUlC7QbSQ23BOk-ccanjyd_MTOkPNQZRi9E2z4X8o
+
+###
+
+GET 'http://localhost:3100/api/applications/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjE4MDY3MiwiZXhwIjoxNzMyMTg0MjcyfQ.0ILUlC7QbSQ23BOk-ccanjyd_MTOkPNQZRi9E2z4X8o
+
+###
+PATCH 'http://localhost:3100/api/applications/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjE4MDY3MiwiZXhwIjoxNzMyMTg0MjcyfQ.0ILUlC7QbSQ23BOk-ccanjyd_MTOkPNQZRi9E2z4X8o
+
+
+{
+    "status": "Rejected",
+    "invalidationComment": "테스트"
+}
+
+###
+DELETE 'http://localhost:3100/api/applications/1
+Authorization: Bearer

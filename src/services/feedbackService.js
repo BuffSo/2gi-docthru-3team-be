@@ -1,6 +1,6 @@
 import feedbackRepository from '../repositories/feedbackRepository.js';
 
-async function getFeedbacks({ page, limit, id}) {
+async function get({ page, limit, id}) {
   const skip = (page - 1) * limit;
   const take = limit;
   const where = { where: parseInt(id) };
@@ -12,4 +12,8 @@ async function getFeedbacks({ page, limit, id}) {
   return { list: feedbacks, totalCount };
 };
 
-export default { getFeedbacks };
+async function create(id, user, content) {
+  return await feedbackRepository.create({ id: parseInt(id), user, content });
+}
+
+export default { get, create };

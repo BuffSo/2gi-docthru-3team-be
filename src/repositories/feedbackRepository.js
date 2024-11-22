@@ -13,4 +13,14 @@ async function count({ where }) {
   return await prisma.feedback.count({ where });
 }
 
-export default { get, count };
+async function create({ id, user, content }) {
+  return await prisma.feedback.create({
+    data: {
+      content,
+      userId: { connect: { id: user.id } },
+      workId: { connect: { id } }
+    }
+  });
+}
+
+export default { get, count, create };

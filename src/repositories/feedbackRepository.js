@@ -13,14 +13,23 @@ async function count({ where }) {
   return await prisma.feedback.count({ where });
 }
 
+async function findById({ id, userId }) {
+  const work = await prisma.work.findUnique({
+    where: { id },
+    select: { userId: true }
+  });
+
+  return work.userId === userId;
+}
+
 async function create({ id, user, content }) {
   return await prisma.feedback.create({
     data: {
+      userId: user.id,
+      workId: id,
       content,
-      userId: { connect: { id: user.id } },
-      workId: { connect: { id } }
     }
   });
 }
 
-export default { get, count, create };
+export default { get, count, findById, create };

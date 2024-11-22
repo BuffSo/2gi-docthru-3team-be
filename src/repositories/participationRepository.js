@@ -7,9 +7,16 @@ async function create(challengeId, userId) {
     });
 
     if (isParticipated) {
-      const error = new Error("이미 참가한 챌린지입니다.");
-      error.status = 400;
-      throw error;
+      const work = await prisma.work.findFirst({
+        where: { userId, challengeId },
+        select: { id: true }
+      });
+
+      return {
+        id: isParticipated.id,
+        workId: work?.id,
+        message: "이미 참가한 챌린지입니다."
+      }
     }
 
     const participate = await prisma.participate.create({

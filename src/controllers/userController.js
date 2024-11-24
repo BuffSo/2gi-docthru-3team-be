@@ -1,9 +1,16 @@
 import asyncHandler from '../middlewares/asyncHandler.js';
 import userService from '../services/userService.js';
 import { debugLog } from '../utils/logger.js';
+import { BadRequestError, UnauthorizedError, ForbiddenError }  from '../errors/index.js';
 
 // 회원가입
 export const signUp = asyncHandler(async (req, res) => {
+  const { email, password, nickname } = req.body;
+
+  if (!email || !password || !nickname) {
+    throw new BadRequestError('이메일, 비밀번호, 닉네임을 모두 입력해주세요.');
+  }
+
   const user = await userService.createUser(req.body);
   return res.status(201).json(user);
 });
@@ -11,6 +18,10 @@ export const signUp = asyncHandler(async (req, res) => {
 // 로그인
 export const signIn = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    throw new BadRequestError('이메일과 비밀번호를 입력해주세요.');
+  }
   const { accessToken, refreshToken, user } = await userService.signIn(email, password);
 
   return res.json({
@@ -25,7 +36,7 @@ export const logout = asyncHandler(async (req, res) => {
   const userId = req.user?.id;
 
   if (!userId) {
-    return res.status(400).json({ message: '로그아웃 요청이 올바르지 않습니다.' });
+    throw new UnauthorizedError('로그인이 필요합니다.');
   }
 
   await userService.clearRefreshToken(userId);
@@ -38,10 +49,14 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   debugLog('refreshToken', refreshToken );
 
   if (!refreshToken) {
-    return res.status(400).json({ message: 'Refresh token is required' });
+    throw new BadRequestError('Refresh token이 필요합니다.');
   }
 
   const userId = req.user?.id;
+
+  if (!userId) {
+    throw new UnauthorizedError('로그인이 필요합니다.');
+  }
 
   // 토큰 유효성 검사 및 갱신
   const { accessToken, newRefreshToken } = await userService.refreshToken(userId, refreshToken);
@@ -59,21 +74,27 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 //////////////////////////////////////////////////////////
 //✨ 관리자 권한이 필요한 작업에 대한 예제 코드입니다. //
 //////////////////////////////////////////////////////////
-export const someAdminFunction = async (req, res) => {
-  try {
-    // 예제 데이터: 관리자가 처리할 작업
-    const actionResult = {
-      adminId: req.user.userId, // JWT에서 추출된 사용자 ID
-      adminRole: req.user.role, // JWT에서 추출된 사용자 역할
-      message: 'Admin action performed successfully',
-    };
+export const someAdminFunction = asyncHandler(async (req, res) => {
+  const user = req.user;
 
-    // 성공적인 응답 반환
-    res.status(200).json(actionResult);
-  } catch (error) {
-    // 오류 처리
-    console.error('Admin action error:', error.message);
-    res.status(500).json({ message: 'An error occurred while performing admin action' });
+  // 인증 여부 확인
+  if (!user) {
+    throw new UnauthorizedError('로그인이 필요합니다.');
   }
-};
+
+  // 관리자 권한 확인
+  if (user.role !== 'Admin') {
+    throw new ForbiddenError('관리자 권한이 필요합니다.');
+  }
+
+  // 예제 데이터: 관리자가 처리할 작업
+  const actionResult = {
+    adminId: user.id, // JWT에서 추출된 사용자 ID
+    adminRole: user.role, // JWT에서 추출된 사용자 역할
+    message: '관리자 작업이 성공적으로 수행되었습니다.',
+  };
+
+  // 성공적인 응답 반환
+  res.status(200).json(actionResult);
+});
 //////////////////////////////////////////////////////////

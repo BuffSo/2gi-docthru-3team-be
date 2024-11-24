@@ -1,10 +1,141 @@
-### 작업물 조회
+#####################################
+###  작업물 조회                  ###
+#####################################
+
+### 작업물 (전체 feedbak)
 GET http://localhost:3100/api/works/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDM3OTUxLCJleHAiOjE3MzI0NDE1NTF9.565J6dKVirkol9bH9nsLrPE6ykr87uOSY00QRtcrdCs
 
-### 작업물 조회(paging)
-GET http://localhost:3100/api/works/1?page=1&limit=5
+### 작업물 조회(feedbak paging)
+GET http://localhost:3100/api/works/1?page=1&limit=3&order=created_at&sort=desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDM3OTUxLCJleHAiOjE3MzI0NDE1NTF9.565J6dKVirkol9bH9nsLrPE6ykr87uOSY00QRtcrdCs
 
 
+#####################################
+###  작업물 제출                  ###
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 제출
+POST http://localhost:3100/api/works
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDI2OTg3LCJleHAiOjE3MzI0MzA1ODd9.IWCW13p_gu7T8Xdjt6GLB-vmk8l3UOlm3Dd82Rtxd2I
+
+{
+  "challengeId": 11,
+  "content": "챌린지 11에 user3의 번역 작업물의 내용입니다."
+}
+
+
+#####################################
+###  작업물 수정                  ###  
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 수정
+PATCH http://localhost:3100/api/works/29
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDI2OTg3LCJleHAiOjE3MzI0MzA1ODd9.IWCW13p_gu7T8Xdjt6GLB-vmk8l3UOlm3Dd82Rtxd2I
+
+{
+  "content": "[수정] 챌린지 11에 제출한 user3의 번역 작업물의 수정 내용입니다."
+}
+
+### 1. admin 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 수정(Admin)
+PATCH http://localhost:3100/api/works/29
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjQyNzcxNiwiZXhwIjoxNzMyNDMxMzE2fQ.V8uITRVVspzjQScS9KybkmW5qUjlAdxNGZXhuuhNPxQ
+
+{
+  "content": "챌린지 11에 제출한 user3의 번역 작업물을 관리자가 수정한 내용입니다."
+}
+
+
+#####################################
+###  작업물 삭제                  ###  
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 삭제
+DELETE http://localhost:3100/api/works/29
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDI2MjI3LCJleHAiOjE3MzI0Mjk4Mjd9.LtZGV2PnDs6bti0etdz-tommYVOOJwcRqC7IWpTXHFE
+
+### 1. admin 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 삭제(Admin)
+DELETE http://localhost:3100/api/works/30
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjQyNjIwMCwiZXhwIjoxNzMyNDI5ODAwfQ.XALiy7z8HrBIDZLWhv22zeGfa8mvp1NnkuhVIA5LQG8
+
+
+#####################################
+###  좋아요 추가/취소             ###  
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+### 2. 좋아요 추가/취소
+POST http://localhost:3100/api/works/29/likes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDM3OTUxLCJleHAiOjE3MzI0NDE1NTF9.565J6dKVirkol9bH9nsLrPE6ykr87uOSY00QRtcrdCs
+
+
+### 3. 작업물 조회(feedbak paging)
+GET http://localhost:3100/api/works/29?page=2&limit=2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDM3OTUxLCJleHAiOjE3MzI0NDE1NTF9.565J6dKVirkol9bH9nsLrPE6ykr87uOSY00QRtcrdCs
+
+
+#####################################
+###  챌린지 - 작업물 확인용       ###  
+#####################################
+###
+GET http://localhost:3100/api/challenges
 
 ###
-GET http://localhost:3100/api/challenges/1
+GET http://localhost:3100/api/challenges/7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjM1MTM0MSwiZXhwIjoxNzMyMzU0OTQxfQ.d1Zr2jZBIxkRWJpJXxtvX2XncGVq_zRLb3J76JcxuyI

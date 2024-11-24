@@ -28,7 +28,8 @@ async function get({ page, limit, filters }) {
   return { list: challenges, totalCount };
 };
 
-async function getById(id) {
+async function getById(id, user) {
+  const userId = user.id;
   const challenge = await challengeRepository.getById(id);
 
   if (!challenge) {
@@ -56,9 +57,21 @@ async function getById(id) {
     }
   } : null;
 
+  const isParticipating = challenge.participates.some(participant => participant.userId === userId);
+  let userWorkId = null;
+
+  if (isParticipating) {
+    const userWork = challenge.works.find(work => work.userId === userId);
+    userWorkId = userWork ? userWork.id : null;
+  }
+
   return {
     ...challenge,
     applications: application,
+    participates: {
+      isParticipating: isParticipating,
+      workId: userWorkId,
+    },
     works: {
       list: worksList,
       totalCount: challenge._count.works,

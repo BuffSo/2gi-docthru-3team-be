@@ -17,8 +17,17 @@ async function getById(id) {
   return await prisma.challenge.findUnique({
     where: { id: parseInt(id, 10) },
     include: {
-      /* to-do: 챌린지를 신청한 User, Admin만 
-                Accepted가 아닌 상태에서 조회 가능하도록 수정 */
+      participates: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              nickname: true,
+              grade: true
+            }
+          }
+        }
+      },
       applications: {
         include: {
           user: {

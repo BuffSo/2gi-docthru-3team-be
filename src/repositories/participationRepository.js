@@ -1,15 +1,15 @@
 import prisma from "../config/prisma.js";
 
-async function findWork(id) {
+async function findWork(challengeId, userId) {
   return await prisma.work.findFirst({
-    where: { id },
+    where: { challengeId, userId },
     select: { id: true }
   });
 }
 
-async function findParticipate(id) {
+async function findParticipate(challengeId, userId) {
   return await prisma.participate.findFirst({
-    where: { id },
+    where: { challengeId, userId },
     select: { id: true }
   });
 }

@@ -4,7 +4,7 @@ import { USER, APPLICATION, CHALLENGE, FEEDBACK, WORK, PARTICIPATE } from "./moc
 async function main() {
   await prisma.$transaction(async (tx) => {
     // 테이블 순서대로 초기화
-    const tableOrder = ["Participate", "Feedback", "Work", "Application", "Challenge", "User"];
+    const tableOrder = ["WorkLog", "Participate", "Feedback", "Work", "Application", "Challenge", "User"];
     for (const table of tableOrder) {
       await tx.$executeRawUnsafe(`TRUNCATE TABLE "${table}" CASCADE;`);
     }

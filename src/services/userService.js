@@ -4,7 +4,7 @@ import prisma from "../config/prisma.js";
 
 import userRepository from "../repositories/userRepository.js";
 import { debugLog, devLog } from '../utils/logger.js';
-
+import { BadRequestError, UnauthorizedError, NotFoundError, ConflictError } from '../errors/index.js';
 // 토큰 만료 시간
 const TOKEN_EXPIRATION = {
   ACCESS: '1h',  
@@ -23,9 +23,7 @@ function filterSensitiveUserData(user) {
 async function verifyPassword(inputPassword, savedPassword) {
   const isVailid = await bcrypt.compare(inputPassword, savedPassword);
   if( !isVailid ) {
-    const error = new Error('Unauthorized'); // 이메일, 비밀번호가 일치하지 않음
-    error.code = 401;
-    throw error;
+    throw new UnauthorizedError('이메일 또는 비밀번호가 일치하지 않습니다.');
   }
 }
 
@@ -33,10 +31,7 @@ async function createUser(user) {
   const existedUser = await userRepository.findByEmail(user.email);
 
   if (existedUser) {
-    const error = new Error('이미 사용중인 이메일입니다.');
-    error.status = 422; 
-    error.data = { email: user.email };
-    throw error;
+    throw new ConflictError('이미 사용 중인 이메일입니다.', { email: user.email });
   }
 
   const hashedPassword = await hashingPassword(user.password);
@@ -65,9 +60,7 @@ async function getUser(email, password) {
   try {
     const user = await userRepository.findByEmail(email);
     if (!user) {
-      const error = new Error('해당 이메일이 존재하지 않습니다.'); 
-      error.code = 401; 
-      throw error;
+      throw new UnauthorizedError('이메일 또는 비밀번호가 일치하지 않습니다.');
     }
     await verifyPassword(password, user.password); // 비밀번호 검증
     return filterSensitiveUserData(user);
@@ -79,17 +72,13 @@ async function getUser(email, password) {
 
 async function getUserById(id) {
     if (!id) {
-      const error = new Error('Invalid ID');
-      error.code = 400; // 잘못된 요청을 나타내는 400 코드 사용
-      throw error;
+      throw new BadRequestError('유효하지 않은 ID입니다.');
     }
   
   const user = await userRepository.findById(id);
 
   if( !user ) {
-    const error = new Error('Not Found');
-    error.code = 404;
-    throw error;
+    throw new NotFoundError('사용자를 찾을 수 없습니다.');
   }
 
   return filterSensitiveUserData(user);  
@@ -120,18 +109,12 @@ async function refreshToken(userId, refreshToken) {
   // 사용자 또는 토큰 유효성 검사
   if (!user) {
     console.error(`Error: User not found. userId: ${userId}`);
-    const error = new Error('해당 사용자를 찾을 수 없습니다.');
-    error.code = 404; // Not Found
-    throw error;
+    throw new NotFoundError('해당 사용자를 찾을 수 없습니다.');
   }
 
   if (user.refreshToken !== refreshToken) {
-    console.error(`Error: Refresh token mismatch. userId: ${userId}`);
-    console.error(`Expected refreshToken: ${user.refreshToken}`);
-    console.error(`Received refreshToken: ${refreshToken}`);
-    const error = new Error('인증 정보가 유효하지 않습니다. 다시 로그인해주세요.');
-    error.code = 401; // Unauthorized
-    throw error;
+    debugLog(`Error: Refresh token mismatch. userId: ${userId}`);
+    throw new UnauthorizedError('인증 정보가 유효하지 않습니다. 다시 로그인해주세요.');
   }
   // 새로운 accessToken 및 refreshToken 생성
   const accessToken = createToken(user);  
@@ -167,8 +150,7 @@ async function updateUserGrade(userId) {
   const likeCount = await prisma.like.count({
     where: { userId },
   });
-  debugLog('challengeParticipationCount', challengeParticipationCount);
-  debugLog('likeCount', likeCount);
+
   const newGrade =
     (challengeParticipationCount >= 5 && likeCount >= 5) ||
     challengeParticipationCount >= 10 ||
@@ -181,6 +163,8 @@ async function updateUserGrade(userId) {
       where: { id: userId },
       data: { grade: newGrade },
     });
+    debugLog('challengeParticipationCount', challengeParticipationCount);
+    debugLog('likeCount', likeCount);
     devLog(user.nickname, '\'s grade is updated : ', user.grade , ' -> ', newGrade);
   }
 

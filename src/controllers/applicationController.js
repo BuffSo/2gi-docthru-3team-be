@@ -1,5 +1,6 @@
 import applicationService from "../services/applicationService.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
+import { BadRequestError } from '../errors/index.js';
 
 export const getApplications = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, keyword, status, order, sort } = req.query;
@@ -37,7 +38,8 @@ export const patchApplication = asyncHandler(async (req, res) => {
   const { status, invalidationComment } = req.body;
 
   if (!["Accepted", "Rejected"].includes(status)) {
-    return res.status(400).json({ message: "유효하지 않은 상태입니다." });
+    throw new BadRequestError("유효하지 않은 상태입니다.");
+    // return res.status(400).json({ message: "유효하지 않은 상태입니다." });
   }
 
   try {

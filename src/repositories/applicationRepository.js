@@ -1,6 +1,14 @@
 import prisma from "../config/prisma.js";
 
-async function get({ where, skip, take, orderBy }) {
+async function get({ where, skip, take, filters }) {
+  const { order, sort } = filters;
+
+  const orderBy = order
+    ? (order === 'deadLine' 
+        ? { challenge: { deadLine: sort === 'asc' ? 'asc' : 'desc' } }
+        : { [order]: sort === 'asc' ? 'asc' : 'desc' })
+    : { appliedAt: 'asc' };
+
   return await prisma.application.findMany({
     where,
     skip,

@@ -1,5 +1,6 @@
 import challengeRepository from "../repositories/challengeRepository.js";
 import formatDate from "../utils/formatDate.js";
+import { NotFoundError, ForbiddenError } from "../errors/index.js";
 
 async function get({ page, limit, filters }) {
   const skip = (page - 1) * limit;
@@ -33,9 +34,7 @@ async function getById(id, user) {
   const challenge = await challengeRepository.getById(id);
 
   if (!challenge) {
-    const error = new Error("존재하지 않는 챌린지입니다.");
-    error.status = 404;
-    throw error;
+    throw new NotFoundError("존재하지 않는 챌린지입니다.");
   }
 
   const worksList = challenge.works.map((work) => ({
@@ -96,18 +95,14 @@ async function update(id, data, user) {
   const challenge = await challengeRepository.findById(id);
 
   if (!challenge) {
-    const error = new Error("존재하지 않는 챌린지입니다.");
-    error.status = 404;
-    throw error;
+    throw new NotFoundError("존재하지 않는 챌린지입니다.");
   }
 
   const isOwner = challenge.applications.userId === user.id;
   const isAdmin = user.role === 'Admin';
 
   if (!isOwner && !isAdmin) {
-    const error = new Error("권한이 없습니다.");
-    error.status = 403;
-    throw error;
+    throw new ForbiddenError("권한이 없습니다.");
   }
 
   if (data.deadLine) {

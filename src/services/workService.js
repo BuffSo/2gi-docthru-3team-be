@@ -257,14 +257,33 @@ async function deleteWork({ workId, user }) {
     createdAt: new Date(),
   };
 
-  // 작업물 삭제와 로그 생성을 위한 트랜잭션
+  // 작업물 삭제와 로그 생성 및 챌린지 참여 취소
   await prisma.$transaction(async (prismaClient) => {
-    const createdLog = await workLogRepository.create(
+
+    const challengeId = work.challenge.id;
+
+    // 챌린지 참여 기록 삭제 (prismaClient 사용)
+    await prismaClient.participate.deleteMany({
+      where: {
+        challengeId: challengeId,
+        userId: user.id,
+      },
+    });
+    
+    // 챌린지 참여자 수 1 감소
+    await prismaClient.challenge.update({
+      where: { id: challengeId },
+      data: { participants: { decrement: 1 } }
+    });
+
+    // 작업물 삭제 로그
+    await workLogRepository.create(
       workLogData,
       prismaClient
     );
-
-    const deletedWork = await workRepository.deleteById(workId, prismaClient);
+    
+    // 작업물 삭제
+    await workRepository.deleteById(workId, prismaClient);
   });
 }
 

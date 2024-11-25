@@ -4,7 +4,7 @@
 
 ### 작업물 (전체 feedbak)
 GET http://localhost:3100/api/works/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDM3OTUxLCJleHAiOjE3MzI0NDE1NTF9.565J6dKVirkol9bH9nsLrPE6ykr87uOSY00QRtcrdCs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTA5NzI5LCJleHAiOjE3MzI1MTMzMjl9.Fd70571BAssqtFGE9nvXfPLC4gWZCS28i6D2YZywChQ
 
 ### 작업물 조회(feedbak paging)
 GET http://localhost:3100/api/works/1?page=1&limit=3&order=created_at&sort=desc

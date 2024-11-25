@@ -18,6 +18,7 @@ async function findById(id) {
         select: {
           id: true,
           title: true,
+          docUrl: true,
         },
       },
       likes: {

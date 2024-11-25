@@ -65,6 +65,8 @@ async function findById(id) {
     where: { id: parseInt(id, 10) },
     include: {
       applications: true,
+      participates: true,
+      works: true
     }
   });
 }

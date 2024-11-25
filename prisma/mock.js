@@ -809,6 +809,11 @@ export const PARTICIPATE = [
     id: 38,
     challengeId: 10,
     userId: 9
+  },
+  {
+    id: 39,
+    challengeId: 11,
+    userId: 3
   }
 ];
 

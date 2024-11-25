@@ -29,6 +29,10 @@ router.post('/refresh-token',
 //////////////////////////////////////////////////////////
 router.get('/admin-action', 
   passport.authenticate('access-token', { session: false }), 
+  (req, res, next) => {
+    console.log('Auth Passed:', req.user); // 인증 성공 여부 확인
+    next();
+  },
   adminOnly, 
   someAdminFunction
 );

@@ -30,11 +30,12 @@ model User {
   feedbacks    Feedback[]
   likes        Like[]
   participates Participate[]
+  workLogs     WorkLog[]
 }
 
 model Application {
   id                  Int       @id @default(autoincrement())
-  userId              Int       
+  userId              Int
   challengeId         Int       @unique
   status              Status    @default(Waiting)
   appliedAt           DateTime  @default(now())
@@ -82,6 +83,9 @@ model Work {
   challenge      Challenge  @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   feedbacks      Feedback[]
   likes          Like[]
+  logs           WorkLog[]
+
+  @@unique([userId, challengeId])
 }
 
 model Like {
@@ -98,6 +102,23 @@ model Participate {
   challengeId Int
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
+}
+
+model WorkLog {
+  id              Int        @id @default(autoincrement())
+  workId          Int?
+  userId          Int
+  challengeId     Int
+  email           String
+  role            Role
+  action          WorkAction
+  previousContent String?    @db.Text
+  currentContent  String?    @db.Text
+  createdAt       DateTime   @default(now())
+  work            Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
@@ -128,4 +149,10 @@ enum Field {
 enum Type {
   Document
   Blog
+}
+
+enum WorkAction {
+  Create
+  Update
+  Delete
 }

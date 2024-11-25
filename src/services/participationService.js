@@ -6,9 +6,9 @@ async function create(challengeId, user) {
   const userId = user.id;
   const challenge = await challengeRepository.findById(challengeId);
 
-  const isParticipated = await participationRepository.findParticipate(challenge.participates.id);
+  const isParticipated = await participationRepository.findParticipate(challengeId, userId);
   if (isParticipated) {
-    const work = await participationRepository.findWork(challenge.works.id);
+    const work = await participationRepository.findWork(challengeId, userId);
     return {
       id: isParticipated.id,
       workId: work?.id,

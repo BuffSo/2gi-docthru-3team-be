@@ -224,7 +224,7 @@ async function submitWork({ challengeId, user, content }) {
  * 작업물 삭제
  * ***********************************************************************************
  */
-async function deleteWork({ workId, user }) {
+async function deleteWork({ workId, user, message }) {
 
   const work = await workRepository.findById(workId);
 
@@ -236,6 +236,10 @@ async function deleteWork({ workId, user }) {
   const isAdmin = user.role === 'Admin';
   if (!isOwner && !isAdmin) {
     throw new ForbiddenError('권한이 없습니다.');
+  }
+
+  if (isAdmin && !message) {
+    throw new BadRequestError('삭제 사유를 함께 보내주셔야 합니다.');
   }
 
   const challenge = await challengeRepository.findById(work.challenge.id);
@@ -255,6 +259,7 @@ async function deleteWork({ workId, user }) {
     previousContent: work.content,
     currentContent: work.content,
     createdAt: new Date(),
+    message: message || null,
   };
 
   // 작업물 삭제와 로그 생성 및 챌린지 참여 취소

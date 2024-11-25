@@ -84,9 +84,11 @@ export const submitWork = asyncHandler(async (req, res) => {
  */
 export const deleteWork = asyncHandler(async (req, res) => {
   const { workId } = req.params;
+  const { message } = req.body;
   const user = req.user;
 
-  await workService.deleteWork({ workId, user });
+  debugLog('message', message);
+  await workService.deleteWork({ workId, user, message });
 
   return res.status(200).json({
     message: '작업물이 성공적으로 삭제되었으며, 챌린지 참여가 취소되었습니다.',

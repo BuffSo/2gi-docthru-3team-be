@@ -1,24 +1,21 @@
 import prisma from "../config/prisma.js";
 
+async function findWork(id) {
+  return await prisma.work.findFirst({
+    where: { id },
+    select: { id: true }
+  });
+}
+
+async function findParticipate(id) {
+  return await prisma.participate.findFirst({
+    where: { id },
+    select: { id: true }
+  });
+}
+
 async function create(challengeId, userId) {
   return await prisma.$transaction(async (prisma) => {
-    const isParticipated = await prisma.participate.findFirst({
-      where: { userId, challengeId }
-    });
-
-    if (isParticipated) {
-      const work = await prisma.work.findFirst({
-        where: { userId, challengeId },
-        select: { id: true }
-      });
-
-      return {
-        id: isParticipated.id,
-        workId: work?.id,
-        message: "이미 참가한 챌린지입니다."
-      }
-    }
-
     const participate = await prisma.participate.create({
       data: { userId, challengeId }
     });
@@ -53,4 +50,4 @@ async function getUrl(id) {
   });
 }
 
-export default { create, getUrl };
+export default { findWork, findParticipate, create, getUrl };

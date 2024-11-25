@@ -1,10 +1,20 @@
 import participationRepository from '../repositories/participationRepository.js';
 import challengeRepository from '../repositories/challengeRepository.js';
-import { BadRequestError, NotFoundError, ForbiddenError } from '../errors/index.js';
+import { BadRequestError, ForbiddenError } from '../errors/index.js';
 
 async function create(challengeId, user) {
   const userId = user.id;
   const challenge = await challengeRepository.findById(challengeId);
+
+  const isParticipated = await participationRepository.findParticipate(challenge.participates.id);
+  if (isParticipated) {
+    const work = await participationRepository.findWork(challenge.works.id);
+    return {
+      id: isParticipated.id,
+      workId: work?.id,
+      message: "이미 참가한 챌린지입니다."
+    };
+  }
 
   if (user.role === "Admin") {
     throw new ForbiddenError("관리자는 참가할 수 없습니다.");

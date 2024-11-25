@@ -6,7 +6,7 @@ export const postParticipation = asyncHandler(async (req, res) => {
   const user = req.user;
 
   try {
-    const participation = await participationService.create(id, user);
+    const participation = await participationService.create(parseInt(id), user);
     res.status(201).json(participation);
   } catch (e) {
     console.error(e);

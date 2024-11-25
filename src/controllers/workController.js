@@ -89,7 +89,7 @@ export const deleteWork = asyncHandler(async (req, res) => {
   await workService.deleteWork({ workId, user });
 
   return res.status(200).json({
-    message: '작업물이 성공적으로 삭제되었습니다.',
+    message: '작업물이 성공적으로 삭제되었으며, 챌린지 참여가 취소되었습니다.',
   })
 })
 

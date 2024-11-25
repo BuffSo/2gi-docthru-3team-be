@@ -30,7 +30,7 @@ app.use('/api/challenges', challengeRouter);
 app.use('/api/applications', applicationRouter);
 app.use('/api/challenges', participationRouter);
 app.use('/api/works', workRouter);
-app.use('/api/works', feedbackRouter);
+app.use('/api', feedbackRouter);
 
 // 404 Not Found 처리
 app.use((req, res) => {

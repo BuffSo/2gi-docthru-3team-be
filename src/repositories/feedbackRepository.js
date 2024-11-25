@@ -22,6 +22,15 @@ async function findById({ id, userId }) {
   return work.userId === userId;
 }
 
+async function findWork({ id }) {
+  const work = await prisma.work.findUnique({
+    where: { id },
+    select: { isSubmitted: true },
+  });
+
+  return work.isSubmitted || false;
+}
+
 async function create({ id, user, content }) {
   return await prisma.feedback.create({
     data: {
@@ -32,4 +41,15 @@ async function create({ id, user, content }) {
   });
 }
 
-export default { get, count, findById, create };
+async function update({ id, content }) {
+  return await prisma.feedback.update({
+    where: { id },
+    data: { content }
+  });
+}
+
+async function remove({ id }) {
+  return await prisma.feedback.delete({ where: { id } });
+}
+
+export default { get, count, findById, findWork, create, update, remove };

@@ -114,6 +114,7 @@ model WorkLog {
   email           String
   role            Role
   action          WorkAction
+  message         String?
   previousContent String?    @db.Text
   currentContent  String?    @db.Text
   createdAt       DateTime   @default(now())

@@ -3,8 +3,8 @@
 #####################################
 
 ### 작업물 (전체 feedbak)
-GET http://localhost:3100/api/works/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTA5NzI5LCJleHAiOjE3MzI1MTMzMjl9.Fd70571BAssqtFGE9nvXfPLC4gWZCS28i6D2YZywChQ
+GET http://localhost:3100/api/works/7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIwODg0LCJleHAiOjE3MzI1MjQ0ODR9.OD5FCygQV90Rp0bw-60Xl4oy5qLSmMFViQR8kTEbrbg
 
 ### 작업물 조회(feedbak paging)
 GET http://localhost:3100/api/works/1?page=1&limit=3&order=created_at&sort=desc
@@ -27,10 +27,10 @@ Content-Type: application/json
 ### 2. 작업물 제출
 POST http://localhost:3100/api/works
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTE1NzY5LCJleHAiOjE3MzI1MTkzNjl9.bjEqPCWWuSsgQKdlhII4hlbFdeEnSgSU-6jBtu3Em7k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIwODg0LCJleHAiOjE3MzI1MjQ0ODR9.OD5FCygQV90Rp0bw-60Xl4oy5qLSmMFViQR8kTEbrbg
 
 {
-  "challengeId": 11,
+  "challengeId": 7,
   "content": "챌린지 11에 user3의 번역 작업물의 내용입니다."
 }
 
@@ -103,9 +103,13 @@ Content-Type: application/json
 }
 
 ### 2. 작업물 삭제(Admin)
-DELETE http://localhost:3100/api/works/30
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjQyNjIwMCwiZXhwIjoxNzMyNDI5ODAwfQ.XALiy7z8HrBIDZLWhv22zeGfa8mvp1NnkuhVIA5LQG8
+DELETE http://localhost:3100/api/works/7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjUyMTk5NywiZXhwIjoxNzMyNTI1NTk3fQ.4vUGDnQdtaDWx3uxGorbKfPAXjkb65h7r7lgMzNbnAE
 
+{
+  "message": "관리자가 삭제한 사유입니다."
+}
 
 #####################################
 ###  좋아요 추가/취소             ###  
@@ -138,10 +142,10 @@ GET http://localhost:3100/api/challenges
 
 ###
 GET http://localhost:3100/api/challenges/11
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTEzMDM5LCJleHAiOjE3MzI1MTY2Mzl9.5Cc8RqTKeUp9j5qQnvU8ySxLuaME-whCQVrmRWhdX18
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjUyMDc1MSwiZXhwIjoxNzMyNTI0MzUxfQ.zbroshYzVKK4Q4k5mYaXwT-CtNnigSJ8CA07ZPiMjpc
 
 
 
 ###  챌린지 참가 신청
 POST http://localhost:3100/api/challenges/11/participations
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTE1NzY5LCJleHAiOjE3MzI1MTkzNjl9.bjEqPCWWuSsgQKdlhII4hlbFdeEnSgSU-6jBtu3Em7k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIwNTIzLCJleHAiOjE3MzI1MjQxMjN9.-sKPbpBJ33eLTqPh_11AkWc6cpTytiWcIP6meLsQa_U

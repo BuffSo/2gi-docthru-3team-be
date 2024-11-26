@@ -48,6 +48,12 @@ async function update(id, data) {
     throw new BadRequestError("거절 사유가 필요합니다.");
   }
 
+  if (data.status === "Accepted") {
+    await challengeRepository.update(application.challengeId, { 
+      progress: true 
+    });
+  }
+
   return await applicationRepository.update(id, data);
 }
 

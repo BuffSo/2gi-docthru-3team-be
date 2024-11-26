@@ -24,7 +24,7 @@ async function create(challengeId, user) {
     throw new BadRequestError("참가 인원이 초과되었습니다.");
   };
 
-  if (!challenge.progress || !challenge.applications.status === "Accepted") {
+  if (!challenge.progress || challenge.applications.status !== "Accepted") {
     throw new BadRequestError("진행 중인 챌린지가 아닙니다.");
   }
 

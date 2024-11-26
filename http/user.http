@@ -6,8 +6,8 @@ POST http://localhost:3100/api/auth/signup
 Content-Type: application/json
 
 {
-  "email": "User1@example.com",
-  "nickname": "user01",
+  "email": "User10@example.com",
+  "nickname": "user10",
   "password": "12345678"
 }
 
@@ -49,7 +49,7 @@ Content-Type: application/json
   "password": "12345678"
 }
 
-###  admi 액션
+###  admim 액션
 GET http://localhost:3100/api/auth/admin-action
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjI2MjQ3NSwiZXhwIjoxNzMyMjY2MDc1fQ.xZ4o37EHEIfzmAzvMtxJV780di5AVeBfdhZII__-RLI
 

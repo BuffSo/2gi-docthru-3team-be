@@ -72,12 +72,10 @@ export const patchChallenge = asyncHandler(async (req, res) => {
 
 export const deleteChallenge = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const user = req.user;
-
   const { invalidationComment } = req.body;
 
   try {
-    const challenge = await challengeService.invalidate(id, user, invalidationComment);
+    const challenge = await challengeService.invalidate(id, invalidationComment);
     res.json(challenge);
   } catch (e) {
     console.error(e);

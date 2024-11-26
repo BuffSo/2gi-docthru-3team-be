@@ -1,6 +1,6 @@
 import challengeRepository from "../repositories/challengeRepository.js";
 import formatDate from "../utils/formatDate.js";
-import { NotFoundError, ForbiddenError } from "../errors/index.js";
+import { BadRequestError, NotFoundError, ForbiddenError } from "../errors/index.js";
 
 async function get({ page, limit, filters }) {
   const skip = (page - 1) * limit;
@@ -82,10 +82,25 @@ async function getById(id, user) {
 async function create(data) {
   const { title, docUrl, field, type, deadLine, maxParticipants, description, userId } = data;
   
-  const formattedDate = formatDate(deadLine);
+  const isValidDate = !isNaN(Date.parse(deadLine)) || /^\d{4}\/\d{2}\/\d{2}$/.test(deadLine);
+  if (!isValidDate) {
+    throw new BadRequestError("날짜 형식이 올바르지 않습니다.");
+  }
+
+  let formattedDate = deadLine;
+  if (/^\d{4}\/\d{2}\/\d{2}$/.test(deadLine)) {
+    formattedDate = formatDate(deadLine);  // YYYY/MM/DD 형식은 formatDate로 처리
+  } else {
+    formattedDate = new Date(deadLine); 
+  }
+
+  const maxParticipantsInt = parseInt(maxParticipants, 10);
+  if (isNaN(maxParticipantsInt) || maxParticipantsInt < 1) {
+    throw new BadRequestError("참가자 수는 1 이상의 숫자여야 합니다.");
+  }
 
   const challengeData = {
-    title, docUrl, field, docType: type, deadLine: formattedDate, maxParticipants, description, userId
+    title, docUrl, field, docType: type, deadLine: formattedDate, maxParticipants: maxParticipantsInt, description, userId
   };
 
   return await challengeRepository.create(challengeData);
@@ -106,7 +121,27 @@ async function update(id, data, user) {
   }
 
   if (data.deadLine) {
-    data.deadLine = formatDate(data.deadLine);
+    const isValidDate = !isNaN(Date.parse(data.deadLine)) || /^\d{4}\/\d{2}\/\d{2}$/.test(data.deadLine);
+    if (!isValidDate) {
+      throw new BadRequestError("날짜 형식이 올바르지 않습니다.");
+    }
+
+    let formattedDate = data.deadLine;
+    if (/^\d{4}\/\d{2}\/\d{2}$/.test(data.deadLine)) {
+      formattedDate = formatDate(data.deadLine); 
+    } else {
+      formattedDate = new Date(data.deadLine); 
+    }
+
+    data.deadLine = formattedDate;
+  }
+
+  if (data.maxParticipants) {
+    const maxParticipantsInt = parseInt(data.maxParticipants, 10);
+    if (isNaN(maxParticipantsInt) || maxParticipantsInt < 1) {
+      throw new BadRequestError("참가자 수는 1 이상의 숫자여야 합니다.");
+    }
+    data.maxParticipants = maxParticipantsInt;
   }
 
   return await challengeRepository.update(id, data);

@@ -80,7 +80,7 @@ async function create(data) {
         field: data.field,
         docType: data.docType,
         deadLine: data.deadLine,
-        maxParticipants: data.maxParticipants,
+        maxParticipants: parseInt(data.maxParticipants),
         description: data.description,
         applications: {
           create: {

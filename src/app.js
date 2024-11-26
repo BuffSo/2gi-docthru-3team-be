@@ -8,6 +8,8 @@ import applicationRouter from './routes/applicationRouter.js';
 import participationRouter from './routes/participationRouter.js';
 import workRouter from './routes/workRouter.js';
 import feedbackRouter from './routes/feedbackRouter.js';
+import myChallengeRouter from './routes/myChallengeRouter.js';
+
 import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
@@ -31,6 +33,7 @@ app.use('/api/applications', applicationRouter);
 app.use('/api/challenges', participationRouter);
 app.use('/api/works', workRouter);
 app.use('/api', feedbackRouter);
+app.use('/api/me/challenges', myChallengeRouter);
 
 // 404 Not Found 처리
 app.use((req, res) => {

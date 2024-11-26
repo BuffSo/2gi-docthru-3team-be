@@ -3,8 +3,8 @@
 #####################################
 
 ### 작업물 (전체 feedbak)
-GET http://localhost:3100/api/works/7
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIwODg0LCJleHAiOjE3MzI1MjQ0ODR9.OD5FCygQV90Rp0bw-60Xl4oy5qLSmMFViQR8kTEbrbg
+GET http://localhost:3100/api/works/11
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTg4Mzk3LCJleHAiOjE3MzI1OTE5OTd9.5YJBP-Fh2E9Xu82rRMoTtueyLDDQkHYlNOLoKrCcec0
 
 ### 작업물 조회(feedbak paging)
 GET http://localhost:3100/api/works/1?page=1&limit=3&order=created_at&sort=desc
@@ -27,10 +27,10 @@ Content-Type: application/json
 ### 2. 작업물 제출
 POST http://localhost:3100/api/works
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIwODg0LCJleHAiOjE3MzI1MjQ0ODR9.OD5FCygQV90Rp0bw-60Xl4oy5qLSmMFViQR8kTEbrbg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIzNjA0LCJleHAiOjE3MzI1MjcyMDR9.XHUmYNvpUMHZEk_O0PIVnocJCphVKSgRmRkdzM3VYWg
 
 {
-  "challengeId": 7,
+  "challengeId": 11,
   "content": "챌린지 11에 user3의 번역 작업물의 내용입니다."
 }
 
@@ -91,7 +91,7 @@ Content-Type: application/json
 
 ### 2. 작업물 삭제
 DELETE http://localhost:3100/api/works/29
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTE1MDg1LCJleHAiOjE3MzI1MTg2ODV9.9p4stZkIY7U1AsD2YfiYhVXrSzirzPu-7ZEoJLS5Ay8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIzNjA0LCJleHAiOjE3MzI1MjcyMDR9.XHUmYNvpUMHZEk_O0PIVnocJCphVKSgRmRkdzM3VYWg
 
 ### 1. admin 로그인
 POST http://localhost:3100/api/auth/login
@@ -103,7 +103,7 @@ Content-Type: application/json
 }
 
 ### 2. 작업물 삭제(Admin)
-DELETE http://localhost:3100/api/works/7
+DELETE http://localhost:3100/api/works/11
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjUyMTk5NywiZXhwIjoxNzMyNTI1NTk3fQ.4vUGDnQdtaDWx3uxGorbKfPAXjkb65h7r7lgMzNbnAE
 
@@ -148,4 +148,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvb
 
 ###  챌린지 참가 신청
 POST http://localhost:3100/api/challenges/11/participations
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIwNTIzLCJleHAiOjE3MzI1MjQxMjN9.-sKPbpBJ33eLTqPh_11AkWc6cpTytiWcIP6meLsQa_U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIzNjA0LCJleHAiOjE3MzI1MjcyMDR9.XHUmYNvpUMHZEk_O0PIVnocJCphVKSgRmRkdzM3VYWg

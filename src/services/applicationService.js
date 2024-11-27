@@ -12,8 +12,8 @@ async function get({ page, limit, filters }) {
       status ? { status } : {},
       keyword ? {
         OR: [
-          { name: { contains: keyword, mode: 'insensitive' } },
-          { description: { contains: keyword, mode: 'insensitive' } }
+          { challenge: { title: { contains: keyword, mode: 'insensitive' } } },
+          { challenge: { description: { contains: keyword, mode: 'insensitive' } } },
         ],
       } : {},
     ],

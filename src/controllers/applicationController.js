@@ -23,9 +23,10 @@ export const getApplications = asyncHandler(async (req, res) => {
 
 export const getApplicationById = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const user = req.user;
 
   try {
-    const application = await applicationService.getById(id);
+    const application = await applicationService.getById(id, user);
     res.json(application);
   } catch (e) {
     console.error(e);

@@ -15,7 +15,7 @@ router.get('/',
 // 신규 챌린지 신청 상세 보기(Admin)
 router.get('/:id', 
   passport.authenticate('access-token', { session: false }),
-  adminOnly,
+//  adminOnly,  // 챌린지 신청자도 볼 수 있도록 수정
   getApplicationById
 );
 

@@ -26,8 +26,14 @@ async function get({ page, limit, filters }) {
   return { list: applications, totalCount };
 };
 
-async function getById(id) {
-  return await applicationRepository.findById(parseInt(id));
+async function getById(id, user) {
+  const application = await applicationRepository.findById(parseInt(id));
+
+  if (user.role !== "Admin" && user.id !== application.userId) {
+    throw new ForbiddenError("권한이 없습니다.");
+  }
+
+  return application;
 };
 
 async function update(id, data) {

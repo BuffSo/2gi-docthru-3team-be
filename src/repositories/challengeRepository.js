@@ -3,6 +3,9 @@ import prisma from "../config/prisma.js";
 async function get({ where, skip, take }) {
   return await prisma.challenge.findMany({
     where,
+    include: {
+      applications: true,
+    },
     skip,
     take,
     orderBy: { deadLine: "asc" }

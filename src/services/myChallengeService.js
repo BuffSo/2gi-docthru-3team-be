@@ -37,6 +37,7 @@ export async function getOngoingChallenges(userId, filters, pagination) {
       works: {
         where: { userId },    // 현재 로그인한 사용자 작업물만 가져옴
       },
+      applications: true,
     },
   });
 

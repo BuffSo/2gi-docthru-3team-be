@@ -1,12 +1,28 @@
 import prisma from "../config/prisma.js";
 
 async function get({ where, skip, take }) {
-  return await prisma.challenge.findMany({
+  const challenges = await prisma.challenge.findMany({
     where,
     skip,
     take,
     orderBy: { deadLine: "asc" }
   });
+
+  const now = new Date();
+  const updatedChallenges = await Promise.all(
+    challenges.map(async (challenge) => {
+      if (challenge.deadLine < now && challenge.progress) {
+        await prisma.challenge.update({
+          where: { id: challenge.id },
+          data: { progress: false }
+        });
+        challenge.progress = false; // 명시적으로 업데이트
+      }
+      return challenge;
+    })
+  );
+
+  return updatedChallenges;
 }
 
 async function count({ where }) {

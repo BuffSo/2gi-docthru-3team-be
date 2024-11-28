@@ -20,15 +20,6 @@ async function findById({ id }) {
   });
 }
 
-async function findByIdAndUser({ id, userId }) {
-  const work = await prisma.feedback.findUnique({
-    where: { id },
-    select: { userId: true }
-  });
-
-  return work.userId === userId;
-}
-
 async function findWork({ id }) {
   const work = await prisma.work.findUnique({
     where: { id },

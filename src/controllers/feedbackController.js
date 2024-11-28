@@ -54,8 +54,5 @@ export const deleteFeedback = asyncHandler(async (req, res) => {
   await feedbackService.remove(id, user);
   devLog(`user (id : ${user.id}) 가 feedback ('id : ${id}')를 삭제하였습니다.`);
 
-  // 에러 메시지는  feedbackService.remove() 에서 던지기 때문에 
-  // 여기서 작성하는 것은 불필요해 보임
-
   res.status(204).send();
 });

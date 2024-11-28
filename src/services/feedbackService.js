@@ -31,7 +31,6 @@ async function update(id, user, content) {
     throw new NotFoundError("수정할 피드백을 찾을 수 없습니다.");
   }
 
-  // const isOwner = await feedbackRepository.findByIdAndUser({ id: parseInt(id), userId: user.id });  // 불필요
   const isOwner = feedback.userId === user.id;
 
   if (!isOwner && user.role !== "Admin") {

@@ -31,6 +31,8 @@ model User {
   likes        Like[]
   participates Participate[]
   workLogs     WorkLog[]
+
+  @@unique([provider, providerId])
 }
 
 model Application {

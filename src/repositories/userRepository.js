@@ -1,4 +1,6 @@
 import prisma from "../config/prisma.js";
+import bcrypt from 'bcrypt';
+import { randomBytes } from 'crypto';
 
 async function findById(id) {
   return prisma.user.findUnique({
@@ -40,12 +42,13 @@ async function update(id, data) {
 }
 
 async function createOrUpdate(provider, providerId, email, nickname) {
+  const randomPassword = await bcrypt.hash(randomBytes(8).toString('base64'), 10);
   return prisma.user.upsert({
     where: {
-      provider_providerId: {
-        provider,
+      // provider_providerId: {
+      //   provider,
         providerId,
-      },
+      // },
     },
     update: {
       email,
@@ -56,6 +59,7 @@ async function createOrUpdate(provider, providerId, email, nickname) {
       providerId,
       email,
       nickname,
+      password: randomPassword,
     },
   });
 }

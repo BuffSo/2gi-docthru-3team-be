@@ -5,7 +5,7 @@ import userService from '../../services/userService.js';
 const googleStrategyOptions = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: '/auth/google/callback'
+  callbackURL: 'http://localhost:3100/api/auth/google/callback'
 };
 
 // async function verify(accessToken, refreshToken, profile, done) {
@@ -29,8 +29,10 @@ async function verify(accessToken, refreshToken, profile, done) {
     );
 
     // JWT 발급을 위해 사용자 데이터 반환
-    const tokens = await userService.generateTokens(user.id);
-    done(null, { ...user, ...tokens });
+    const accessToken = userService.createToken(user, 'access');
+    const refreshToken = userService.createToken(user, 'refresh');
+    // const tokens = await userService.createToken(user.id);
+    done(null, { ...user, accessToken, refreshToken });
   } catch (error) {
     done(error, false);
   }

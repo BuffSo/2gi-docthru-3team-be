@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from '../config/passport.js';
-import { signUp, signIn, refreshAccessToken, someAdminFunction, logout } from '../controllers/userController.js';
+import { signUp, signIn, refreshAccessToken, someAdminFunction, logout, googleLogin } from '../controllers/userController.js';
 import { adminOnly } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -24,16 +24,16 @@ router.post('/refresh-token',
   refreshAccessToken
 );
 
-// // 구글 로그인
-// router.get('/google',
-//   passport.authenticate('google', { scope: ['profile', 'email'] })
-// );
+// 구글 로그인
+router.get('/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
 
-// // 구글 로그인 콜백
-// router.get('/google/callback',
-//   passport.authenticate('google', { session: false }),
-//   googleLogin
-// );
+// 구글 로그인 콜백
+router.get('/google/callback',
+  passport.authenticate('google', { session: false }),
+  googleLogin
+);
 
 //////////////////////////////////////////////////////////
 //✨ 관리자 권한이 필요한 작업에 대한 예제 코드입니다. //

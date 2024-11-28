@@ -45,6 +45,8 @@ async function getWorkDetailById(id, user, page = 1, limit = 3, order = 'created
       id: work.challenge.id,
       title: work.challenge.title,
       docUrl: work.challenge.docUrl,
+      docType: work.challenge.docType,
+      field: work.challenge.field,
     },
     feedbacks: {
       list: feedbacks,

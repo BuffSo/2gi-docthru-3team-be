@@ -13,8 +13,15 @@ async function count({ where }) {
   return await prisma.feedback.count({ where });
 }
 
-async function findById({ id, userId }) {
-  const work = await prisma.work.findUnique({
+async function findById({ id }) {
+  return await prisma.feedback.findUnique({
+    where: { id },
+    select: { id: true, userId: true, content: true }
+  });
+}
+
+async function findByIdAndUser({ id, userId }) {
+  const work = await prisma.feedback.findUnique({
     where: { id },
     select: { userId: true }
   });

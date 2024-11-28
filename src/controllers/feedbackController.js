@@ -1,5 +1,6 @@
 import feedbackService from "../services/feedbackService.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
+import { debugLog, devLog } from "../utils/logger.js";
 
 export const getFeedbacks = asyncHandler(async (req, res) => {
   const { page = 1, limit = 3 } = req.query;
@@ -49,12 +50,12 @@ export const patchFeedback = asyncHandler(async (req, res) => {
 export const deleteFeedback = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const user = req.user;
+  
+  await feedbackService.remove(id, user);
+  devLog(`user (id : ${user.id}) 가 feedback ('id : ${id}')를 삭제하였습니다.`);
 
-  try {
-    await feedbackService.remove(id, user);
-    res.status(204).send();
-  } catch (e) {
-    console.error(e);
-    res.status(e.status || 500).json({ message: e.message || "피드백 삭제 중 오류가 발생했습니다." });
-  }
+  // 에러 메시지는  feedbackService.remove() 에서 던지기 때문에 
+  // 여기서 작성하는 것은 불필요해 보임
+
+  res.status(204).send();
 });

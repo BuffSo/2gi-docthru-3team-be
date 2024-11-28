@@ -2,9 +2,18 @@
 ###  작업물 조회                  ###
 #####################################
 
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user9@example.com",
+  "password": "12345678"
+}
+
 ### 작업물 (전체 feedbak)
 GET http://localhost:3100/api/works/11
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTg4Mzk3LCJleHAiOjE3MzI1OTE5OTd9.5YJBP-Fh2E9Xu82rRMoTtueyLDDQkHYlNOLoKrCcec0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODIxNDY3LCJleHAiOjE3MzI4MjUwNjd9.6KWurzhvIkDRXsfH3-1T1EHHBmubZ7ND8x36vtdIJA8
 
 ### 작업물 조회(feedbak paging)
 GET http://localhost:3100/api/works/1?page=1&limit=3&order=created_at&sort=desc
@@ -27,10 +36,10 @@ Content-Type: application/json
 ### 2. 작업물 제출
 POST http://localhost:3100/api/works
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIzNjA0LCJleHAiOjE3MzI1MjcyMDR9.XHUmYNvpUMHZEk_O0PIVnocJCphVKSgRmRkdzM3VYWg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODIxNTYyLCJleHAiOjE3MzI4MjUxNjJ9.AmO8ajfLiZgxpcZxY9ZztCtlHjd418ogABEnncBpWeM
 
 {
-  "challengeId": 11,
+  "challengeId": 9,
   "content": "챌린지 11에 user3의 번역 작업물의 내용입니다."
 }
 
@@ -178,19 +187,32 @@ Content-Type: application/json
   "password": "12345678"
 }
 ### 1. 피드백 생성
-POST http://localhost:3100/api/works/29/feedbacks
+POST http://localhost:3100/api/works/28/feedbacks
 Content-Type: application/json
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODIwMTU3LCJleHAiOjE3MzI4MjM3NTd9.vH-tbHpnSIDga-UPfJbomLiYkpMb6addRaJzbsLwcqU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODI2MDkxLCJleHAiOjE3MzI4Mjk2OTF9.U2G8ZTq6GQk864FkKmI2QaTJ1MPJ8LiUltFB8GOM_Tk
 
 {
-  "content": "user9@example.com 이 work29에 남긴 피드백 9"
+  "content": "user 9가  work28에 남긴 피드백"
 }
 
-### 1. 피드백 수정
-PATCH  http://localhost:3100/api/feedbacks/16
+### 2. 피드백 수정
+PATCH  http://localhost:3100/api/feedbacks/12
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjc4NzQ0NiwiZXhwIjoxNzMyNzkxMDQ2fQ.xvj8MyRbgcfoZwXC4SKWY_dz5GsKztL290gYY6n6wh4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODI2MDkxLCJleHAiOjE3MzI4Mjk2OTF9.U2G8ZTq6GQk864FkKmI2QaTJ1MPJ8LiUltFB8GOM_Tk
 
 {
-  "content": "user9@example.com 이 남긴 피드백 9 수정"
+  "content": "user 9 가 남긴 피드백 수정"
 }
+
+### 3. 피드백 수정( by Admin)
+PATCH  http://localhost:3100/api/feedbacks/11
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjgyMjMwMCwiZXhwIjoxNzMyODI1OTAwfQ.yEDU14omERz74ZqI4WNA7zT1KBk1OBqSGWl4cToQZaM
+
+{
+  "content": "관리자가 수정한 피드백입니다. user 9 가 남긴 피드백 수정"
+}
+
+### 4. 피드백 삭제
+DELETE  http://localhost:3100/api/feedbacks/11
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjgyNjIwMCwiZXhwIjoxNzMyODI5ODAwfQ.YTdpYa4n5Z0fH6mg62-K-lnS3IkgDfGmMJKDhKdr8Uc

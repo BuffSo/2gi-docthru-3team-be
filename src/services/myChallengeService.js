@@ -78,6 +78,7 @@ export async function getCompletedChallenges(userId, filters, pagination) {
     AND: [
       { participates: { some: { userId } } }, 
       { progress: false },
+      { applications:  { some: { status: "Accepted" } } },
       field ? { field: { in: field } } : {}, 
       type  ? { docType: type } : {}, 
       keyword ? { title: { contains: keyword, mode: 'insensitive' } } : {},

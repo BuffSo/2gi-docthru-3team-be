@@ -804,11 +804,6 @@ export const PARTICIPATE = [
     id: 37,
     challengeId: 9,
     userId: 9
-  },
-  {
-    id: 38,
-    challengeId: 10,
-    userId: 9
   }
 ];
 

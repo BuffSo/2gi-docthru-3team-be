@@ -31,6 +31,7 @@ model User {
   likes        Like[]
   participates Participate[]
   workLogs     WorkLog[]
+  FeedbackLog  FeedbackLog[]
 }
 
 model Application {
@@ -59,6 +60,7 @@ model Challenge {
   applications    Application?
   works           Work[]
   participates    Participate[]
+  FeedbackLog     FeedbackLog[]
 }
 
 model Feedback {
@@ -72,18 +74,19 @@ model Feedback {
 }
 
 model Work {
-  id             Int        @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   userId         Int
   challengeId    Int
-  content        String     @db.Text
-  lastModifiedAt DateTime   @default(now())
+  content        String        @db.Text
+  lastModifiedAt DateTime      @default(now())
   isSubmitted    Boolean
   submittedAt    DateTime?
-  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  challenge      Challenge  @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge      Challenge     @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   feedbacks      Feedback[]
   likes          Like[]
   logs           WorkLog[]
+  FeedbackLog    FeedbackLog[]
 
   @@unique([userId, challengeId])
 }
@@ -109,8 +112,8 @@ model Participate {
 model WorkLog {
   id              Int        @id @default(autoincrement())
   workId          Int?
-  userId          Int
   challengeId     Int
+  userId          Int
   email           String
   role            Role
   action          WorkAction
@@ -120,6 +123,25 @@ model WorkLog {
   createdAt       DateTime   @default(now())
   work            Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
   user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model FeedbackLog {
+  id              Int            @id @default(autoincrement())
+  feedbackId      Int?
+  workId          Int?
+  challengeId     Int?
+  userId          Int
+  email           String
+  role            Role
+  action          FeedbackAction
+  message         String?
+  previousContent String?        @db.Text
+  currentContent  String?        @db.Text
+  createdAt       DateTime       @default(now())
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work      Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
+  challenge Challenge? @relation(fields: [challengeId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
@@ -153,6 +175,12 @@ enum Type {
 }
 
 enum WorkAction {
+  Create
+  Update
+  Delete
+}
+
+enum FeedbackAction {
   Create
   Update
   Delete

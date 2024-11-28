@@ -93,13 +93,17 @@ export async function getCompletedChallenges(userId, filters, pagination) {
       works: {
         where: { userId },    // 현재 로그인한 사용자 작업물만 가져옴
       },
+      applications: true,
     },
   });
 
+  const filteredChallenges = challenges.filter(challenge => 
+    challenge.applications?.status === "Accepted"
+  );
   const totalCount = await myChallengeRepository.count({ where });
 
   return {
-    list: challenges.map((challenge) => {
+    list: filteredChallenges.map((challenge) => {
       const { works, ...challengeWithoutWorks } = challenge;
       return {
         ...challengeWithoutWorks,

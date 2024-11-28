@@ -70,6 +70,17 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   });
 });
 
+// // 구글 로그인
+// export const googleLogin = asyncHandler(async (req, res) => {
+//   const { accessToken, refreshToken } = req.user;
+
+//   // 토큰 발급 확인
+//   res.json({
+//     accessToken,
+//     refreshToken,
+//   });
+// });
+
 
 //////////////////////////////////////////////////////////
 //✨ 관리자 권한이 필요한 작업에 대한 예제 코드입니다. //

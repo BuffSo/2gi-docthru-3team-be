@@ -140,12 +140,29 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvb
 ###
 GET http://localhost:3100/api/challenges
 
+
+###  로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user9@example.com",
+  "password": "12345678"
+}
+
+
 ###
 GET http://localhost:3100/api/challenges/11
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjUyMDc1MSwiZXhwIjoxNzMyNTI0MzUxfQ.zbroshYzVKK4Q4k5mYaXwT-CtNnigSJ8CA07ZPiMjpc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNzE4MTkyLCJleHAiOjE3MzI3MjE3OTJ9.TvU0CH5ZY_hKl3YDrQAbwtaypsTB4x3Sa0o6lKbtCkM
 
 
 
 ###  챌린지 참가 신청
 POST http://localhost:3100/api/challenges/11/participations
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTIzNjA0LCJleHAiOjE3MzI1MjcyMDR9.XHUmYNvpUMHZEk_O0PIVnocJCphVKSgRmRkdzM3VYWg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNzU0Njk4LCJleHAiOjE3MzI3NTgyOTh9.GEJOKqCKn4UpSjhVIpnTvlRFvvgrVneFXcBm4F-I4EY
+
+
+### 작업물 삭제 => 챌린지 포기
+DELETE http://localhost:3100/api/works/30
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNzU0Njk4LCJleHAiOjE3MzI3NTgyOTh9.GEJOKqCKn4UpSjhVIpnTvlRFvvgrVneFXcBm4F-I4EY
+

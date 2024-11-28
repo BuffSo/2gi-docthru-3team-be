@@ -16,12 +16,6 @@ async function get({ page, limit, id}) {
 };
 
 async function create(id, user, content) {
-  const isOwner = await feedbackRepository.findById({ id: parseInt(id), userId: user.id });
-
-  if (isOwner) {
-    throw new BadRequestError("자신의 피드백에는 피드백을 남길 수 없습니다.");
-  }
-
   const isSubmitted = await feedbackRepository.findWork({ id: parseInt(id), userId: user.id });
   if (!isSubmitted) {
     throw new BadRequestError("피드백을 남길 수 있는 작품이 아닙니다.");

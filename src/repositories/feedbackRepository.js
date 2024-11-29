@@ -13,13 +13,11 @@ async function count({ where }) {
   return await prisma.feedback.count({ where });
 }
 
-async function findById({ id, userId }) {
-  const work = await prisma.work.findUnique({
+async function findById({ id }) {
+  return await prisma.feedback.findUnique({
     where: { id },
-    select: { userId: true }
+    select: { id: true, userId: true, content: true }
   });
-
-  return work.userId === userId;
 }
 
 async function findWork({ id }) {

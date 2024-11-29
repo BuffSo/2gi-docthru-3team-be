@@ -214,6 +214,18 @@ export const CHALLENGE = [
     progress: true,
     participants: 2,
     maxParticipants: 4
+  },
+  {
+    id: 12,
+    title: "완료한 챌린지 예시",
+    field: "Next",
+    docType: "Document",
+    docUrl: "https://nextjs.org/docs/pages/building-your-application/rendering/automatic-static-optimization",
+    deadLine: "2024-11-23T23:59:59Z",
+    description: "완료한 챌린지 예시입니다.",
+    progress: false,
+    participants: 1,
+    maxParticipants: 3
   }
 ];
 
@@ -316,6 +328,15 @@ export const APPLICATION = [
     appliedAt: "2024-11-18T11:20:00Z",
     invalidationComment: "Insufficient details",
     invalidatedAt: "2024-11-18T11:25:00Z"
+  },
+  {
+    id: 12,
+    userId: 1,
+    challengeId: 12,
+    status: "Accepted",
+    appliedAt: "2024-11-01T11:20:00Z",
+    invalidationComment: "",
+    invalidatedAt: null
   }
 ];
 
@@ -541,6 +562,14 @@ export const WORK = [
     challengeId: 11,
     userId: 2,
     content: "Work2",
+    isSubmitted: true,
+    submittedAt: null
+  },
+  {
+    id: 29,
+    challengeId: 12,
+    userId: 1,
+    content: "완료한 챌린지 예시 work.",
     isSubmitted: true,
     submittedAt: null
   }
@@ -804,6 +833,16 @@ export const PARTICIPATE = [
     id: 37,
     challengeId: 9,
     userId: 9
+  },
+  {
+    id: 38,
+    challengeId: 10,
+    userId: 9
+  },
+  {
+    id: 39,
+    challengeId: 12,
+    userId: 1
   }
 ];
 

@@ -19,6 +19,8 @@ async function findById(id) {
           id: true,
           title: true,
           docUrl: true,
+          docType: true,
+          field: true,
         },
       },
       likes: {

@@ -2,9 +2,9 @@ import passport from 'passport';
 import localStrategy from '../middlewares/passport/localStrategy.js';
 import userRepository from '../repositories/userRepository.js';
 import { accessTokenStrategy, refreshTokenStrategy } from '../middlewares/passport/jwtStrategy.js';
-//import googleStrategy from '../middlewares/passport/googleStrategy.js';
+import googleStrategy from '../middlewares/passport/googleStrategy.js';
 
-//passport.use(googleStrategy);
+passport.use('google', googleStrategy);
 
 passport.use('access-token', accessTokenStrategy);
 passport.use('refresh-token', refreshTokenStrategy);

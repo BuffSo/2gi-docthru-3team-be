@@ -70,6 +70,26 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   });
 });
 
+// 구글 로그인
+export const googleLogin = asyncHandler(async (req, res) => {
+  const { accessToken, refreshToken, id, nickname, email } = req.user;
+
+  if (!accessToken || !refreshToken) {
+    return res.status(400).json({ message: '토큰 생성 실패' });
+  }
+  
+  const redirectUrl = `http://localhost:3000/google/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&user=${JSON.stringify({ id, nickname, email })}`;
+
+  res.redirect(redirectUrl);
+  // 토큰 발급 확인
+  // res.status(200).json({
+  //   message: '구글 로그인 성공',
+  //   user: { id, nickname, email },
+  //   accessToken,
+  //   refreshToken,
+  // });
+});
+
 
 //////////////////////////////////////////////////////////
 //✨ 관리자 권한이 필요한 작업에 대한 예제 코드입니다. //

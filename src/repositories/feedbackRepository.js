@@ -3,6 +3,7 @@ import prisma from "../config/prisma.js";
 async function get({ where, skip, take }) {
   return await prisma.feedback.findMany({
     where,
+    include: { user: { select: { nickname: true } } },
     skip,
     take,
     orderBy: { createdAt: "desc" }

@@ -121,7 +121,7 @@ export async function getCompletedChallenges(userId, filters, pagination) {
  * ***********************************************************************************
  */
 export async function getApplicationChellenges(userId, status, pagination) {
-  const { page, limit, order, sort } = pagination;
+  const { page, limit, order, sort, keyword } = pagination;
 
   const skip = (page - 1) * limit;
   const take = limit;
@@ -149,6 +149,7 @@ export async function getApplicationChellenges(userId, status, pagination) {
     AND: [
       { userId },
       mappedStatus ? { status: mappedStatus } : {},
+      keyword ? { challenge: { title: { contains: keyword, mode: 'insensitive' } } } : {},
     ],
   };
 

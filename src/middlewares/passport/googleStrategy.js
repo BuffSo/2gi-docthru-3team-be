@@ -5,7 +5,7 @@ import userService from '../../services/userService.js';
 const googleStrategyOptions = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:3100/api/auth/google/callback'
+  callbackURL: process.env.GOOGLE_CALLBACK_URL
 };
 
 // async function verify(accessToken, refreshToken, profile, done) {

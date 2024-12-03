@@ -90,6 +90,17 @@ export const googleLogin = asyncHandler(async (req, res) => {
   // });
 });
 
+export const kakaoLogin = asyncHandler(async (req, res) => {
+  const { accessToken, refreshToken, id, nickname, email } = req.user;
+
+  if (!accessToken || !refreshToken) {
+    return res.status(400).json({ message: '토큰 생성 실패' });
+  }
+  
+  const redirectUrl = `http://localhost:3000/kakao/callback?accessToken=${accessToken}&refreshToken=${refreshToken}&user=${JSON.stringify({ id, nickname, email })}`;
+
+  res.redirect(redirectUrl);
+});
 
 //////////////////////////////////////////////////////////
 //✨ 관리자 권한이 필요한 작업에 대한 예제 코드입니다. //

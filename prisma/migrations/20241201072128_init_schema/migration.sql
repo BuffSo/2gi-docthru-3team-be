@@ -16,6 +16,9 @@ CREATE TYPE "Type" AS ENUM ('Document', 'Blog');
 -- CreateEnum
 CREATE TYPE "WorkAction" AS ENUM ('Create', 'Update', 'Delete');
 
+-- CreateEnum
+CREATE TYPE "FeedbackAction" AS ENUM ('Create', 'Update', 'Delete');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -108,8 +111,8 @@ CREATE TABLE "Participate" (
 CREATE TABLE "WorkLog" (
     "id" SERIAL NOT NULL,
     "workId" INTEGER,
-    "userId" INTEGER NOT NULL,
     "challengeId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
     "email" TEXT NOT NULL,
     "role" "Role" NOT NULL,
     "action" "WorkAction" NOT NULL,
@@ -121,6 +124,42 @@ CREATE TABLE "WorkLog" (
     CONSTRAINT "WorkLog_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "FeedbackLog" (
+    "id" SERIAL NOT NULL,
+    "feedbackId" INTEGER,
+    "workId" INTEGER,
+    "challengeId" INTEGER,
+    "userId" INTEGER NOT NULL,
+    "email" TEXT NOT NULL,
+    "role" "Role" NOT NULL,
+    "action" "FeedbackAction" NOT NULL,
+    "message" TEXT,
+    "previousContent" TEXT,
+    "currentContent" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "FeedbackLog_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Notification" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "actUserId" INTEGER,
+    "actionTable" TEXT NOT NULL,
+    "action" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "isRead" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "readAt" TIMESTAMP(3),
+    "challengeId" INTEGER,
+    "workId" INTEGER,
+    "feedbackId" INTEGER,
+
+    CONSTRAINT "Notification_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_nickname_key" ON "User"("nickname");
 
@@ -129,6 +168,9 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_providerId_key" ON "User"("providerId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_provider_providerId_key" ON "User"("provider", "providerId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Application_challengeId_key" ON "Application"("challengeId");
@@ -174,3 +216,24 @@ ALTER TABLE "WorkLog" ADD CONSTRAINT "WorkLog_workId_fkey" FOREIGN KEY ("workId"
 
 -- AddForeignKey
 ALTER TABLE "WorkLog" ADD CONSTRAINT "WorkLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FeedbackLog" ADD CONSTRAINT "FeedbackLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FeedbackLog" ADD CONSTRAINT "FeedbackLog_workId_fkey" FOREIGN KEY ("workId") REFERENCES "Work"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "FeedbackLog" ADD CONSTRAINT "FeedbackLog_challengeId_fkey" FOREIGN KEY ("challengeId") REFERENCES "Challenge"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_challengeId_fkey" FOREIGN KEY ("challengeId") REFERENCES "Challenge"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_workId_fkey" FOREIGN KEY ("workId") REFERENCES "Work"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Notification" ADD CONSTRAINT "Notification_feedbackId_fkey" FOREIGN KEY ("feedbackId") REFERENCES "Feedback"("id") ON DELETE SET NULL ON UPDATE CASCADE;

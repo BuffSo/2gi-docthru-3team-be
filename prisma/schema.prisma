@@ -14,16 +14,16 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  role         Role          @default(User)
-  nickname     String        @unique
-  email        String        @unique
+  id           Int            @id @default(autoincrement())
+  role         Role           @default(User)
+  nickname     String         @unique
+  email        String         @unique
   password     String
   refreshToken String?
-  provider     String        @default("local")
-  providerId   String?       @unique
-  createdAt    DateTime      @default(now())
-  grade        Grade?        @default(Amateur)
+  provider     String         @default("local")
+  providerId   String?        @unique
+  createdAt    DateTime       @default(now())
+  grade        Grade?         @default(Amateur)
   name         String?
   applications Application[]
   works        Work[]
@@ -32,6 +32,7 @@ model User {
   participates Participate[]
   workLogs     WorkLog[]
   FeedbackLog  FeedbackLog[]
+  Notification Notification[]
 
   @@unique([provider, providerId])
 }
@@ -49,46 +50,49 @@ model Application {
 }
 
 model Challenge {
-  id              Int           @id @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   title           String
   field           Field
   docType         Type
   docUrl          String
   deadLine        DateTime
   description     String
-  progress        Boolean       @default(false)
-  participants    Int           @default(0)
+  progress        Boolean        @default(false)
+  participants    Int            @default(0)
   maxParticipants Int
   applications    Application?
   works           Work[]
   participates    Participate[]
   FeedbackLog     FeedbackLog[]
+  Notification    Notification[]
 }
 
 model Feedback {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  workId    Int
-  content   String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  work      Work     @relation(fields: [workId], references: [id], onDelete: Cascade)
+  id           Int            @id @default(autoincrement())
+  userId       Int
+  workId       Int
+  content      String
+  createdAt    DateTime       @default(now())
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work         Work           @relation(fields: [workId], references: [id], onDelete: Cascade)
+  Notification Notification[]
 }
 
 model Work {
-  id             Int           @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   userId         Int
   challengeId    Int
-  content        String        @db.Text
-  lastModifiedAt DateTime      @default(now())
+  content        String         @db.Text
+  lastModifiedAt DateTime       @default(now())
   isSubmitted    Boolean
   submittedAt    DateTime?
-  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  challenge      Challenge     @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge      Challenge      @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   feedbacks      Feedback[]
   likes          Like[]
   logs           WorkLog[]
   FeedbackLog    FeedbackLog[]
+  Notification   Notification[]
 
   @@unique([userId, challengeId])
 }
@@ -143,7 +147,27 @@ model FeedbackLog {
 
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   work      Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
+  challenge Challenge? @relation(fields: [challengeId], references: [id], onDelete: SetNull)
+}
+
+model Notification {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  actUserId   Int?
+  actionTable String
+  action      String
+  message     String
+  isRead      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  readAt      DateTime?
+  challengeId Int?
+  workId      Int?
+  feedbackId  Int?
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   challenge Challenge? @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  work      Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
+  feedback  Feedback?  @relation(fields: [feedbackId], references: [id], onDelete: SetNull)
 }
 
 enum Role {

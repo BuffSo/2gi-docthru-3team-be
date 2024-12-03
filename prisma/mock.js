@@ -226,6 +226,18 @@ export const CHALLENGE = [
     progress: false,
     participants: 1,
     maxParticipants: 3
+  },
+  {
+    id: 13,
+    title: "알리미 테스트 챌린지",
+    field: "Next",
+    docType: "Blog",
+    docUrl: "https://www.postgresql.org/docs/current/sql-createprocedure.html",
+    deadLine: "2024-12-02T23:59:59Z",
+    description: "Create Procedure.",
+    progress: false,
+    participants: 0,
+    maxParticipants: 5
   }
 ];
 
@@ -335,6 +347,15 @@ export const APPLICATION = [
     challengeId: 12,
     status: "Accepted",
     appliedAt: "2024-11-01T11:20:00Z",
+    invalidationComment: "",
+    invalidatedAt: null
+  },
+  {
+    id: 13,
+    userId: 9,
+    challengeId: 13,
+    status: "Waiting",
+    appliedAt: "2024-12-01T11:20:00Z",
     invalidationComment: "",
     invalidatedAt: null
   }

@@ -20,11 +20,33 @@ app.use(passport.initialize());
 app.use(express.json());
 
 const corsOptions = {
-    origin: [
-    'http://localhost:3000', 
-    'http://localhost:3001'
-    ],
+    origin: '*'
 };
+
+// const corsOptions = {
+//     origin: 
+//     origin: [
+//     'http://localhost:3000', 
+//     'http://localhost:3001'
+//     ],
+// };
+
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//       const allowedOrigins = [
+//           'http://localhost:3000',
+//           'http://localhost:3001'
+//       ];
+//       const vercelPreviewPattern = /^https:\/\/.*-vercel\.app$/;
+
+//       if (allowedOrigins.includes(origin) || vercelPreviewPattern.test(origin)) {
+//           callback(null, true);
+//       } else {
+//           callback(new Error('Not allowed by CORS'));
+//       }
+//   }
+// };
+
 app.use(cors(corsOptions));
 
 app.use('/api/auth', userRouter);

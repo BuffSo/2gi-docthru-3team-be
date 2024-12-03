@@ -1,0 +1,18 @@
+#####################################
+###  일반유저                     ###  
+#####################################
+###  로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+
+#####################################
+###  챌린지 참여                  ###
+#####################################
+POST http://localhost:3100/api/challenges/13/participations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMDQzNDUxLCJleHAiOjE3MzMwNDcwNTF9.KE0Sc5JVJmD35qIeUiM_gLnPM475BcJRB3Ue3usik4A

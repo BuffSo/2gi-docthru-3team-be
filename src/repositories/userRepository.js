@@ -43,25 +43,66 @@ async function update(id, data) {
 
 async function createOrUpdate(provider, providerId, email, nickname) {
   const randomPassword = await bcrypt.hash(randomBytes(8).toString('base64'), 10);
-  return prisma.user.upsert({
+  const existingAccount = await prisma.socialAccount.findUnique({
     where: {
-      // provider_providerId: {
-      //   provider,
+      provider_providerId: {
+        provider,
         providerId,
-      // },
+      },
     },
-    update: {
-      email,
-      nickname,
-    },
-    create: {
-      provider,
-      providerId,
-      email,
-      nickname,
-      password: randomPassword,
-    },
+    include: {
+      user: true,
+    }
   });
+
+  if (existingAccount) {
+    return await prisma.user.update({
+      where: {
+        id: existingAccount.user.id,
+      },
+      data: {
+        email,
+        nickname,
+      },
+    });
+  } else {
+    const account = await prisma.socialAccount.create({
+      data: {
+        provider,
+        providerId: String(providerId),
+        user: {
+          create: {
+            email,
+            nickname,
+            password: randomPassword,
+          },
+        },
+      },
+      include: {
+        user: true,
+      },
+    });
+    return account.user;
+  }
+  // return prisma.user.upsert({
+  //   where: {
+  //     // provider_providerId: {
+  //     //   provider,
+  //       providerId,
+  //     // },
+  //   },
+  //   update: {
+  //     email,
+  //     nickname,
+  //   },
+  //   create: {
+  //     provider,
+  //     providerId,
+  //     email,
+  //     nickname,
+  //     password: randomPassword,
+  //   },
+  // });
 }
 
 export default {

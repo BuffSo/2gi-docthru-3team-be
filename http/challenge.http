@@ -3,3 +3,80 @@ GET 'http://localhost:3100/api/challenges?page=1&limit=5&field=Next,API&type=Doc
 ###
 
 GET 'http://localhost:3100/api/challenges/1'
+
+
+#####################################
+###  로그인                       ###  
+#####################################
+
+###  User 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user9@example.com",
+  "password": "12345678"
+}
+
+###  Admin 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "12345678"
+}
+
+#####################################
+###  관리자 - 챌린지 승인         ###  
+#####################################
+
+###
+PATCH  http://localhost:3100/api/applications/13
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzA0MjM0NCwiZXhwIjoxNzMzMDQ1OTQ0fQ.EK_wq8zMXFX-vxUabBgj1w9UhOYydBzVXYloeGg4EpQ
+
+{
+  "status": "Accepted"
+}
+
+###
+GET http://localhost:3100/api/challenges/6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODY2MTA1LCJleHAiOjE3MzI4Njk3MDV9._VRDNzUVJgZ12r_u7GxFXOk26d_BcRK6Wyc7Gdeqydo
+
+
+#####################################
+###  챌린지 참여                  ###  
+#####################################
+
+###
+PATCH  http://localhost:3100/api/applications/13
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzA0MjM0NCwiZXhwIjoxNzMzMDQ1OTQ0fQ.EK_wq8zMXFX-vxUabBgj1w9UhOYydBzVXYloeGg4EpQ
+
+{
+  "status": "Accepted"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####################################
+###  챌린지 - 작업물 확인용       ###  
+#####################################
+
+###
+GET http://localhost:3100/api/challenges
+
+###
+GET http://localhost:3100/api/challenges/6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODY2MTA1LCJleHAiOjE3MzI4Njk3MDV9._VRDNzUVJgZ12r_u7GxFXOk26d_BcRK6Wyc7Gdeqydo

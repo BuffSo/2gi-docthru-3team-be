@@ -55,13 +55,14 @@ export const getCompletedChallenges = asyncHandler(async (req, res) => {
  * ***********************************************************************************
  */
 export const getApplicationChellenges = asyncHandler(async (req, res) => {
-  const { page = 1, limit = 10, order = 'applied_at', sort = 'desc', status } = req.query;
+  const { page = 1, limit = 10, order = 'applied_at', sort = 'desc', status, keyword } = req.query;
 
   const pagination = {
     page: parseInt(page, 10),
     limit: parseInt(limit, 10),
     order,
     sort,
+    keyword,
   };
 
   const result = await myChallengeService.getApplicationChellenges(req.user.id, status, pagination);

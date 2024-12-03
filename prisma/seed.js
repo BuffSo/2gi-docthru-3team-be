@@ -2,9 +2,10 @@ import prisma from "../src/config/prisma.js";
 import { USER, APPLICATION, CHALLENGE, FEEDBACK, WORK, PARTICIPATE } from "./mock.js";
 
 async function main() {
+  const tableOrder = ["Notification", "FeedbackLog", "WorkLog", "Participate", "Feedback", "Work", "Application", "Challenge", "User"]; // tableOrder 변수 선언
+
   await prisma.$transaction(async (tx) => {
     // 테이블 순서대로 초기화
-    const tableOrder = ["FeedbackLog", "WorkLog", "Participate", "Feedback", "Work", "Application", "Challenge", "User"];
     for (const table of tableOrder) {
       await tx.$executeRawUnsafe(`TRUNCATE TABLE "${table}" CASCADE;`);
     }

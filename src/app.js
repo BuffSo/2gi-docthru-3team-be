@@ -9,6 +9,7 @@ import participationRouter from './routes/participationRouter.js';
 import workRouter from './routes/workRouter.js';
 import feedbackRouter from './routes/feedbackRouter.js';
 import myChallengeRouter from './routes/myChallengeRouter.js';
+import notificationRouter from './routes/notificationRouter.js';
 
 import errorHandler from './middlewares/errorHandler.js';
 
@@ -20,7 +21,7 @@ app.use(passport.initialize());
 app.use(express.json());
 
 const corsOptions = {
-    origin: '*'
+  origin: '*'
 };
 
 // const corsOptions = {
@@ -29,22 +30,6 @@ const corsOptions = {
 //     'http://localhost:3000', 
 //     'http://localhost:3001'
 //     ],
-// };
-
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//       const allowedOrigins = [
-//           'http://localhost:3000',
-//           'http://localhost:3001'
-//       ];
-//       const vercelPreviewPattern = /^https:\/\/.*-vercel\.app$/;
-
-//       if (allowedOrigins.includes(origin) || vercelPreviewPattern.test(origin)) {
-//           callback(null, true);
-//       } else {
-//           callback(new Error('Not allowed by CORS'));
-//       }
-//   }
 // };
 
 app.use(cors(corsOptions));
@@ -56,6 +41,7 @@ app.use('/api/challenges', participationRouter);
 app.use('/api/works', workRouter);
 app.use('/api', feedbackRouter);
 app.use('/api/me/challenges', myChallengeRouter);
+app.use('/api/notifications', notificationRouter);
 
 // 404 Not Found 처리
 app.use((req, res) => {
@@ -64,7 +50,7 @@ app.use((req, res) => {
     });
   });
 
-// 에러 핸들러 미들웨어 (모든 라우트 뒤에 위치해야 함)
+// 에러 핸들러 미들웨어 (모든 미들웨어와 라우터 뒤에 위치해야 함)
 app.use(errorHandler);
 
 const port = process.env.PORT ?? 3100;

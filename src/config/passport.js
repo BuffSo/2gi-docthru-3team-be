@@ -3,8 +3,10 @@ import localStrategy from '../middlewares/passport/localStrategy.js';
 import userRepository from '../repositories/userRepository.js';
 import { accessTokenStrategy, refreshTokenStrategy } from '../middlewares/passport/jwtStrategy.js';
 import googleStrategy from '../middlewares/passport/googleStrategy.js';
+import kakaoStrategy from '../middlewares/passport/kakaoStrategy.js';
 
 passport.use('google', googleStrategy);
+passport.use('kakao', kakaoStrategy);
 
 passport.use('access-token', accessTokenStrategy);
 passport.use('refresh-token', refreshTokenStrategy);

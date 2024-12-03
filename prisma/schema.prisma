@@ -14,16 +14,16 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  role         Role          @default(User)
-  nickname     String        @unique
-  email        String        @unique
+  id           Int             @id @default(autoincrement())
+  role         Role            @default(User)
+  nickname     String          @unique
+  email        String          @unique
   password     String
   refreshToken String?
-  provider     String        @default("local")
-  providerId   String?       @unique
-  createdAt    DateTime      @default(now())
-  grade        Grade?        @default(Amateur)
+  // provider     String          @default("local")
+  // providerId   String?         @unique
+  createdAt    DateTime        @default(now())
+  grade        Grade?          @default(Amateur)
   name         String?
   applications Application[]
   works        Work[]
@@ -32,6 +32,17 @@ model User {
   participates Participate[]
   workLogs     WorkLog[]
   FeedbackLog  FeedbackLog[]
+  socials      SocialAccount[]
+
+  // @@unique([provider, providerId])
+}
+
+model SocialAccount {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  provider   String   @default("local") // 로그인 제공자
+  providerId String   @unique           // 로그인 제공자의 고유 ID
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerId])
 }

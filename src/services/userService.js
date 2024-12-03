@@ -7,7 +7,7 @@ import { debugLog, devLog } from '../utils/logger.js';
 import { BadRequestError, UnauthorizedError, NotFoundError, ConflictError } from '../errors/index.js';
 // 토큰 만료 시간
 const TOKEN_EXPIRATION = {
-  ACCESS: '1h',  
+  ACCESS: '1d',  
   REFRESH: '2w' 
 };
 

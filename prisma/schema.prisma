@@ -20,8 +20,6 @@ model User {
   email        String           @unique
   password     String
   refreshToken String?
-  // provider     String          @default("local")
-  // providerId   String?         @unique
   createdAt    DateTime        @default(now())
   grade        Grade?          @default(Amateur)
   name         String?
@@ -34,8 +32,6 @@ model User {
   FeedbackLog  FeedbackLog[]
   socials      SocialAccount[]
   Notification Notification[]
-
-  // @@unique([provider, providerId])
 }
 
 model SocialAccount {

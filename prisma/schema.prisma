@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,32 +8,32 @@ datasource db {
 }
 
 model User {
-  id           Int              @id @default(autoincrement())
-  role         Role             @default(User)
-  nickname     String           @unique
-  email        String           @unique
+  id           Int             @id @default(autoincrement())
+  role         Role            @default(User)
+  nickname     String          @unique
+  email        String          @unique
   password     String
   refreshToken String?
   createdAt    DateTime        @default(now())
   grade        Grade?          @default(Amateur)
   name         String?
   applications Application[]
-  works        Work[]
   feedbacks    Feedback[]
-  likes        Like[]
-  participates Participate[]
-  workLogs     WorkLog[]
   FeedbackLog  FeedbackLog[]
-  socials      SocialAccount[]
+  likes        Like[]
   Notification Notification[]
+  participates Participate[]
+  socials      SocialAccount[]
+  works        Work[]
+  workLogs     WorkLog[]
 }
 
 model SocialAccount {
-  id         Int      @id @default(autoincrement())
+  id         Int    @id @default(autoincrement())
   userId     Int
-  provider   String   @default("local") // 로그인 제공자
-  providerId String   @unique           // 로그인 제공자의 고유 ID
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider   String @default("local")
+  providerId String @unique
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerId])
 }
@@ -52,8 +46,8 @@ model Application {
   appliedAt           DateTime  @default(now())
   invalidationComment String?
   invalidatedAt       DateTime?
-  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   challenge           Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Challenge {
@@ -68,10 +62,10 @@ model Challenge {
   participants    Int            @default(0)
   maxParticipants Int
   applications    Application?
-  works           Work[]
-  participates    Participate[]
   FeedbackLog     FeedbackLog[]
   Notification    Notification[]
+  participates    Participate[]
+  works           Work[]
 }
 
 model Feedback {
@@ -89,17 +83,17 @@ model Work {
   id             Int            @id @default(autoincrement())
   userId         Int
   challengeId    Int
-  content        String         @db.Text
+  content        String
   lastModifiedAt DateTime       @default(now())
   isSubmitted    Boolean
   submittedAt    DateTime?
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  challenge      Challenge      @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   feedbacks      Feedback[]
-  likes          Like[]
-  logs           WorkLog[]
   FeedbackLog    FeedbackLog[]
+  likes          Like[]
   Notification   Notification[]
+  challenge      Challenge      @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logs           WorkLog[]
 
   @@unique([userId, challengeId])
 }
@@ -116,8 +110,8 @@ model Participate {
   id          Int       @id @default(autoincrement())
   userId      Int
   challengeId Int
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, challengeId])
 }
@@ -131,11 +125,11 @@ model WorkLog {
   role            Role
   action          WorkAction
   message         String?
-  previousContent String?    @db.Text
-  currentContent  String?    @db.Text
+  previousContent String?
+  currentContent  String?
   createdAt       DateTime   @default(now())
-  work            Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
   user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work            Work?      @relation(fields: [workId], references: [id])
 }
 
 model FeedbackLog {
@@ -148,33 +142,31 @@ model FeedbackLog {
   role            Role
   action          FeedbackAction
   message         String?
-  previousContent String?        @db.Text
-  currentContent  String?        @db.Text
+  previousContent String?
+  currentContent  String?
   createdAt       DateTime       @default(now())
-
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  work      Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
-  challenge Challenge? @relation(fields: [challengeId], references: [id], onDelete: SetNull)
+  challenge       Challenge?     @relation(fields: [challengeId], references: [id])
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work            Work?          @relation(fields: [workId], references: [id])
 }
 
 model Notification {
-  id          Int       @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   userId      Int
   actUserId   Int?
   actionTable String
   action      String
   message     String
-  isRead      Boolean   @default(false)
-  createdAt   DateTime  @default(now())
+  isRead      Boolean    @default(false)
+  createdAt   DateTime   @default(now())
   readAt      DateTime?
   challengeId Int?
   workId      Int?
   feedbackId  Int?
-
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  challenge Challenge? @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  work      Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
-  feedback  Feedback?  @relation(fields: [feedbackId], references: [id], onDelete: SetNull)
+  challenge   Challenge? @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  feedback    Feedback?  @relation(fields: [feedbackId], references: [id])
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work        Work?      @relation(fields: [workId], references: [id])
 }
 
 enum Role {

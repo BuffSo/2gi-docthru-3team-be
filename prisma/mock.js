@@ -812,56 +812,6 @@ export const PARTICIPATE = [
   },
   {
     id: 29,
-    challengeId: 1,
-    userId: 9
-  },
-  {
-    id: 30,
-    challengeId: 2,
-    userId: 9
-  },
-  {
-    id: 31,
-    challengeId: 3,
-    userId: 9
-  },
-  {
-    id: 32,
-    challengeId: 4,
-    userId: 9
-  },
-  {
-    id: 33,
-    challengeId: 5,
-    userId: 9
-  },
-  {
-    id: 34,
-    challengeId: 6,
-    userId: 9
-  },
-  {
-    id: 35,
-    challengeId: 7,
-    userId: 9
-  },
-  {
-    id: 36,
-    challengeId: 8,
-    userId: 9
-  },
-  {
-    id: 37,
-    challengeId: 9,
-    userId: 9
-  },
-  {
-    id: 38,
-    challengeId: 10,
-    userId: 9
-  },
-  {
-    id: 39,
     challengeId: 12,
     userId: 1
   }

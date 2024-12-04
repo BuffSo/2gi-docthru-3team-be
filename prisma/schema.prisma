@@ -68,6 +68,16 @@ model Challenge {
   works           Work[]
 }
 
+model Participate {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  challengeId Int
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
+}
+
 model Work {
   id             Int            @id @default(autoincrement())
   userId         Int
@@ -95,16 +105,6 @@ model Like {
   work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
 }
 
-model Participate {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  challengeId Int
-  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, challengeId])
-}
-
 model WorkLog {
   id              Int        @id @default(autoincrement())
   workId          Int?
@@ -118,7 +118,7 @@ model WorkLog {
   currentContent  String?
   createdAt       DateTime   @default(now())
   user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  work            Work?      @relation(fields: [workId], references: [id])
+  work            Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
 }
 
 model Feedback {
@@ -145,9 +145,9 @@ model FeedbackLog {
   previousContent String?
   currentContent  String?
   createdAt       DateTime       @default(now())
-  challenge       Challenge?     @relation(fields: [challengeId], references: [id])
+  challenge       Challenge?     @relation(fields: [challengeId], references: [id], onDelete: SetNull)
   user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  work            Work?          @relation(fields: [workId], references: [id])
+  work            Work?          @relation(fields: [workId], references: [id], onDelete: SetNull)
 }
 
 model Notification {
@@ -164,9 +164,9 @@ model Notification {
   workId      Int?
   feedbackId  Int?
   challenge   Challenge? @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  feedback    Feedback?  @relation(fields: [feedbackId], references: [id])
+  feedback    Feedback?  @relation(fields: [feedbackId], references: [id], onDelete: SetNull)
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  work        Work?      @relation(fields: [workId], references: [id])
+  work        Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
 }
 
 enum Role {

@@ -13,6 +13,12 @@ async function verify(accessToken, refreshToken, profile, done) {
     const email = _json.kakao_account?.email;
     const nickname = profile.displayName;
 
+    const validation = await validateUserData({ email, nickname }, 'kakao');
+    
+    if (validation.isDuplicate) {
+      return done(null, false, { message: `이미 존재하는 ${validation.field}입니다.` });
+    }
+
     const user = await userService.oauthCreateOrUpdate(
       profile.provider,         // provider
       String(profile.id),       // Kakao 사용자 ID

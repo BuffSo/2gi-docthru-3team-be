@@ -1,6 +1,16 @@
 import challengeRepository from "../repositories/challengeRepository.js";
 import formatDate from "../utils/formatDate.js";
 import { BadRequestError, NotFoundError, ForbiddenError } from "../errors/index.js";
+import * as s from 'superstruct';
+import { CreateChallenge, PatchChallenge } from '../../struct.js';
+
+async function validateData(schema, data) {
+  try {
+    s.validate(data, schema);
+  } catch (error) {
+    throw new BadRequestError("요청 데이터가 올바르지 않습니다.");
+  }
+}
 
 async function get({ page, limit, filters }) {
   const skip = (page - 1) * limit;
@@ -81,7 +91,7 @@ async function getById(id, user) {
 
 async function create(data) {
   const { title, docUrl, field, type, deadLine, maxParticipants, description, userId } = data;
-  
+  await validateData(CreateChallenge, { title, docUrl, maxParticipants, description });
   const isValidDate = !isNaN(Date.parse(deadLine)) || /^\d{4}\/\d{2}\/\d{2}$/.test(deadLine);
   if (!isValidDate) {
     throw new BadRequestError("날짜 형식이 올바르지 않습니다.");
@@ -107,6 +117,7 @@ async function create(data) {
 };
 
 async function update(id, data, user) {
+  await validateData(PatchChallenge, data);
   const challenge = await challengeRepository.findById(id);
 
   if (!challenge) {

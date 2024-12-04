@@ -5,6 +5,16 @@ import participateRepository from '../repositories/participateRepository.js';
 import workLogRepository from '../repositories/workLogRepository.js';
 import { BadRequestError, NotFoundError, ForbiddenError }  from '../errors/index.js';
 import { debugLog } from '../utils/logger.js';
+import * as s from 'superstruct';
+import { CreateWork, PatchWork } from "../../struct.js";
+
+async function validateData(schema, data) {
+  try {
+    s.validate(data, schema);
+  } catch (error) {
+    throw new BadRequestError("요청 데이터가 올바르지 않습니다.");
+  }
+}
 
 /*************************************************************************************
  * 작업물 상세 조회
@@ -63,6 +73,7 @@ async function getWorkDetailById(id, user, page = 1, limit = 3, order = 'created
  * ***********************************************************************************
  */
 async function updateWork({ workId, user, content }) {
+  await validateData(PatchWork, { content });
   const work = await workRepository.findById(workId);
 
   if (!work) {
@@ -127,6 +138,7 @@ async function updateWork({ workId, user, content }) {
  * ***********************************************************************************
  */
 async function submitWork({ challengeId, user, content }) {
+  await validateData(CreateWork, { content });
   const challenge = await challengeRepository.findById(challengeId);
 
   if (!challenge) {

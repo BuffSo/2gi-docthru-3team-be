@@ -1,12 +1,7 @@
 import * as s from "superstruct";
-import prisma from "./src/config/prisma";
-import { BadRequestError } from "./src/errors";
+import { PrismaClient } from "@prisma/client";
 
-export const UserStructure = s.object({
-  email: s.string(),
-  nickname: s.size(s.string(), 1, 30),
-  password: s.min(s.string(), 8),
-});
+const prisma = new PrismaClient();
 
 export const CreateChallenge = s.object({
     title: s.size(s.string(), 2, 100),
@@ -29,32 +24,37 @@ export const PatchFeedback = s.partial(CreateFeedback);
 
 export const PatchWork = s.partial(CreateWork);
 
-export async function validateUserData(data) {
-  try {
-    UserStructure(data);
-  } catch (error) {
-    throw new Error(error.message);
-  }
-
+export async function validateUserData(data, provider) {
   const { email, nickname } = data;
 
-  // 이메일 중복 확인
-  const existingEmail = await prisma.user.findUnique({
-    where: { email }
-  });
+  try {
+    // 이메일 중복 확인
+    const existingEmail = await prisma.socialAccount.findFirst({
+      where: {
+          provider: { not: provider },
+          user: { email },
+      },
+      include: { user: true },
+    });
 
-  if (existingEmail) {
-    throw new BadRequestError("이미 존재하는 이메일입니다.");
-  }
+    if (existingEmail) {
+      return { isDuplicate: true, field: '이메일' }; // 에러 반환
+    }
 
-  // 닉네임 중복 확인
-  const existingNickname = await prisma.user.findUnique({
-    where: { nickname }
-  });
+    // 닉네임 중복 확인
+    const existingNickname = await prisma.socialAccount.findFirst({
+      where: { 
+          provider: { not: provider },
+          user: { nickname },
+      },
+      include: { user: true },
+    });
 
-  if (existingNickname) {
-    throw new BadRequestError("이미 존재하는 닉네임입니다.");
+    if (existingNickname) {
+      return { isDuplicate: true, field: '닉네임' }; // 에러 반환
+    }
+
+  } catch (error) {
+    throw error;
   }
 }
-
-

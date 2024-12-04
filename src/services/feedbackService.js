@@ -1,6 +1,16 @@
 import feedbackRepository from '../repositories/feedbackRepository.js';
 import { NotFoundError, BadRequestError } from '../errors/index.js';
 import { debugLog } from '../utils/logger.js';
+import * as s from 'superstruct';
+import { CreateFeedback, PatchFeedback } from '../../struct.js';
+
+async function validateData(schema, data) {
+  try {
+    s.validate(data, schema);
+  } catch (error) {
+    throw new BadRequestError("요청 데이터가 올바르지 않습니다.");
+  }
+}
 
 async function get({ page, limit, id}) {
   const skip = (page - 1) * limit;
@@ -17,6 +27,8 @@ async function get({ page, limit, id}) {
 };
 
 async function create(id, user, content) {
+  const data = { content };
+  await validateData(CreateFeedback, data);
   const isSubmitted = await feedbackRepository.findWork({ id: parseInt(id), userId: user.id });
   if (!isSubmitted) {
     throw new BadRequestError("피드백을 남길 수 있는 작품이 아닙니다.");
@@ -26,6 +38,8 @@ async function create(id, user, content) {
 }
 
 async function update(id, user, content) {
+  const data = { content };
+  await validateData(PatchFeedback, data);
   const feedback = await feedbackRepository.findById({ id: parseInt(id) });
   if (!feedback) {
     throw new NotFoundError("수정할 피드백을 찾을 수 없습니다.");

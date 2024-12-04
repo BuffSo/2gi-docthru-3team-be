@@ -30,18 +30,32 @@ router.get('/google',
 );
 
 // 구글 로그인 콜백
-router.get('/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
-  googleLogin
+router.get('/google/callback', (req, res, next) => {
+  passport.authenticate('google', { session: false }, (err, user, info) => {
+    if (err || !user) {
+      const message = info?.message || '인증 실패';
+      return res.redirect(`${process.env.BASE_URL}/login?error=${encodeURIComponent(message)}`);
+    }
+    req.user = user;
+    next();
+  })(req, res, next);
+}, googleLogin
 );
 
 router.get('/kakao',
   passport.authenticate('kakao')
 );
 
-router.get('/kakao/callback',
-  passport.authenticate('kakao', { session: false, failureRedirect: '/login' }),
-  kakaoLogin
+router.get('/kakao/callback', (req, res, next) => {
+  passport.authenticate('kakao', { session: false }, (err, user, info) => {
+    if (err || !user) {
+      const message = info?.message || '인증 실패';
+      return res.redirect(`${process.env.BASE_URL}/login?error=${encodeURIComponent(message)}`);
+    }
+    req.user = user;
+    next();
+  })(req, res, next);
+  }, kakaoLogin
 );
 
 //////////////////////////////////////////////////////////

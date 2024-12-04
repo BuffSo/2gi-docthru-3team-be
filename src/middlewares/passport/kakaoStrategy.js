@@ -1,5 +1,6 @@
 import { Strategy as KakaoStrategy } from 'passport-kakao';
 import userService from '../../services/userService.js';
+import { validateUserData } from '../../../struct.js';
 
 const kakaoStrategyOptions = {
   clientID: process.env.KAKAO_CLIENT_ID,

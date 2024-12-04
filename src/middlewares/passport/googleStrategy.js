@@ -1,5 +1,4 @@
 import GoogleStrategy from 'passport-google-oauth20';
-
 import userService from '../../services/userService.js';
 import { validateUserData } from '../../../struct.js';
 

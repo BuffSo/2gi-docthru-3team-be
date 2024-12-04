@@ -54,6 +54,7 @@ export async function validateUserData(data, provider) {
       return { isDuplicate: true, field: '닉네임' }; // 에러 반환
     }
 
+    return { isDuplicate: false, user: null }; // 중복 없음
   } catch (error) {
     throw error;
   }

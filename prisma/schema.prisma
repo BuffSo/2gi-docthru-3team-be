@@ -14,10 +14,10 @@ datasource db {
 }
 
 model User {
-  id           Int              @id @default(autoincrement())
-  role         Role             @default(User)
-  nickname     String           @unique
-  email        String           @unique
+  id           Int             @id @default(autoincrement())
+  role         Role            @default(User)
+  nickname     String          @unique
+  email        String          @unique
   password     String
   refreshToken String?
   createdAt    DateTime        @default(now())
@@ -35,11 +35,11 @@ model User {
 }
 
 model SocialAccount {
-  id         Int      @id @default(autoincrement())
+  id         Int    @id @default(autoincrement())
   userId     Int
-  provider   String   @default("local") // 로그인 제공자
-  providerId String   @unique           // 로그인 제공자의 고유 ID
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider   String @default("local") // 로그인 제공자
+  providerId String @unique // 로그인 제공자의 고유 ID
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerId])
 }
@@ -74,15 +74,22 @@ model Challenge {
   Notification    Notification[]
 }
 
-model Feedback {
-  id           Int            @id @default(autoincrement())
-  userId       Int
-  workId       Int
-  content      String
-  createdAt    DateTime       @default(now())
-  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  work         Work           @relation(fields: [workId], references: [id], onDelete: Cascade)
-  Notification Notification[]
+model Like {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  workId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
+}
+
+model Participate {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  challengeId Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
 }
 
 model Work {
@@ -104,24 +111,6 @@ model Work {
   @@unique([userId, challengeId])
 }
 
-model Like {
-  id     Int  @id @default(autoincrement())
-  userId Int
-  workId Int
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
-}
-
-model Participate {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  challengeId Int
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, challengeId])
-}
-
 model WorkLog {
   id              Int        @id @default(autoincrement())
   workId          Int?
@@ -136,6 +125,17 @@ model WorkLog {
   createdAt       DateTime   @default(now())
   work            Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
   user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Feedback {
+  id           Int            @id @default(autoincrement())
+  userId       Int
+  workId       Int?
+  content      String
+  createdAt    DateTime       @default(now())
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work         Work?          @relation(fields: [workId], references: [id], onDelete: Cascade)
+  Notification Notification[]
 }
 
 model FeedbackLog {

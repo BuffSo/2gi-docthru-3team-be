@@ -1,0 +1,71 @@
+
+###  Admin 챌린지 승인
+PATCH  http://localhost:3100/api/applications/13
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "status": "Accepted"
+}
+
+
+#####################################
+###  챌린지 참여                  ###  
+#####################################
+
+### 1. 챌린지 참여 (user 3)
+POST http://localhost:3100/api/challenges/13/participations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
+
+#####################################
+###  작업물 관련                  ###  
+#####################################
+
+
+### 1. 작업물 제출 (user 3)
+POST http://localhost:3100/api/works
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
+
+{
+  "challengeId": 13,
+  "content": "챌린지 13에 user3이 제출한 번역 작업물의 내용입니다."
+}
+
+
+### 5. 작업물 삭제 (admin)
+DELETE http://localhost:3100/api/works/30
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "message": "관리자가 삭제한 사유입니다."
+}
+
+
+#####################################
+###  피드백 관련                  ###  
+#####################################
+
+
+### 1. 피드백 생성 (user 9)
+POST http://localhost:3100/api/works/30/feedbacks
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDU4LCJleHAiOjE3MzM0MDI0NTh9.5IvltnzV0Sx7A7YF790PfcE9Yz1tuqnyhSqQyEMN1ts
+
+{
+  "challengeId": 13,
+  "content": "챌린지 13에 user3이 제출한 번역 작업물 30의 user 9가 작성한 피드백입니다."
+}
+
+
+### 5. 피드백 삭제 (admin)
+DELETE http://localhost:3100/api/feedbacks/11
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "message": "관리자가 삭제한 사유입니다."
+}
+
+

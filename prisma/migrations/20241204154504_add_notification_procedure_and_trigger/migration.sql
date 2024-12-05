@@ -53,41 +53,52 @@ LANGUAGE plpgsql AS $$
 DECLARE
     action_table TEXT := 'Challenge';
     action_type TEXT;
-    act_user_id INT := NULL;  -- 액션을 수행한 사용자 ID (NULL 가능)
-    user_id INT;              -- 알림을 받을 사용자 ID
+    act_user_id INT := NULL; -- 관리자 수행시 NULL
+    user_id INT;             -- 알림을 받을 사용자 ID
     notification_message TEXT;
     challenge_id INT;
-    app_status "Status";      -- 변수 이름 변경
+    app_status "Status";
     challenge_title TEXT;
+    invalidation_comment TEXT; -- 삭제/거절 사유
 BEGIN
-    -- 신청 정보 가져오기 (NULL 처리 추가)
-    SELECT "userId", "challengeId", "status" INTO user_id, challenge_id, app_status
-    FROM "Application" WHERE id = application_id;
+    -- 신청 정보 가져오기
+    SELECT "userId", "challengeId", "status", "invalidationComment"
+    INTO user_id, challenge_id, app_status, invalidation_comment
+    FROM "Application"
+    WHERE id = application_id;
+
     IF user_id IS NULL OR challenge_id IS NULL THEN
-        RETURN;  -- 필요한 정보가 없으면 종료
+        RETURN; -- 데이터가 부족하면 종료
     END IF;
 
-    -- 챌린지 제목 가져오기 (NULL 처리 추가)
+    -- 챌린지 제목 가져오기
     SELECT "title" INTO challenge_title FROM "Challenge" WHERE id = challenge_id;
     IF challenge_title IS NULL THEN
         challenge_title := '알 수 없는 챌린지';
     END IF;
 
-    -- 상태에 따른 액션 타입 및 메시지 구성
-    IF app_status = 'Accepted' THEN
-        action_type := '승인';
-        notification_message := '"' || challenge_title || '" 챌린지가 승인되었습니다.';
-    ELSIF app_status = 'Rejected' THEN
-        action_type := '거절';
-        notification_message := '"' || challenge_title || '" 챌린지가 거절되었습니다.';
-    ELSIF app_status = 'Invalidated' THEN
-        action_type := '삭제';
-        notification_message := '"' || challenge_title || '" 챌린지가 삭제되었습니다.';
-    ELSE
-        RETURN;  -- 처리할 상태가 아니면 종료
-    END IF;
+    -- 상태에 따른 알림 메시지 생성
+    CASE app_status
+        WHEN 'Accepted' THEN
+            action_type := '승인';
+            notification_message := '"' || challenge_title || '" 챌린지가 승인되었습니다.';
+        WHEN 'Rejected' THEN
+            action_type := '거절';
+            notification_message := '"' || challenge_title || '" 챌린지가 거절되었습니다.';
+            IF invalidation_comment IS NOT NULL AND invalidation_comment <> '' THEN
+                notification_message := notification_message || ' [거절 사유] ' || invalidation_comment;
+            END IF;
+        WHEN 'Invalidated' THEN
+            action_type := '삭제';
+            notification_message := '"' || challenge_title || '" 챌린지가 삭제되었습니다.';
+            IF invalidation_comment IS NOT NULL AND invalidation_comment <> '' THEN
+                notification_message := notification_message || ' [삭제 사유] ' || invalidation_comment;
+            END IF;
+        ELSE
+            RETURN; -- 처리할 상태가 아니면 종료
+    END CASE;
 
-    -- 알림 생성 (act_user_id가 NULL일 수 있음)
+    -- 알림 생성
     CALL notify_user_change(
         user_id,
         act_user_id,
@@ -121,116 +132,106 @@ EXECUTE FUNCTION application_status_update_notification();
 
 
 -- -------------------------------------------
--- 3. 챌린지 마감/수정 알림
+-- 3. 챌린지 수정 알림
 -- -------------------------------------------
 
--- 3-1. 챌린지 마감 알림 저장 프로시저
-CREATE OR REPLACE PROCEDURE notify_challenge_deadline(
-    challenge_id INT
-)
-LANGUAGE plpgsql AS $$
+-- 3-1. 챌린지 마감/수정 트리거 함수 생성
+CREATE OR REPLACE FUNCTION challenge_update_and_close_notification()
+RETURNS TRIGGER AS $$
 DECLARE
     action_table TEXT := 'Challenge';
-    action_type TEXT := '마감';
-    act_user_id INT := NULL;  -- 액션을 수행한 사용자 ID (필요한 경우 설정)
-    user_id INT;              -- 알림을 받을 사용자 ID
-    notification_message TEXT;
-    challenge_title TEXT;
-BEGIN
-    -- 챌린지 제목 가져오기 (NULL 처리 추가)
-    SELECT "title" INTO challenge_title FROM "Challenge" WHERE id = challenge_id;
-    IF challenge_title IS NULL THEN
-        challenge_title := '알 수 없는 챌린지';
-    END IF;
-    notification_message := '"' || challenge_title || '" 챌린지가 마감되었습니다.';
-
-    -- 신청자들과 참여자들에게 알림 전송
-    FOR user_id IN
-        (SELECT "userId" FROM "Application" WHERE "challengeId" = challenge_id
-         UNION
-         SELECT "userId" FROM "Participate" WHERE "challengeId" = challenge_id)
-    LOOP
-        -- 알림 생성
-        CALL notify_user_change(
-            user_id,
-            act_user_id,
-            action_table,
-            action_type,
-            notification_message,
-            challenge_id,
-            NULL,
-            NULL
-        );
-    END LOOP;
-END;
-$$;
-
--- 3-2. 챌린지 수정 저장 프로시저
-CREATE OR REPLACE PROCEDURE notify_challenge_update(
-    challenge_id INT
-)
-LANGUAGE plpgsql AS $$
-DECLARE
-    action_table TEXT := 'Challenge';
-    action_type TEXT := '수정';  -- 액션 타입을 '수정'으로 설정
-    act_user_id INT := NULL;    -- 액션을 수행한 사용자 ID (NULL 가능)
+    action_type TEXT := '수정';
     notification_message TEXT;
     challenge_title TEXT;
     user_id INT;
+    is_deleted BOOLEAN := FALSE; -- 삭제 여부 플래그
 BEGIN
-    -- 챌린지 제목 가져오기 (NULL 처리 추가)
-    SELECT "title" INTO challenge_title FROM "Challenge" WHERE id = challenge_id;
+    -- 챌린지 제목 가져오기
+    SELECT "title" INTO challenge_title FROM "Challenge" WHERE id = NEW.id;
     IF challenge_title IS NULL THEN
         challenge_title := '알 수 없는 챌린지';
     END IF;
 
-    -- Application 테이블에서 해당 챌린지의 userId 가져오기
-    SELECT "userId" INTO user_id FROM "Application" WHERE "challengeId" = challenge_id;
-    IF user_id IS NULL THEN
-        RETURN;  -- 관련 사용자가 없으면 종료
-    END IF;
-
-    -- 알림 메시지 구성
-    notification_message := '"' || challenge_title || '" 챌린지의 내용이 수정되었습니다.';
-
-    -- 알림 생성 (act_user_id가 NULL일 수 있음)
-    CALL notify_user_change(
-        user_id,
-        act_user_id,
-        action_table,
-        action_type,
-        notification_message,
-        challenge_id,
-        NULL,
-        NULL
-    );
-END;
-$$;
-
--- 3-3. 챌린지 마감/수정 트리거 함수 생성
-CREATE OR REPLACE FUNCTION challenge_update_and_close_notification()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- progress 필드가 true -> false로 변경된 경우 마감 처리
+    -- 마감 알림
     IF NEW."progress" = FALSE AND OLD."progress" = TRUE THEN
-        CALL notify_challenge_deadline(NEW.id);
-    -- progress 필드가 false -> true로 변경된 경우를 제외하고 다른 변경 사항 처리
-    ELSIF NOT (NEW."progress" = TRUE AND OLD."progress" = FALSE) THEN
-        IF NEW."title" IS DISTINCT FROM OLD."title"             -- 참여신청시 participants 증가를 무시하기 위해
-           OR NEW."docUrl" IS DISTINCT FROM OLD."docUrl"
-           OR NEW."field" IS DISTINCT FROM OLD."field"
-           OR NEW."docType" IS DISTINCT FROM OLD."docType"
-           OR NEW."deadLine" IS DISTINCT FROM OLD."deadLine"
-           OR NEW."maxParticipants" IS DISTINCT FROM OLD."maxParticipants"
-           OR NEW."description" IS DISTINCT FROM OLD."description" THEN
-            CALL notify_challenge_update(NEW.id);
+        -- 삭제 여부 확인
+        SELECT EXISTS (
+            SELECT 1
+            FROM "Application"
+            WHERE "challengeId" = NEW.id AND "status" = 'Invalidated'
+        ) INTO is_deleted;
+
+        -- 알림 메시지 설정
+        IF is_deleted THEN
+            notification_message := '"' || challenge_title || '" 챌린지가 삭제되었습니다.';
+            
+            -- 참여자에게만 알림 전송
+            FOR user_id IN
+                (SELECT "userId" FROM "Participate" WHERE "challengeId" = NEW.id)
+            LOOP
+                CALL notify_user_change(
+                    user_id,
+                    NULL,
+                    action_table,
+                    '삭제',
+                    notification_message,
+                    NEW.id,
+                    NULL,
+                    NULL
+                );
+            END LOOP;
+        ELSE
+            notification_message := '"' || challenge_title || '" 챌린지가 마감되었습니다.';
+
+            -- 신청자와 참여자에게 알림 전송
+            FOR user_id IN
+                (SELECT "userId" FROM "Application" WHERE "challengeId" = NEW.id
+                 UNION
+                 SELECT "userId" FROM "Participate" WHERE "challengeId" = NEW.id)
+            LOOP
+                CALL notify_user_change(
+                    user_id,
+                    NULL,
+                    action_table,
+                    '마감',
+                    notification_message,
+                    NEW.id,
+                    NULL,
+                    NULL
+                );
+            END LOOP;
         END IF;
+
+    -- 수정 알림
+    ELSEIF NEW."title" IS DISTINCT FROM OLD."title" OR
+           NEW."description" IS DISTINCT FROM OLD."description" THEN
+        notification_message := '"' || challenge_title || '" 챌린지의 내용이 수정되었습니다.';
+
+        -- 신청자와 참여자에게 알림 전송
+        FOR user_id IN
+            (SELECT "userId" FROM "Application" WHERE "challengeId" = NEW.id
+                UNION
+                SELECT "userId" FROM "Participate" WHERE "challengeId" = NEW.id)
+
+        LOOP
+            CALL notify_user_change(
+                user_id,
+                NULL,
+                action_table,
+                action_type,
+                notification_message,
+                NEW.id,
+                NULL,
+                NULL
+            );
+        END LOOP;
     END IF;
+
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- 3-4. 챌린지 마감/수정 트리거 생성
+-- 3-2. 챌린지 마감/수정 트리거 생성
 DROP TRIGGER IF EXISTS challenge_update_and_close_trigger ON "Challenge";
 CREATE TRIGGER challenge_update_and_close_trigger
 AFTER UPDATE ON "Challenge"
@@ -324,6 +325,31 @@ FOR EACH ROW
 EXECUTE FUNCTION new_work_notification();
 
 
+
+-- -------------------------------------------
+-- 5. 임시 트리거 및 함수
+-- -------------------------------------------
+
+CREATE OR REPLACE FUNCTION handle_work_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Notification 테이블의 workId를 NULL로 설정
+    UPDATE "Notification"
+    SET "workId" = NULL
+    WHERE "workId" = OLD.id;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS work_delete_trigger ON "Work";
+
+CREATE TRIGGER work_delete_trigger
+BEFORE DELETE ON "Work"
+FOR EACH ROW
+EXECUTE FUNCTION handle_work_delete();
+
+
 -- -------------------------------------------
 -- 5. 작업물 (수정/삭제) 트리거 및 함수
 -- -------------------------------------------
@@ -400,6 +426,7 @@ DECLARE
     user_id INT;      -- 알림을 받을 사용자 ID
     notification_message TEXT;
     challenge_title TEXT;
+    reason  TEXT;   -- 사유 (WorkLog.message)
 BEGIN
     act_user_id := OLD."userId";  -- 액션을 수행한 사용자 ID
     user_id := OLD."userId";      -- 작업물 작성자 (알림을 받을 사용자)
@@ -410,8 +437,23 @@ BEGIN
         challenge_title := '알 수 없는 챌린지';
     END IF;
 
+    -- Feedback 삭제
+    DELETE FROM "Feedback"
+    WHERE "workId" = OLD.id;
+
+    -- 삭제 사유 가져오기 (WorkLog.message)
+    SELECT "message" INTO reason 
+    FROM "WorkLog" 
+    WHERE "workId" = OLD.id AND "action" = 'Delete'
+    ORDER BY "createdAt" DESC 
+    LIMIT 1;  -- 최신 삭제 로그 가져오기    
+
     -- 알림 메시지 구성
-    notification_message := '"' || challenge_title || '"의 작업물이 삭제되었습니다.';
+    IF reason IS NOT NULL THEN
+        notification_message := '"' || challenge_title || '"의 작업물이 삭제되었습니다. [삭제 사유] ' || reason;
+    ELSE
+        notification_message := '"' || challenge_title || '"의 작업물이 삭제되었습니다.';
+    END IF;
 
     -- 알림 생성
     CALL notify_user_change(
@@ -550,7 +592,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 -- 7-2. 피드백 수정 트리거 생성
 DROP TRIGGER IF EXISTS feedback_update_trigger ON "Feedback";
 CREATE TRIGGER feedback_update_trigger
@@ -558,6 +599,7 @@ AFTER UPDATE ON "Feedback"
 FOR EACH ROW
 WHEN (OLD."content" IS DISTINCT FROM NEW."content")
 EXECUTE FUNCTION feedback_update_notification();
+
 
 -- 7-3. 피드백 삭제 시 알림 트리거 함수
 CREATE OR REPLACE FUNCTION feedback_delete_notification()
@@ -569,15 +611,21 @@ DECLARE
     user_id INT;      -- 알림을 받을 사용자 ID (피드백 작성자)
     notification_message TEXT;
     challenge_title TEXT;
-    work_id INT;
+    cached_work_id INT;
+    cached_challenge_id INT;
 BEGIN
     act_user_id := OLD."userId";  -- 액션을 수행한 사용자 ID
     user_id := OLD."userId";      -- 알림 대상자를 피드백 작성자로 설정
-    work_id := OLD."workId";
+    cached_work_id := OLD."workId"; 
 
-    -- 챌린지 제목 가져오기 (NULL 처리 추가)
-    SELECT "title" INTO challenge_title FROM "Challenge"
-    WHERE id = (SELECT "challengeId" FROM "Work" WHERE id = work_id);
+    -- ChallengeId와 Challenge Title 가져오기
+    SELECT "challengeId",
+           (SELECT "title" FROM "Challenge" WHERE id = "challengeId") AS challenge_title
+    INTO cached_challenge_id, challenge_title
+    FROM "Work"
+    WHERE id = cached_work_id;
+
+    -- 기본값 설정
     IF challenge_title IS NULL THEN
         challenge_title := '알 수 없는 챌린지';
     END IF;
@@ -592,14 +640,14 @@ BEGIN
         action_table,
         action_type,
         notification_message,
-        NULL,
-        work_id,
+        cached_challenge_id,
+        cached_work_id,
         OLD.id
     );
+
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
-
 
 -- 7-4. 피드백 삭제 트리거 생성
 DROP TRIGGER IF EXISTS feedback_delete_trigger ON "Feedback";
@@ -607,4 +655,3 @@ CREATE TRIGGER feedback_delete_trigger
 BEFORE DELETE ON "Feedback"
 FOR EACH ROW
 EXECUTE FUNCTION feedback_delete_notification();
-

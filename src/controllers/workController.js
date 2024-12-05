@@ -25,12 +25,12 @@ export const getWorkDetail = asyncHandler(async (req, res) => {
 });
 
 /*************************************************************************************
- * 작업물 수정
+ * 작업물 수정  (제출 기능 추가)
  * ***********************************************************************************
  */
 export const updateWork = asyncHandler(async (req, res, next) => {
   const { workId } = req.params;
-  const { content } = req.body;
+  const { content, isSubmitted } = req.body;
   const user = req.user;
 
   debugLog('번역 작업물 수정 user', req.user);
@@ -39,14 +39,20 @@ export const updateWork = asyncHandler(async (req, res, next) => {
     throw new NotFoundError('요청에 작업 내용이 없습니다.');
   }
 
-  const updatedWork = await workService.updateWork({ workId, user, content });
+  const updatedWork = isSubmitted
+  ? await workService.submitWorkByUpdate({ workId, user, content }) // 제출 로직
+  : await workService.updateWork({ workId, user, content }); // 수정 로직
 
   return res.status(200).json({
-    message: '작업물이 성공적으로 수정되었습니다.',
+    message: isSubmitted
+      ? '작업물이 성공적으로 제출되었습니다.'
+      : '작업물이 성공적으로 수정되었습니다.',
     work: {
       id: updatedWork.id,
       challengeId: updatedWork.challengeId,
-      content,
+      content: updatedWork.content,
+      submittedAt: updatedWork.submittedAt || null,
+      isSubmitted: updatedWork.isSubmitted || false,
       lastModifiedAt: updatedWork.lastModifiedAt,
     },
   });

@@ -60,10 +60,20 @@ Content-Type: application/json
 ### 2. 작업물 수정
 PATCH http://localhost:3100/api/works/30
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMDQzNTY4LCJleHAiOjE3MzMwNDcxNjh9.wDImcrcRCn-VA5_aFVeehZV5w1V82biDpqotkXVc754
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzgzOTg5LCJleHAiOjE3MzMzODc1ODl9.PBopHlebiBalSZT-S7l8fw6cyhddKvKtwKjcB6SqGHc
 
 {
   "content": "[수정] 챌린지 13에 제출한 user3의 번역 작업물의 수정 내용입니다."
+}
+
+### 2. 작업물 수정 및 제출
+PATCH http://localhost:3100/api/works/30
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzgzOTg5LCJleHAiOjE3MzMzODc1ODl9.PBopHlebiBalSZT-S7l8fw6cyhddKvKtwKjcB6SqGHc
+
+{
+  "content": "[수정 및 제출] 챌린지 13에 제출한 user3의 번역 작업물의 수정 내용입니다.",
+  "isSubmitted": true
 }
 
 ### 1. admin 로그인

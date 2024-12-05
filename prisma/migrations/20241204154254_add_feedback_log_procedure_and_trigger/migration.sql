@@ -159,6 +159,6 @@ EXECUTE FUNCTION log_feedback_update();
 
 -- 트리거 생성: 피드백 삭제 시 로그 기록
 CREATE TRIGGER feedback_delete_trigger
-AFTER DELETE ON "Feedback"
+BEFORE DELETE ON "Feedback"
 FOR EACH ROW
 EXECUTE FUNCTION log_feedback_delete();

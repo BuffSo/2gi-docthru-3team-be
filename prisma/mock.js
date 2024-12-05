@@ -233,7 +233,7 @@ export const CHALLENGE = [
     field: "Next",
     docType: "Blog",
     docUrl: "https://www.postgresql.org/docs/current/sql-createprocedure.html",
-    deadLine: "2024-12-02T23:59:59Z",
+    deadLine: "2024-12-29T23:59:59Z",
     description: "Create Procedure.",
     progress: false,
     participants: 0,

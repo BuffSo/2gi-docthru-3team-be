@@ -63,15 +63,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvb
 #####################################
 ### 알림 테스트용 accessToeken    ###
 #####################################
-### 
-### 1. 사용자 로그인 (user 3)
-POST http://localhost:3100/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "user3@example.com",
-  "password": "12345678"
-}
 
 ### 1. 사용자 로그인 (user 9)
 POST http://localhost:3100/api/auth/login
@@ -82,6 +73,22 @@ Content-Type: application/json
   "password": "12345678"
 }
 
+### 1. 사용자 로그인 (user 3)
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+### 1. 사용자 로그인 (user 4)
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user4@example.com",
+  "password": "12345678"
+}
 
 ###  Admin 로그인
 POST http://localhost:3100/api/auth/login
@@ -94,11 +101,13 @@ Content-Type: application/json
 
 ### accessToken
 
-# user 3 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMTg4MjU4LCJleHAiOjE3MzMyNzQ2NTh9.7urrmDCuh4-6AUgEmxdiiwpNUTZDXtIXhPyZSJ_sUME
+# user 9 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDU4LCJleHAiOjE3MzM0MDI0NTh9.5IvltnzV0Sx7A7YF790PfcE9Yz1tuqnyhSqQyEMN1ts
 
-# user 9 : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMTg4Mjc1LCJleHAiOjE3MzMyNzQ2NzV9.8ixBBtlSMKjEG-jilPAsKfrsgZ9PJyabxGci6YBtrx4
+# user 3 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
 
-# admin  : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzE4ODI4OSwiZXhwIjoxNzMzMjc0Njg5fQ.Fxru7D-OVky_xUzh3vi3DCISvcgzh8qDQ9n-lM9JKoY
+# user 4 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MTIwLCJleHAiOjE3MzM0MDI1MjB9.QhrAU2KVc6Wn-f3hspwSj91lYrZo_nKV3NVkp6BqNbg
+
+# admin  : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
 
 
 

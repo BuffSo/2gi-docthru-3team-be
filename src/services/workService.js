@@ -92,14 +92,6 @@ async function updateWork({ workId, user, content }) {
     throw new BadRequestError('마감된 챌린지의 작업물은 수정할 수 없습니다.');
   }
   
-  // const updatedWork = await workRepository.update(
-  //   workId, 
-  //   {
-  //     content,
-  //     lastModifiedAt: new Date(),
-  //   }
-  // );
-
   const previousContent = work.content;
 
   // 작업물 업데이트와 로그 생성
@@ -131,6 +123,65 @@ async function updateWork({ workId, user, content }) {
   })
 
   return { ...updatedWork, challengeId: work.challenge.id };
+}
+
+/*************************************************************************************
+ * 작업물 수정 및 제출
+ * ***********************************************************************************
+ */
+async function submitWorkByUpdate({ workId, user, content }) {
+  const work = await workRepository.findById(workId);
+
+  if (!work) {
+    throw new NotFoundError('작업물을 찾을 수 없습니다.');
+  }
+
+  const isOwner = work.user.id === user.id;
+  const isAdmin = user.role === 'Admin';
+  if (!isOwner && !isAdmin) {
+    throw new ForbiddenError('권한이 없습니다.');
+  }
+
+  const challenge = await challengeRepository.findById(work.challenge.id);
+  const now = new Date();
+  if (now > challenge.deadLine) {
+    throw new BadRequestError('마감된 챌린지의 작업물은 제출할 수 없습니다.');
+  }
+
+  const previousContent = work.content;
+
+  // 작업물 제출 및 로그 생성
+  const submittedWork = await prisma.$transaction(async (prismaClient) => {
+    const updatedWork = await workRepository.update(
+      workId,
+      {
+        content,
+        isSubmitted: true,
+        submittedAt: new Date(),
+        lastModifiedAt: new Date(),
+      },
+      prismaClient
+    );
+
+    await workLogRepository.create(
+      {
+        workId: work.id,
+        userId: user.id,
+        challengeId: work.challenge.id,
+        email: user.email,
+        role: user.role,
+        action: 'Update',
+        previousContent,
+        currentContent: content,
+        createdAt: new Date(),
+      },
+      prismaClient
+    );
+
+    return updatedWork;
+  });
+
+  return { ...submittedWork, challengeId: work.challenge.id };
 }
 
 /*************************************************************************************
@@ -336,6 +387,7 @@ async function toggleLike({ workId, user }) {
 export default {
   getWorkDetailById,
   updateWork,
+  submitWorkByUpdate,
   submitWork,
   deleteWork,
   toggleLike,

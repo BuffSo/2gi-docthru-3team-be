@@ -1,8 +1,8 @@
-# Codeit 풀스택 2기 part3 중급 프로젝트 3팀 - Docthru(BE)
+# FS 2기 중급 프로젝트 3팀 - Docthru(BE)
 
 ## 팀 협업문서
 <a href = "https://www.notion.so/128e951e3e618064a461c77c319274b2?v=128e951e3e6181e4a1ac000c923e8661">
-    <img src="https://bizlog.me/wp-content/uploads/2021/03/notion-logo.png" width="150">
+    <img src="https://bizlog.me/wp-content/uploads/2021/03/notion-logo.png" width="100px">
 </a>
 
 ## 팀원 구성

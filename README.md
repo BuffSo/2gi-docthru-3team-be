@@ -7,7 +7,7 @@
 
 ## 팀원 구성
 
-| 소재희 | 신지원 | 이강수 | 천우승 | 김은효 | 서지우 | 현준배 |
+| 소재희(팀장) | 신지원 | 이강수 | 천우승 | 김은효 | 서지우 | 현준배 |
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
 | <image src = "https://avatars.githubusercontent.com/u/135010826?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/80625377?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/7779295?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/174844724?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/176313108?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/176551801?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/82556884?v=4" width = 150px> |
 | [BuffSo](https://github.com/BuffSo) | [shinji530](https://github.com/shinji530) | [kipid](https://github.com/kipid) | [mingmungXD](https://github.com/mingmungXD)| [kirinkiri](https://github.com/kirinkiri) | [JiwooFS](https://github.com/JiwooFS) | [junbaehyun](https://github.com/junbaehyun) |

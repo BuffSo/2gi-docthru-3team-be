@@ -332,12 +332,16 @@ async function deleteWork({ workId, user, message }) {
 
     const challengeId = work.challenge.id;
 
+    debugLog('challengeId', challengeId);
+
     // 챌린지 참여 기록 삭제 (prismaClient 사용)
+    // 관리자와 사용자 구분
+    const participateDeleteCondition = isAdmin
+      ? { challengeId }                   // 관리자는 userId 조건을 제외
+      : { challengeId, userId: user.id }; // 일반 사용자는 userId 조건 포함
+
     await prismaClient.participate.deleteMany({
-      where: {
-        challengeId: challengeId,
-        userId: user.id,
-      },
+      where: participateDeleteCondition,
     });
     
     // 챌린지 참여자 수 1 감소

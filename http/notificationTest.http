@@ -2,7 +2,7 @@
 ###  Admin 챌린지 승인
 PATCH  http://localhost:3100/api/applications/13
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzQ2Mjg5MSwiZXhwIjoxNzMzNDY2NDkxfQ.itS346bVc0NQJqC45RHu9JfCbM5SMNcMcu-KEs1HJws
 
 {
   "status": "Accepted"
@@ -15,7 +15,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvb
 
 ### 1. 챌린지 참여 (user 3)
 POST http://localhost:3100/api/challenges/13/participations
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzNDYyODc0LCJleHAiOjE3MzM0NjY0NzR9.oahNi1-Vl0yJ_2DFHmBmlsuc1Prncazih5whzkw4yoI
 
 #####################################
 ###  작업물 관련                  ###  
@@ -25,7 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvb
 ### 1. 작업물 제출 (user 3)
 POST http://localhost:3100/api/works
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzNDYyODc0LCJleHAiOjE3MzM0NjY0NzR9.oahNi1-Vl0yJ_2DFHmBmlsuc1Prncazih5whzkw4yoI
 
 {
   "challengeId": 13,
@@ -36,7 +36,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvb
 ### 5. 작업물 삭제 (admin)
 DELETE http://localhost:3100/api/works/30
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzQ2Mjg5MSwiZXhwIjoxNzMzNDY2NDkxfQ.itS346bVc0NQJqC45RHu9JfCbM5SMNcMcu-KEs1HJws
 
 {
   "message": "관리자가 삭제한 사유입니다."

@@ -1,30 +1,21 @@
-# Codeit 풀스택 2기 part3 중급 프로젝트 3팀 - Docthru
+# Codeit 풀스택 2기 part3 중급 프로젝트 3팀 - Docthru(BE)
 
-팀 협업문서 - [Notion](https://www.notion.so/128e951e3e618064a461c77c319274b2?v=128e951e3e6181e4a1ac000c923e8661)
-
-
+## 팀 협업문서
+<a href = "https://www.notion.so/128e951e3e618064a461c77c319274b2?v=128e951e3e6181e4a1ac000c923e8661">
+    <img src="https://bizlog.me/wp-content/uploads/2021/03/notion-logo.png" width="150">
+</a>
 
 ## 팀원 구성
 
-소재희 (팀장) - https://github.com/BuffSo
-
-신지원 (BE 장) - https://github.com/shinji530
-
-현준배 (BE) - https://github.com/junbaehyun
-
-이강수 (FE 장) - https://github.com/kipid
-
-천우승 (FE) - https://github.com/mingmungXD
-
-김은효 (FE) - https://github.com/kirinkiri
-
-서지우 (FE) - https://github.com/JiwooFS
-
+| 소재희 | 신지원 | 이강수 | 천우승 | 김은효 | 서지우 | 현준배 |
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
+| <image src = "https://avatars.githubusercontent.com/u/135010826?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/80625377?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/7779295?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/174844724?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/176313108?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/176551801?v=4" width = 150px> | <image src = "https://avatars.githubusercontent.com/u/82556884?v=4" width = 150px> |
+| [BuffSo](https://github.com/BuffSo) | [shinji530](https://github.com/shinji530) | [kipid](https://github.com/kipid) | [mingmungXD](https://github.com/mingmungXD)| [kirinkiri](https://github.com/kirinkiri) | [JiwooFS](https://github.com/JiwooFS) | [junbaehyun](https://github.com/junbaehyun) |
 
 
 ## 프로젝트 소개
 
-대다수의 개발 시장 콘텐츠가 영어로 작성되어 있어, 영어를 잘하지 못하는 한국인들이 해당 기술을 습득하는데 어려움을 겪고 있습니다.
+대다수의 개발 시장 콘텐츠가 영어로 작성되어 있어, 영어에 익숙하지 않은 한국인들이 해당 기술을 습득하는데 어려움을 겪고 있습니다.
 
 따라서 개발 관련 영어 문서를 함께 번역하는 챌린지를 진행하고, 번역 작업 에디터에서 번역을 진행하며 번역문에 대한 피드백을 주고받을 수 있는 개발 문서 번역 챌린지 서비스를 제작합니다.
 
@@ -36,45 +27,31 @@
 
 ## 기술 스택
 
-FE: React, Next.js, React Query, React CSS module, Quill, Vercel
+### 백엔드
 
-BE: Express, Prisma, PostgreSQL, Render
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
 
-공통 Tool: Git & Github, Discord, Zoom
+### 데이터베이스
 
-
-
-## 팀원별 구현 기능 상세
-
-### **소재희**
-
-- #### authorizing
-
-    - 회원가입 기능 구현
-    - 로그인, 로그아웃 기능 구현
-    - 토큰 갱신
-
-- #### 번역 작업물 파트
-
-    - 번역 작업물 상세 조회
-    - 번역 작업물 제출
-    - 번역 작업물 수정 (admin)
-    - 번역 작업물 삭제 (=챌린지 참여 포기)
-    - 번역 작업물에 하트 남기기
-
-- #### 내 챌린지 파트
-
-    - 참여 중인 챌린지 목록 조회
-    - 완료한 챌린지 목록 조회
-    - 내가 신청한 챌린지 목록 조회
-
-- #### 알림 파트
-
-    - 특정 알림의 읽음 처리
-    - 특정 유저의 알림 목록 조회
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
 
-### **신지원**
+### 협업 방식
+
+![GitHub](https://img.shields.io/badge/GitHub-%23121011?style=for-the-badge&logo=github&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-%23000000?style=for-the-badge&logo=notion&logoColor=white)
+![Discord](https://img.shields.io/badge/Discord-%2392a8d1?style=for-the-badge&logo=discord&logoColor=white)
+![Zoom](https://img.shields.io/badge/Zoom-%23121841?style=for-the-badge&logo=zoom&logoColor=white)
+
+
+### 배포
+![Render](https://img.shields.io/badge/Render-3D63A3?style=for-the-badge&logo=render&logoColor=white)
+
+
+## 팀원별 구현 기능 상세 및 담당 업무
+
+### **신지원(BE리더)**
 
 - #### 소셜 로그인
 
@@ -113,6 +90,44 @@ BE: Express, Prisma, PostgreSQL, Render
     - 어드민도 수정 가능
     - 본인이 작성한 피드백 삭제
     - 어드민도 삭제 가능
+
+### **소재희**
+
+- #### authorizing
+
+    - 회원가입 기능 구현
+    - 로그인, 로그아웃 기능 구현
+    - 토큰 갱신
+
+- #### 번역 작업물 파트
+
+    - 번역 작업물 상세 조회
+    - 번역 작업물 제출
+    - 번역 작업물 수정 (admin)
+    - 번역 작업물 삭제 (=챌린지 참여 포기)
+    - 번역 작업물에 하트 남기기
+
+- #### 내 챌린지 파트
+
+    - 참여 중인 챌린지 목록 조회
+    - 완료한 챌린지 목록 조회
+    - 내가 신청한 챌린지 목록 조회
+
+- #### 알림 파트
+
+    - 특정 알림의 읽음 처리
+    - 특정 유저의 알림 목록 조회
+
+
+### **현준배**
+
+- #### 팀 일정 관리
+
+- #### 노션 및 피그마 관리
+
+- #### 내 챌린지 파트
+
+    - 참여 중인 챌린지 목록 조회
 
 ## 파일 구조
 

@@ -1,0 +1,211 @@
+#####################################
+###  작업물 조회                  ###
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user9@example.com",
+  "password": "12345678"
+}
+
+### 작업물 (전체 feedbak)
+GET http://localhost:3100/api/works/11
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODIxNDY3LCJleHAiOjE3MzI4MjUwNjd9.6KWurzhvIkDRXsfH3-1T1EHHBmubZ7ND8x36vtdIJA8
+
+### 작업물 조회(feedbak paging)
+GET http://localhost:3100/api/works/1?page=1&limit=3&order=created_at&sort=desc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDM3OTUxLCJleHAiOjE3MzI0NDE1NTF9.565J6dKVirkol9bH9nsLrPE6ykr87uOSY00QRtcrdCs
+
+
+#####################################
+###  작업물 제출                  ###
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 제출
+POST http://localhost:3100/api/works
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMDQzNTY4LCJleHAiOjE3MzMwNDcxNjh9.wDImcrcRCn-VA5_aFVeehZV5w1V82biDpqotkXVc754
+
+{
+  "challengeId": 13,
+  "content": "챌린지 13에 user3이 제출한 번역 작업물의 내용입니다."
+}
+
+
+#####################################
+###  작업물 수정                  ###  
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 수정
+PATCH http://localhost:3100/api/works/30
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzgzOTg5LCJleHAiOjE3MzMzODc1ODl9.PBopHlebiBalSZT-S7l8fw6cyhddKvKtwKjcB6SqGHc
+
+{
+  "content": "[수정] 챌린지 13에 제출한 user3의 번역 작업물의 수정 내용입니다."
+}
+
+### 2. 작업물 수정 및 제출
+PATCH http://localhost:3100/api/works/30
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzgzOTg5LCJleHAiOjE3MzMzODc1ODl9.PBopHlebiBalSZT-S7l8fw6cyhddKvKtwKjcB6SqGHc
+
+{
+  "content": "[수정 및 제출] 챌린지 13에 제출한 user3의 번역 작업물의 수정 내용입니다.",
+  "isSubmitted": true
+}
+
+### 1. admin 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 수정(Admin)
+PATCH http://localhost:3100/api/works/29
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjQyNzcxNiwiZXhwIjoxNzMyNDMxMzE2fQ.V8uITRVVspzjQScS9KybkmW5qUjlAdxNGZXhuuhNPxQ
+
+{
+  "content": "챌린지 11에 제출한 user3의 번역 작업물을 관리자가 수정한 내용입니다."
+}
+
+
+#####################################
+###  작업물 삭제                  ###  
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 삭제
+DELETE http://localhost:3100/api/works/30
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMDQzNTY4LCJleHAiOjE3MzMwNDcxNjh9.wDImcrcRCn-VA5_aFVeehZV5w1V82biDpqotkXVc754
+
+### 1. admin 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "12345678"
+}
+
+### 2. 작업물 삭제(Admin)
+DELETE http://localhost:3100/api/works/11
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjUyMTk5NywiZXhwIjoxNzMyNTI1NTk3fQ.4vUGDnQdtaDWx3uxGorbKfPAXjkb65h7r7lgMzNbnAE
+
+{
+  "message": "관리자가 삭제한 사유입니다."
+}
+
+#####################################
+###  좋아요 추가/취소             ###  
+#####################################
+
+### 1. 사용자 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+
+### 2. 좋아요 추가/취소
+POST http://localhost:3100/api/works/29/likes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDM3OTUxLCJleHAiOjE3MzI0NDE1NTF9.565J6dKVirkol9bH9nsLrPE6ykr87uOSY00QRtcrdCs
+
+
+### 3. 작업물 조회(feedbak paging)
+GET http://localhost:3100/api/works/29?page=2&limit=2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNDM3OTUxLCJleHAiOjE3MzI0NDE1NTF9.565J6dKVirkol9bH9nsLrPE6ykr87uOSY00QRtcrdCs
+
+
+###
+GET http://localhost:3100/api/challenges/11
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNzE4MTkyLCJleHAiOjE3MzI3MjE3OTJ9.TvU0CH5ZY_hKl3YDrQAbwtaypsTB4x3Sa0o6lKbtCkM
+
+
+
+###  챌린지 참가 신청
+POST http://localhost:3100/api/challenges/11/participations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNzU0Njk4LCJleHAiOjE3MzI3NTgyOTh9.GEJOKqCKn4UpSjhVIpnTvlRFvvgrVneFXcBm4F-I4EY
+
+
+### 작업물 삭제 => 챌린지 포기
+DELETE http://localhost:3100/api/works/30
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNzU0Njk4LCJleHAiOjE3MzI3NTgyOTh9.GEJOKqCKn4UpSjhVIpnTvlRFvvgrVneFXcBm4F-I4EY
+
+#####################################
+###  피드백 관련                  ###  
+#####################################
+###
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user9@example.com",
+  "password": "12345678"
+}
+### 1. 피드백 생성
+POST http://localhost:3100/api/works/28/feedbacks
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODY5MjE4LCJleHAiOjE3MzI4NzI4MTh9.J2miSJ8hXlVq17pSmRq4P6zmFAS3MOIOA2ap2QyFPtU
+
+{
+  "content": "user 9가  work28에 남긴 피드백"
+}
+
+### 2. 피드백 수정
+PATCH  http://localhost:3100/api/feedbacks/12
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyODY5MjE4LCJleHAiOjE3MzI4NzI4MTh9.J2miSJ8hXlVq17pSmRq4P6zmFAS3MOIOA2ap2QyFPtU
+
+{
+  "content": "user 9 가 남긴 피드백 수정"
+}
+
+### 3. 피드백 수정( by Admin)
+PATCH  http://localhost:3100/api/feedbacks/11
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjgyMjMwMCwiZXhwIjoxNzMyODI1OTAwfQ.yEDU14omERz74ZqI4WNA7zT1KBk1OBqSGWl4cToQZaM
+
+{
+  "content": "관리자가 수정한 피드백입니다. user 9 가 남긴 피드백 수정"
+}
+
+### 4. 피드백 삭제
+DELETE  http://localhost:3100/api/feedbacks/11
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjgyNjIwMCwiZXhwIjoxNzMyODI5ODAwfQ.YTdpYa4n5Z0fH6mg62-K-lnS3IkgDfGmMJKDhKdr8Uc

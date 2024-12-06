@@ -1,0 +1,50 @@
+###  로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user9@example.com",
+  "password": "12345678"
+}
+
+#####################################
+###  참여중인 나의 챌린지         ###
+#####################################
+### 
+GET http://localhost:3100/api/me/challenges/ongoing
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTg3Njg3LCJleHAiOjE3MzI1OTEyODd9.3I-gHYoSwJBtT8L3Mvei2JcKzd4TZISrv4YYDA8pMMs
+###
+GET http://localhost:3100/api/me/challenges/ongoing?page=1&limit=3&order=dead_line&sort=desc&keyword=node&type=Document&field=Web,Modern
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTg3Njg3LCJleHAiOjE3MzI1OTEyODd9.3I-gHYoSwJBtT8L3Mvei2JcKzd4TZISrv4YYDA8pMMs
+###
+GET http://localhost:3100/api/me/challenges/ongoing?page=1&limit=3&order=dead_line&sort=desc&type=Document&field=Web,Modern
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTgwNjM4LCJleHAiOjE3MzI1ODQyMzh9.jeJBBlCeUUVPvL7F0Y-naaDqS1P3xutCet9sl0XQ2zA
+
+#####################################
+###  완료한 나의 챌린지           ###
+#####################################
+### 
+GET http://localhost:3100/api/me/challenges/completed
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTg3NTI1LCJleHAiOjE3MzI1OTExMjV9.PwPIg0rmN9IphbJWDB3a-iRdcozYVGMAnrrt2NDIIFg
+###
+GET http://localhost:3100/api/me/challenges/completed?page=1&limit=3&order=dead_line&sort=desc&keyword=node&type=Document&field=Web,Modern
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTg4Mzk3LCJleHAiOjE3MzI1OTE5OTd9.5YJBP-Fh2E9Xu82rRMoTtueyLDDQkHYlNOLoKrCcec0
+###
+GET http://localhost:3100/api/me/challenges/completed?page=1&limit=3&order=dead_line&sort=desc&type=Document&field=Web,Modern
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTQ5NDM1LCJleHAiOjE3MzI1NTMwMzV9.xXgCOMMmk_XafnDGz5Mt2HgCWEBR5MCBNTktfpok8Ec
+
+
+#####################################
+###  신청한 나의 챌린지           ###
+#####################################
+###
+GET http://localhost:3100/api/me/challenges/application
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTg3Njg3LCJleHAiOjE3MzI1OTEyODd9.3I-gHYoSwJBtT8L3Mvei2JcKzd4TZISrv4YYDA8pMMs
+
+###
+GET http://localhost:3100/api/me/challenges/application?page=1&limit=2&status=Accepted
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTg4MDk1LCJleHAiOjE3MzI1OTE2OTV9.W_ah7BsRe6T3DtoTKz3RIpqwiOLgEvfKz1hquuXkU88
+
+###
+GET http://localhost:3100/api/me/challenges/application?page=1&limit=10&order=applied_at&sort=desc&status=Accepted
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyNTgwOTg2LCJleHAiOjE3MzI1ODQ1ODZ9.nR5iwRyFm0alrgRz-F-sv6hFOSjPSjIxVU9QeQtz69g

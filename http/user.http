@@ -1,0 +1,114 @@
+#####################################
+###  회원가입                     ###  
+#####################################
+###
+POST http://localhost:3100/api/auth/signup
+Content-Type: application/json
+
+{
+  "email": "User10@example.com",
+  "nickname": "user10",
+  "password": "12345678"
+}
+
+#####################################
+###  일반유저                     ###  
+#####################################
+###  로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user9@example.com",
+  "password": "12345678"
+}
+
+### 로그아웃 
+POST http://localhost:3100/api/auth/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMTYzNzkzLCJleHAiOjE3MzIxNjczOTN9.Vb9qBTi9_MGDYJLJYyWE2M1uSE_m6D8_CRH3St5_myI
+
+### refresh-token
+POST http://localhost:3100/api/auth/refresh-token
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMTYzNzY3LCJleHAiOjE3MzIxNjczNjd9.DuzBM9XMVW9oTRrsoXGKfdG7z1uDAhMiU4k08hKbugg
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMTYzNzY3LCJleHAiOjE3MzMzNzMzNjd9.AioUDPuFfFpF3E_jysxsqvfy9CM9wkLy8bJcNG2rTvY"
+}
+
+#####################################
+###  Admin  권한                  ###  
+#####################################
+###  로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "12345678"
+}
+
+###  admim 액션
+GET http://localhost:3100/api/auth/admin-action
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMjI2MjQ3NSwiZXhwIjoxNzMyMjY2MDc1fQ.xZ4o37EHEIfzmAzvMtxJV780di5AVeBfdhZII__-RLI
+
+
+###
+GET http://localhost:3100/api/auth/admin-action
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMyMTc4NjA3LCJleHAiOjE3MzIxODIyMDd9.VwpfWqWDKX3Zk1SeUqUvRVV_ZxghlBXoHMkFT6xgPD0
+
+
+
+#####################################
+### 알림 테스트용 accessToeken    ###
+#####################################
+
+### 1. 사용자 로그인 (user 9)
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user9@example.com",
+  "password": "12345678"
+}
+
+### 1. 사용자 로그인 (user 3)
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user3@example.com",
+  "password": "12345678"
+}
+### 1. 사용자 로그인 (user 4)
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user4@example.com",
+  "password": "12345678"
+}
+
+###  Admin 로그인
+POST http://localhost:3100/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "12345678"
+}
+
+### accessToken
+
+# user 9 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDU4LCJleHAiOjE3MzM0MDI0NTh9.5IvltnzV0Sx7A7YF790PfcE9Yz1tuqnyhSqQyEMN1ts
+
+# user 3 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzNDYyODc0LCJleHAiOjE3MzM0NjY0NzR9.oahNi1-Vl0yJ_2DFHmBmlsuc1Prncazih5whzkw4yoI
+
+# user 4 : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MTIwLCJleHAiOjE3MzM0MDI1MjB9.QhrAU2KVc6Wn-f3hspwSj91lYrZo_nKV3NVkp6BqNbg
+
+# admin  : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzQ2Mjg5MSwiZXhwIjoxNzMzNDY2NDkxfQ.itS346bVc0NQJqC45RHu9JfCbM5SMNcMcu-KEs1HJws
+
+
+
+

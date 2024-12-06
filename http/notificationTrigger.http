@@ -1,0 +1,173 @@
+####################################
+### User(9) 가 
+### Challenge(13) 신청 및 
+### Application(13) Waiting 상태에서 시작
+#####################################
+
+
+
+#####################################
+###  관리자 - 챌린지 승인/삭제    ###  
+#####################################
+
+
+###  Admin 챌린지 승인
+PATCH  http://localhost:3100/api/applications/13
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "status": "Accepted"
+}
+
+###  Admin 챌린지 거절
+PATCH  http://localhost:3100/api/applications/13
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "status": "Rejected",
+  "invalidationComment": "거절 사유입니다."
+}
+
+### Admin 챌린지 수정
+PATCH  http://localhost:3100/api/challenges/13
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "title": "알리미 테스트 챌린지 수정22",
+  "docUrl": "https://www.postgresql.org/docs/current/sql-createtrigger.html",
+  "field": "Web",
+  "docType": "Blog",
+  "deadLine": "2024-12-05",
+  "maxParticipants": 3,
+  "description": "Create Procedure. 관리자 수정"
+}
+
+### Admin 챌린지 삭제
+PATCH  http://localhost:3100/api/challenges/13/invalidate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "invalidationComment": "삭제 사유입니다."
+}
+
+
+#####################################
+###  챌린지 참여                  ###  
+#####################################
+
+### 1. 챌린지 참여 (user 3)
+POST http://localhost:3100/api/challenges/13/participations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
+
+### 1. 챌린지 참여 (user 4)
+POST http://localhost:3100/api/challenges/13/participations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MTIwLCJleHAiOjE3MzM0MDI1MjB9.QhrAU2KVc6Wn-f3hspwSj91lYrZo_nKV3NVkp6BqNbg
+
+#####################################
+###  작업물 관련                  ###  
+#####################################
+
+### 1. 작업물 제출 (user 3)
+POST http://localhost:3100/api/works
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
+
+{
+  "challengeId": 13,
+  "content": "챌린지 13에 user3이 제출한 번역 작업물의 내용입니다."
+}
+
+### 1. 작업물 제출 (user 4)
+POST http://localhost:3100/api/works
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MTIwLCJleHAiOjE3MzM0MDI1MjB9.QhrAU2KVc6Wn-f3hspwSj91lYrZo_nKV3NVkp6BqNbg
+
+{
+  "challengeId": 13,
+  "content": "챌린지 13에 user4이 제출한 번역 작업물의 내용입니다."
+}
+
+### 2. 작업물 수정 (user 3)
+PATCH http://localhost:3100/api/works/30
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
+
+{
+  "content": "[수정] 챌린지 13에 제출한 user3의 번역 작업물의 수정 내용입니다."
+}
+
+### 3. 작업물 수정 (admin)
+PATCH http://localhost:3100/api/works/31
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "content": "[관리자 수정] 챌린지 13에 제출한 user3의 번역 작업물의 수정 내용입니다."
+}
+
+### 4. 작업물 삭제 (user 3)
+DELETE http://localhost:3100/api/works/30
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDgwLCJleHAiOjE3MzM0MDI0ODB9.qb7PoRdP6NuiwCZpPrQIxmSpcRedN4KMdZcG46oZWPk
+
+### 5. 작업물 삭제 (admin)
+DELETE http://localhost:3100/api/works/30
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "message": "관리자가 삭제한 사유입니다."
+}
+
+
+#####################################
+###  피드백 관련                  ###  
+#####################################
+
+### 1. 피드백 생성 (user 9)
+POST http://localhost:3100/api/works/30/feedbacks
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDU4LCJleHAiOjE3MzM0MDI0NTh9.5IvltnzV0Sx7A7YF790PfcE9Yz1tuqnyhSqQyEMN1ts
+
+{
+  "challengeId": 13,
+  "content": "챌린지 13에 user3이 제출한 번역 작업물 30의 user 9가 작성한 피드백입니다."
+}
+
+### 2. 피드백 수정 (user 9)
+PATCH http://localhost:3100/api/feedbacks/11
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDU4LCJleHAiOjE3MzM0MDI0NTh9.5IvltnzV0Sx7A7YF790PfcE9Yz1tuqnyhSqQyEMN1ts
+
+{
+  "content": "[수정] 챌린지 13에 user3이 제출한 번역 작업물 30의 user 9가 작성한 피드백입니다."
+}
+
+### 3. 피드백 수정 (admin)
+PATCH http://localhost:3100/api/feedbacks/11
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "content": "[관리자 수정] 챌린지 13에 제출한 user3의 번역 작업물의 수정 내용입니다."
+}
+
+### 4. 피드백 삭제 (user 9)
+DELETE http://localhost:3100/api/feedbacks/11
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMzE2MDU4LCJleHAiOjE3MzM0MDI0NTh9.5IvltnzV0Sx7A7YF790PfcE9Yz1tuqnyhSqQyEMN1ts
+
+### 5. 피드백 삭제 (admin)
+DELETE http://localhost:3100/api/feedbacks/12
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInJvbGUiOiJBZG1pbiIsImlhdCI6MTczMzMxNjEzMywiZXhwIjoxNzMzNDAyNTMzfQ.F7M4CSB_TiVYKMr9_44-mWXBiB551B7oHUt82XHerro
+
+{
+  "message": "관리자가 삭제한 사유입니다."
+}
+
+

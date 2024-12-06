@@ -1,0 +1,212 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int             @id @default(autoincrement())
+  role         Role            @default(User)
+  nickname     String          @unique
+  email        String          @unique
+  password     String
+  refreshToken String?
+  createdAt    DateTime        @default(now())
+  grade        Grade?          @default(Amateur)
+  name         String?
+  applications Application[]
+  feedbacks    Feedback[]
+  FeedbackLog  FeedbackLog[]
+  likes        Like[]
+  Notification Notification[]
+  participates Participate[]
+  socials      SocialAccount[]
+  works        Work[]
+  workLogs     WorkLog[]
+}
+
+model SocialAccount {
+  id         Int    @id @default(autoincrement())
+  userId     Int
+  provider   String @default("local")
+  providerId String @unique
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerId])
+}
+
+model Application {
+  id                  Int       @id @default(autoincrement())
+  userId              Int
+  challengeId         Int       @unique
+  status              Status    @default(Waiting)
+  appliedAt           DateTime  @default(now())
+  invalidationComment String?
+  invalidatedAt       DateTime?
+  challenge           Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Challenge {
+  id              Int            @id @default(autoincrement())
+  title           String
+  field           Field
+  docType         Type
+  docUrl          String
+  deadLine        DateTime
+  description     String
+  progress        Boolean        @default(false)
+  participants    Int            @default(0)
+  maxParticipants Int
+  applications    Application?
+  FeedbackLog     FeedbackLog[]
+  Notification    Notification[]
+  participates    Participate[]
+  works           Work[]
+}
+
+model Participate {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  challengeId Int
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
+}
+
+model Work {
+  id             Int            @id @default(autoincrement())
+  userId         Int
+  challengeId    Int
+  content        String
+  lastModifiedAt DateTime       @default(now())
+  isSubmitted    Boolean
+  submittedAt    DateTime?
+  feedbacks      Feedback[]
+  FeedbackLog    FeedbackLog[]
+  likes          Like[]
+  Notification   Notification[]
+  challenge      Challenge      @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logs           WorkLog[]
+
+  @@unique([userId, challengeId])
+}
+
+model Like {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  workId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work   Work @relation(fields: [workId], references: [id], onDelete: Cascade)
+}
+
+model WorkLog {
+  id              Int        @id @default(autoincrement())
+  workId          Int?
+  challengeId     Int
+  userId          Int
+  email           String
+  role            Role
+  action          WorkAction
+  message         String?
+  previousContent String?
+  currentContent  String?
+  createdAt       DateTime   @default(now())
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work            Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
+}
+
+model Feedback {
+  id           Int            @id @default(autoincrement())
+  userId       Int
+  workId       Int?
+  content      String
+  createdAt    DateTime       @default(now())
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work         Work?          @relation(fields: [workId], references: [id], onDelete: Cascade)
+  Notification Notification[]
+}
+
+model FeedbackLog {
+  id              Int            @id @default(autoincrement())
+  feedbackId      Int?
+  workId          Int?
+  challengeId     Int?
+  userId          Int
+  email           String
+  role            Role
+  action          FeedbackAction
+  message         String?
+  previousContent String?
+  currentContent  String?
+  createdAt       DateTime       @default(now())
+  challenge       Challenge?     @relation(fields: [challengeId], references: [id], onDelete: SetNull)
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work            Work?          @relation(fields: [workId], references: [id], onDelete: SetNull)
+}
+
+model Notification {
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  actUserId   Int?
+  actionTable String
+  action      String
+  message     String
+  isRead      Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  readAt      DateTime?
+  challengeId Int?
+  workId      Int?
+  feedbackId  Int?
+  challenge   Challenge? @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  feedback    Feedback?  @relation(fields: [feedbackId], references: [id], onDelete: SetNull)
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  work        Work?      @relation(fields: [workId], references: [id], onDelete: SetNull)
+}
+
+enum Role {
+  Admin
+  User
+}
+
+enum Grade {
+  Amateur
+  Expert
+}
+
+enum Status {
+  Waiting
+  Accepted
+  Rejected
+  Invalidated
+}
+
+enum Field {
+  Next
+  Modern
+  API
+  Web
+  Career
+}
+
+enum Type {
+  Document
+  Blog
+}
+
+enum WorkAction {
+  Create
+  Update
+  Delete
+}
+
+enum FeedbackAction {
+  Create
+  Update
+  Delete
+}

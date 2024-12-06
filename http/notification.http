@@ -1,0 +1,22 @@
+#####################################
+###  알림 요청   user 3            ###  
+#####################################
+GET  http://localhost:3100/api/notifications
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMTg4MjU4LCJleHAiOjE3MzMyNzQ2NTh9.7urrmDCuh4-6AUgEmxdiiwpNUTZDXtIXhPyZSJ_sUME
+
+###
+GET  http://localhost:3100/api/notifications?page=1&limit=5&is_read=false
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMTg4MjU4LCJleHAiOjE3MzMyNzQ2NTh9.7urrmDCuh4-6AUgEmxdiiwpNUTZDXtIXhPyZSJ_sUME
+
+
+#####################################
+###  알림 읽음 처리               ###  
+#####################################
+
+### user 3
+PATCH   http://localhost:3100/api/notifications/20/read
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMTg4MjU4LCJleHAiOjE3MzMyNzQ2NTh9.7urrmDCuh4-6AUgEmxdiiwpNUTZDXtIXhPyZSJ_sUME
+
+### user 9
+PATCH   http://localhost:3100/api/notifications/21/read
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzMTg4Mjc1LCJleHAiOjE3MzMyNzQ2NzV9.8ixBBtlSMKjEG-jilPAsKfrsgZ9PJyabxGci6YBtrx4

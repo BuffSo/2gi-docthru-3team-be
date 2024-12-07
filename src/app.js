@@ -21,16 +21,8 @@ app.use(passport.initialize());
 app.use(express.json());
 
 const corsOptions = {
-  origin: '*'
+  origin: ['https://2gi-docthru-3team-fe.vercel.app']
 };
-
-// const corsOptions = {
-//     origin: 
-//     origin: [
-//     'http://localhost:3000', 
-//     'http://localhost:3001'
-//     ],
-// };
 
 app.use(cors(corsOptions));
 

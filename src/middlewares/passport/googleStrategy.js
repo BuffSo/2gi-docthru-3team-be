@@ -8,16 +8,6 @@ const googleStrategyOptions = {
   callbackURL: process.env.GOOGLE_CALLBACK_URL
 };
 
-// async function verify(accessToken, refreshToken, profile, done) {
-//   const user = await userService.oauthCreateOrUpdate(
-//     profile.provider,
-//     profile.id,
-//     profile.emails[0].value,
-//     profile.displayName
-//   );
-//   done(null, user);
-// }
-
 async function verify(accessToken, refreshToken, profile, done) {
   try {
     const email = profile.emails[0].value;
@@ -39,7 +29,6 @@ async function verify(accessToken, refreshToken, profile, done) {
     // JWT 발급을 위해 사용자 데이터 반환
     const accessToken = userService.createToken(user, 'access');
     const refreshToken = userService.createToken(user, 'refresh');
-    // const tokens = await userService.createToken(user.id);
     done(null, { ...user, accessToken, refreshToken });
   } catch (error) {
     console.error(error);

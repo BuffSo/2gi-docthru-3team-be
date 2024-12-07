@@ -40,7 +40,6 @@ export const patchApplication = asyncHandler(async (req, res) => {
 
   if (!["Accepted", "Rejected"].includes(status)) {
     throw new BadRequestError("유효하지 않은 상태입니다.");
-    // return res.status(400).json({ message: "유효하지 않은 상태입니다." });
   }
 
   try {

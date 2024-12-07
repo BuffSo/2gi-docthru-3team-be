@@ -1,8 +1,6 @@
 import prisma from '../config/prisma.js';
-//import { debugLog } from "../utils/logger.js";
 
 async function get({ where, skip, take, orderBy, include }) {
-  //debugLog('(repository)get 쿼리 조건:', { where, skip, take, orderBy, include });
   return prisma.challenge.findMany({
     where,
     skip,

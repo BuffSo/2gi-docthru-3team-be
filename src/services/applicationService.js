@@ -41,9 +41,6 @@ async function update(id, data) {
 
   if (!application) {
     throw new NotFoundError("신청서를 찾을 수 없습니다.");
-    // const error = new Error("신청서를 찾을 수 없습니다.");
-    // error.status = 404;
-    // throw error;
   }
 
   if (application.status !== "Waiting") {

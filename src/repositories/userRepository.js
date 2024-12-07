@@ -11,7 +11,6 @@ async function findById(id) {
 }
 
 async function findByEmail(email) {
-  //return prisma.user.findUnique({   // 대소문자 구분
   return prisma.user.findFirst({
     where: {
       email: {

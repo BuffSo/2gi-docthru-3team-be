@@ -154,38 +154,6 @@ async function invalidate(id, invalidationComment, invalidatedAt) {
   });
 }
 
-// 트리거 사용을 위해 함수 로직을 위와 같이 일부 변경하였습니다.
-
-// async function invalidate(id, invalidationComment, invalidatedAt) {  
-//   const application = await prisma.application.findUnique({
-//     where: { challengeId: parseInt(id, 10) },
-//   });
-
-//   if (application && application.status === "Accepted") {
-//     return await prisma.challenge.update({
-//       where: { id: parseInt(id, 10) },
-//        data: {
-//         progress: false,
-//         applications: {
-//           update: {
-//             where: { challengeId: parseInt(id, 10) },
-//             data: {
-//               status: "Invalidated",
-//               invalidationComment,
-//               invalidatedAt
-//             }
-//           }
-//         }
-//        },
-//        include: {
-//         applications: true,
-//        }
-//     });
-//   } else {
-//     throw new Error('Cannot invalidate. Application status is not "Accepted".');
-//   }
-// };
-
 async function remove(id) {
   return await prisma.challenge.delete({ where: { id: id }});
 };

@@ -49,6 +49,7 @@ export const createChallenge = asyncHandler(async (req, res) => {
     }
 
     const challenge = await challengeService.create(challengeData);
+    
     res.status(201).json(challenge);
   } catch (e) {
     console.error(e);

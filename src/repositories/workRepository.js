@@ -1,6 +1,4 @@
 import prisma from '../config/prisma.js';
-import BadRequestError from '../errors/BadRequestError.js';
-import { debugLog } from '../utils/logger.js';
 
 // Work 상세 조회 (페이징 포함)
 

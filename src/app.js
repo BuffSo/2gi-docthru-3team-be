@@ -1,7 +1,6 @@
 import express from 'express';
 import passport from 'passport';
 import cors from 'cors';
-
 import userRouter from './routes/userRouter.js';
 import challengeRouter from './routes/challengeRouter.js';
 import applicationRouter from './routes/applicationRouter.js';
@@ -10,20 +9,17 @@ import workRouter from './routes/workRouter.js';
 import feedbackRouter from './routes/feedbackRouter.js';
 import myChallengeRouter from './routes/myChallengeRouter.js';
 import notificationRouter from './routes/notificationRouter.js';
-
 import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
 
-app.use(passport.initialize());
-
-app.use(express.json());
-
 const corsOptions = {
-  origin: ['https://2gi-docthru-3team-fe.vercel.app']
+  origin: 'https://2gi-docthru-3team-fe.vercel.app'
 };
 
 app.use(cors(corsOptions));
+app.use(passport.initialize());
+app.use(express.json());
 
 app.use('/api/auth', userRouter);
 app.use('/api/challenges', challengeRouter);
